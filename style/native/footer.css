@@ -1,0 +1,122 @@
+section {
+    overflow-y: visible;
+}
+
+footer {
+    width: 100%;
+    bottom:0%;
+    z-index: 999;
+    position:fixed;
+    max-height: 10vh;
+    background-color: oklch(34.034% 0.00168 106.845);
+    border-top: 1px solid rgb(252, 250, 250);
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+#footer-con {
+    display: flex;
+    min-width: 98vw;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+#footer-ul {
+    display: flex;
+    width: 100%;
+    /* align-content: space-between; */
+    padding-left: 2%;
+    padding-right: 2%;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+#footer-ul li {
+    width: min-content;
+    list-style: none;
+    font-size: 2em;
+}
+
+.indicate {
+    background-color: rgb(208, 248, 147);
+    border-radius: 8px;
+    padding: 10%;
+}
+
+.indicate i {
+    color: rgb(26, 25, 25);
+}
+
+.anchor{
+    color: rgb(252, 250, 250);
+    
+}
+.anchor:hover {
+    font-size: x-large;
+    color:aliceblue;
+    cursor: pointer;
+}
+
+#head {
+    width: 100vw;
+    height: 9vh;
+    display: flex;
+    justify-content: center;
+    background: rgb(123, 201, 56);
+    top: 0;
+    position: absolute;
+    margin-bottom: 1px solid rgb(123, 201, 53);
+}
+
+#header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#headername {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin-left: 3%;
+}
+
+#headername h3 {
+    color: white;
+    font-size: 2em;
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+#headername h4 {
+    font-size: 1em;
+    color: black;
+    padding: 0;
+    margin: 0;
+    margin-top: -1em;
+    text-align: center;
+}
+
+#headside {
+    margin-right: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#headside button {
+    background: rgb(1, 1, 2);
+    padding: 5%;
+    border-radius: 3px;
+    color: white;
+}
+
+#userhead {
+    font-size: 1em;
+    font-weight: 600;
+    color: black;
+
+}

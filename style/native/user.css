@@ -1,0 +1,262 @@
+
+#username {
+    margin-top: -7%;
+    padding-top:4%;
+    height: 25vh;
+    background-color: rgb(153, 218, 131);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#username h2 {
+    font-size: 2em;
+    font-weight: 700;
+    color: white;
+    cursor: default;
+    
+}
+
+#userspan {
+    font-style: none;
+    font-weight: 400;
+    color: aliceblue;
+}
+
+#after p {
+    font-weight: 200;
+    color: rgb(37, 37, 37);
+}
+
+#after {
+    display: grid;
+    grid-template-columns: 90% 10%;
+    width: 95%;
+}
+
+#logout {
+    padding: 2px;
+    margin-bottom: 5px;
+    background-color: rgb(35, 49, 45);
+    border-radius: 2px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+#logout:hover {
+    background-color: rgba(71, 94, 88, 0.932);
+}
+
+#usersec {
+    display: flex;
+    margin-top: -0.2em;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#hisnav div {
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.usernavbtns {
+    width: 49%;
+    height: 2em;
+    border-bottom: 1px solid rgb(8, 190, 8);
+    border-radius: 4px;
+    background-color: rgba(221, 238, 203, 0.781);
+    font-weight: 600;
+}
+.usernavbtns:hover {
+   background-color: rgba(208, 250, 163, 0.781);
+}
+.usernavbtns::after {
+    background-color: rgb(145, 210, 80);
+}
+
+#loadhiscon {
+    height: 40%;
+    width: 100%;
+}
+
+#historyCon {
+    height: 35vh;
+    width: 98vw;
+    display: grid;
+    grid-template-rows: 80% 20%;
+    background-color: rgb(245, 250, 245);
+    border: 2px rgb(173, 243, 173) solid;
+    border-radius: 4px;
+    box-shadow: 1px 2px 4px;
+    margin-bottom: 2.5em;
+}
+
+#hisConOne {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid;
+}
+
+#hisimg {
+    height: 100%;
+}
+
+#metadataSec h3 {
+    font-weight: 600;
+    font-size: 1.3em;
+}
+
+#metadataSec p {
+    font-weight: 400;
+
+}
+
+#starsSec {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+#hisContTwo {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+}
+
+#secP {
+    font-weight: 700;
+}
+
+#getHisD {
+    cursor: pointer;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 2em;
+    padding-right: 2em;
+    background-color: rgb(96, 243, 96);
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+}
+#getHisD:hover {
+    background-color: rgb(146, 245, 146);
+}
+
+#hisUp {
+    cursor: pointer;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 2em;
+    padding-right: 2em;
+    background-color: white;
+    border: 1px green solid;
+    border-radius: 10px;
+    color: green;
+    font-weight: 600;
+}
+#hisUp:hover {
+    background-color: rgb(243, 236, 236);
+}
+
+#backbtnU {
+    width: 4em;
+}
+
+/* for what ever reason you wrote the history page on the user css page fix later */
+
+#hps {
+    margin-top: -4vh;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    overflow: hidden;
+    height: 100vh;
+}
+
+#historyPage {
+    overflow-y: scroll;
+    border-right: 1px solid green;
+}
+
+#allV {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    align-items: center;
+    margin-left: 0.3em;
+    margin-right: 0.2em;
+}
+
+#sidePan {
+    height: 15vh;
+    margin-bottom: 5px;
+    border-bottom: 1px solid black;
+    background: rgba(252, 249, 249, 0.048);
+    border-radius: 3px;
+    /* border-top: 2px solid rgba(149, 252, 149, 0.945) ; */
+    /* border-bottom: 2px solid rgba(149, 252, 149, 0.945) ; */
+    font-size: 0.5em;
+}
+
+.sidelisti {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 35% 65%;
+    overflow: hidden;
+    text-justify: distribute-all-lines;
+    transition: 1s ease;
+    cursor: pointer;
+}
+.sidelisti:hover {
+    background-color: rgba(158, 250, 158, 0.432);
+}
+
+#msideimg {
+    height: 100%;
+}
+
+#sideimg {
+    height: 100%;
+}
+#sideimg img {
+    height: 100%;
+    border-radius: 6px;
+}
+
+#ds {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 1em;
+}
+
+#sidem {
+    height: 82.5%;
+}
+
+#ds b {
+    font-weight: 600;
+    font-size: 1em;
+}
+
+#sidem p {
+    display: flex;
+    flex-direction: column;
+    color: rgb(46, 42, 42);
+}
+
+#sidebtn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

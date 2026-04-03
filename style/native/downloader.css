@@ -1,0 +1,457 @@
+
+section {
+    margin-top: 10%;
+    background-color: white;
+    overflow-y: visible;
+}
+
+#first {
+    height: 80%;
+}
+
+#dcarry {
+    display: grid;
+    grid-template-rows: 2em 4em 0.5em 4em;
+    row-gap: 2em;
+    justify-content: center;
+}
+
+#stext {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+#stext h4 {
+    font-size: 2em;
+    color: black;
+    text-transform: capitalize;
+}
+
+#stext h4 span {
+    color: rgb(168,228, 102);
+    text-transform: capitalize;
+}
+
+#inp {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    margin-top: 4em;
+    margin-bottom: 3em;
+}
+
+#downloadinput {
+    border: solid;
+    height: 3em;
+    width: 90%;
+    border-radius: 3px;
+}
+
+#searchvid {
+    margin-left: 2%;
+    width: 10%;
+    height: 3em;
+    border-radius: 2px;
+    background: rgb(145, 210, 80);
+    color: white;
+    cursor: pointer;
+    transition: 1s ease-in-out;
+}
+#searchvid:hover {
+    background: rgb(168, 228, 102);
+}
+
+#mpbtn {
+    padding-left: 3%;
+    padding-right: 3%;
+    display: grid;
+    grid-template-columns: 35% 35% 35%;
+    align-items: center;
+    
+}
+
+#mpbtn button {
+    
+    background-color: rgb(214, 236, 179);
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+#mpbtn button:hover {
+    background-color: rgb(223, 238, 199);
+}
+
+#result {
+    border-top: 1px solid;
+    /* padding-top: 3%; */
+    padding-left: 6%;
+    margin-bottom: 10%;
+    padding-bottom: 5%;
+}
+
+#result ol {
+    list-style-type: disc;
+    color: gray;
+}
+
+#resultC {
+    display: grid;
+    gap: 2em;
+    margin-bottom: 10vh;
+    max-width: 80vw;
+}
+
+#resultVImg {
+    height: min-content;
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4em;
+    padding-bottom: 2em;
+}
+
+#vmp {
+    height: 40vh;
+    width: 100%;
+    border-radius: 1px;
+    border: 2px solid;
+}
+
+#resDetail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: left;
+    line-height: 1.5em;
+}
+
+#ht {
+    font-weight: 700;
+    text-transform: uppercase;
+    text-justify:distribute-all-lines;
+}
+
+#hd {
+    font-weight: 400;
+    text-justify:distribute;
+}
+
+#playB {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    justify-items: center;
+    margin-bottom: 4em;
+}
+
+#dnbtn, #upbtn, #dnbtnp, #upbtnp {
+    width: 100%;
+    height: 3em;
+    border-radius: 3px;
+    margin-bottom: 2em;
+}
+
+#dnbtn, #dnbtnp {
+    background: rgb(125, 236, 125);
+    color: white;
+    font-weight: 700;
+    transition: 2s ease;
+}
+#nbtn:hover, #dnbtnp:hover {
+    background: rgb(182, 247, 182);
+}
+
+#upbtn, #upbtnp {
+    background: rgb(255, 255, 255);
+    border:  3px rgb(125, 236, 125) solid;
+    transition: 2s ease;
+    color: rgb(55, 216, 85);
+    font-weight: 700;
+}
+#upbtn:hover, #upbtnp:hover {
+    background: rgb(255, 255, 255);
+}
+
+
+
+#rangec {
+    height: 30vh;
+    margin-top: 1px solid;
+}
+
+#ranger {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#range {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#startr, #endr {
+    min-width: 20em;
+    background-color: green;
+    
+}
+
+#format {
+    height: 10vh;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#seldiv {
+    width: 100%;
+}
+
+#forSel {
+    width: 42em;
+    height: 3em;
+    border: 1px solid;
+}
+
+#playmain {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 2em;
+    justify-content: safe;
+}
+
+.playlistResult {
+    display: flexx;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 1em;
+}
+
+#disc {
+    margin-bottom: 1em;
+    border-bottom: 1px solid;
+    height: 80vh;
+}
+
+.deatail {
+    display: grid;
+    grid-template-rows: 70% 30%;
+}
+
+#vimg {
+    width: 80vw;
+    height: 45vh;
+}
+
+#metadel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+#entries {
+    max-height: 100vh;
+    max-width: 95vw;
+    overflow-y: scroll;
+    margin-bottom: 2em;
+}
+
+#listv {
+    height: 18vh;
+    max-width: 80vw;
+    margin-bottom: 2em;
+    box-sizing: content-box;
+    z-index: 888;
+    box-shadow: 1px 1px 3px;
+    background-color: rgba(240, 236, 236, 0.486);
+    border-radius: 6px;
+    overflow: hidden;
+}
+#listv:hover {
+    background-color: rgba(255, 255, 255, 0.486);
+    box-shadow: 0.5px 0.5px 2px;
+}
+
+.vlistp {
+    display: grid;
+    grid-template-columns: 39% 49% 12%;
+}
+
+#listcimg {
+    max-height: 14vh;
+}
+
+#plistdc {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /* align-items: center; */
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#downplbtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#downloadplbtn {
+    height: 2em;
+    width: 100%;
+    color: white;
+    background-color: lightgreen;
+    border-radius: 2px;
+}
+
+#downloadplbtn:hover {
+    background-color: rgb(113, 238, 113);
+}
+
+#btnss {
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10vh;
+}
+
+.optactive {
+    background-color: transparent;
+    border-bottom: 2px solid green;
+    color: black;
+    cursor: default;
+}
+
+#playformat {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    margin-top: -9%;
+    margin-bottom: -17%;
+}
+
+#playlistpp {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 75% 25%;
+    overflow: hidden;
+    box-sizing: content-box;
+    /* margin-bottom: -12%; */
+}
+
+#playpopcon {
+    width: 100%;
+    overflow-y: scroll;
+    /* padding-bottom: 10%; */
+}
+
+#popimg {
+    box-sizing: content-box;
+    width: 100%;
+    height: 25vh;
+}
+
+#popaimg {
+    width: 100%;
+    height: 100%;
+}
+
+#playcont {
+    /* height: 30vh; */
+    height: 75%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+#playcont p {
+    overflow: hidden;
+    /* text-overflow: clip; */
+    overflow-y: scroll;
+    max-height: 3.5em;
+    border-bottom: 1px solid green;
+}
+
+#playpopformat {
+    height: 4em;
+}
+
+#playBP {
+    z-index: 999;
+    /* overflow-y: scroll; */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    border-top: 1px solid black;
+    /* margin-top: -1.5em; */
+    /* height: fit-content; */
+    height: 100%;
+    margin-bottom: 5%;        
+}
+
+#dnbtnplay, #dnbtnmic, #upbtnplay {
+    height: 2em;
+    width: 90%;
+    border-radius: 9px;
+    margin-bottom: 3px;
+    border-color: 5px green solid;
+    transition: 1s ease;
+}
+
+.dnbtnp {
+    background-color: greenyellow;
+}
+
+.mibtn {
+    background-color: rgb(178, 250, 69);
+}
+
+.upbtnp {
+    background-color: rgb(202, 241, 205);
+}
+
+.mibtn:hover, .dnbtnp:hover, .upbtnp:hover {
+    background-color: rgb(163, 238, 163);
+}
+
+.clicked {
+    background-color: ghostwhite;
+}
+
+#loaderdiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+}
+
+#cancelbtn {
+    width: 4em;
+    padding: 5px;
+    background-color: green;
+    border-radius: 4px;
+    transition: 1sec ease;
+}
+#cancelbtn:hover {
+    background-color: greenyellow;
+}

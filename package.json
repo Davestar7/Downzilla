@@ -1,0 +1,19 @@
+{
+  "name": "downzilla",
+  "version": "1.0.0",
+  "description": "Downzilla video downloader package json",
+  "main": "index.html",
+  "proxy": "http://localhost:7000",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx @tailwindcss/cli -i ./style/input.css -o ./style/output.css --watch"
+  },
+  "keywords": [],
+  "author": "Davestar7",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "dotenv": "^17.2.1",
+    "tailwindcss": "^4.1.11"
+  }
+}

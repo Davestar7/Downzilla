@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/images/large.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/native/loading.css">
+    <script src="/js/auth/inScript.js" defer></script>
+    <script type="module" src="/js/auth/loginUser.js" defer></script>
+    <script type="module" src="/js/changePage.js"></script>
+    <script type="module" src="/UI-components/footer.js"></script>
+    <script type="module" src="/js/checkcondition.js" defer></script>
+    <script type="module" src="/UI-components/downloadPage.js"></script>
+    <link rel="stylesheet" href="/style/output.css">
+    <link rel="stylesheet" href="/style/native/footer.css">
+    <link rel="stylesheet" href="/style/native/downloader.css">
+    <script type="module" src="/js/alert.js"></script>
+    <link rel="stylesheet" href="/style/native/popUp.css">
+    <link rel="stylesheet" href="/style/native/user.css">
+    <script type="module" src="/js/operation/download.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <title>Loading... Downzilla</title>
+</head>
+<body>
+    <div id="popup" style="display: none;"></div>
+    <section id="contentPage">
+        <div id="homeload">
+            <div id="arc">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <i>loading...</i>
+        </div>
+    </section>
+    <div id="popnotify"></div>
+    <footer id="nav-footer" class="text-blue-50"></footer>
+</body>
+</html>
