@@ -85,10 +85,7 @@ const routes = {
 const gbtn = "document.getElementById('excen').innerHTML"
 
 const googleIds = {
-    id: "1024052995708-4th7j14oi5dj9b0g2r18rfb8et0djoji.apps.googleusercontent.com",
-    secret: "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",
-    // GsignInbtn: "<div class='g-signin2' data-onsuccess='onSignIn'></div>"
-    GsignInbtn: gbtn
+//     
 }
 
 function loader(text = "loading...") {
