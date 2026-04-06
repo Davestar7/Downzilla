@@ -5,43 +5,51 @@ import { comfirmPage } from "../checkcondition.js";
 import { uploadContent } from "./history.js";
 
 let storedHistory = null
-async function updateHistory() {
+function updateHistory() {
     console.log(userData)
-    const body = document?.getElementById("his")
-    console.log(body)
+    const bod = document.querySelector("#hisy")
+    //bod.style.display = "block"
+    console.log(bod.style.background)
     const userid = userData.userId
     console.log(userid)
     if (userid === false) {
-        body.innerHTML = "please login, No activity found"
+        bod.innerText = "please login, No activity found"
     }
     let history;
-    body.innerHTML = `<div id="loadhiscon">${loader("loading please wait...")}</div>`
+  
+    const loade = `<div id="loadhiscon">${loader("loading please wait...")}</div>`
+    console.log(loade.toString())
+    bod.innerHTML = loade
     console.log(storedHistory)
-    
-    if (storedHistory) {
+    console.log(bod.innerHTML.toString())
+    queryres()
+    async function queryres() {
+      console.log("called queryres function")
+      if (storedHistory) {
         history = storedHistory   
-    } else {
+      } else {
         const res = await fetch(routes.getHistory, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             credentials: "include",
             body: JSON.stringify({id: userid})
-        })
+          })
         const response = await res.json()
-        if (response.success != true) {
+          if (response.success != true) {
             console.log(`failed message: ${response.message}`)
             updateHistoryUi(response.message, false)
             return
-        }
+          }
 
         storedHistory = response.data
+      }
     }
 
     updateHistoryUi(storedHistory, true)
 }
 
 function updateHistoryUi(data, state) {
-    const body = document?.getElementById("his")
+    const body = document.getElementById("hisy")
     body.innerHTML = loader("please wait...")
     if (state === false) {
         body.innerHTML = `Something went wong getting activities: ${data}`

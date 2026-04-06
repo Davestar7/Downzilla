@@ -9,7 +9,7 @@ function MainStructure() {
     let Page = document.getElementById('contentPage')
     const head = header()  
     const usermain = topsec()
-    const second = restPage()
+    const second = `<section id="rest"></section>`
 
     let page = `
         <header id="head">${head}</header>
@@ -21,6 +21,7 @@ function MainStructure() {
     
     Page.innerHTML = loader()
     Page.innerHTML = page;
+    restPage()
     secondConditionU()
     const logoutbtn = document.getElementById('logout')
     if( logoutbtn != null) {
@@ -59,41 +60,30 @@ function topsec() {
     return content
 }
 
-let filterlist = []
-let returner = null
-
 function restPage() {
+    const rest = document.getElementById("rest")
     let contents
     let navbtn
     let listsec = "";
     if (islogedIn == false) {
-            return ""
+      rest.innerHTML = `<em>Please login/signup</em>`
+      return
     }
         navbtn = `<div>
                     <button class="usernavbtns" id="download">Activities</button>
                     <button class="usernavbtns" id="postH">Stared</button>
                 </div>`;
 
-
-        if (returner != null) {
-            listsec = returner
-        } else {
-            filterlist.forEach((e) => {
-                console.log(e)
-            })
-        }
-
         contents = `
             <section id="usersec">
                 <div id="hisnav">
                     ${navbtn}
                 </div>
-                <div id="his">
-                    ${listsec}
-                </div>
+                <div id="hisy"></div>
             </section>
         `
-        return contents
+        rest.innerHTML = contents
+        updateHistory()
 }
 
 function secondConditionU() {
