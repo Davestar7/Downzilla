@@ -202,11 +202,12 @@ async function beginQuery(url, use, path = null) {
     } else {
         path.innerHTML = loader("querying please wait...")
     }
+    console.log(`type: ${use}`)
     const q = await fetch(routes.startQuery, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         credentials: "include",
-        body: JSON.stringify({url: url})
+        body: JSON.stringify({url: url, type: use})
     })
     const r = await q.json()
     const id = r.data

@@ -457,7 +457,7 @@ function historyRender(DData, isPublic, type) {
     const details = DData.data
 
     const title = details.title
-    const discrip = details.description || "no discription found"
+    const discrip = details.description || "no discription found in this content"
     const thumbnail = details.thumbnail
     const uploader = details.uploader
     const source = details.extractor_key
@@ -466,10 +466,11 @@ function historyRender(DData, isPublic, type) {
     const urls = details.original_url
     console.log(urls)
     const request_Format = details.requested_formats //past to stream
-    let formatS
-    request_Format.forEach(e => {
-        formatS = e.url
-    })
+    const httpHeaders = details.http_headers //object
+    // let formatS
+    // request_Format.forEach(e => {
+    //     formatS = e.url
+    // })
 
     const durations = Number(details.duration)
 

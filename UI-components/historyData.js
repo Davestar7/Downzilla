@@ -74,7 +74,7 @@ async function updateUiData() {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             credentials: "include",
-            body: JSON.stringify({url: url})
+            body: JSON.stringify({url: url, type: type})
         })
         const idData = await addToMappable.json()
         if (idData.success != true) {
@@ -92,7 +92,7 @@ async function updateUiData() {
 }
 
 async function updateData(id, isPublic, type) {
-    console.log(`query id ${id}`)
+    console.log(`query id ${id} and type is ${type}`)
 
     const res = await fetch(routes.getDData, {
         method: "POST",
@@ -186,10 +186,13 @@ async function historyPageAsideUi(id) {
         }
     })
 
-    const classPoint = document.querySelectorAll(".sidelisti")[0]
+    const classPoint = document.querySelectorAll(".sidelisti")
+
+    console.log(classPoint)
+    console.log(classPoint.length)
     
-    classPoint.forEach((e) => {
-        e.addEventListener("click", (e) => {
+    classPoint.forEach(eh => {
+        eh.addEventListener("click", (e) => {
             const clicked = e.target
             const pointer = clicked.dataset.newhistory
             console.log(`cliced id ${pointer}`)
@@ -197,6 +200,7 @@ async function historyPageAsideUi(id) {
             changePath(pointer, t)
         })
     })
+
 }
 
 export default main
