@@ -15,7 +15,7 @@ async function handleFeedDisplay() {
     function choosePage() {
         const footer = document.getElementById("pagenav")
 
-        footer.innerHTML = `<ul></ul>`
+        footer.innerHTML = `<ul id="pagenumb"></ul>`
 
         if (totalContainablePage === null) {
             getContent()
@@ -24,23 +24,23 @@ async function handleFeedDisplay() {
                 const curentPageParam = new URL(window.location.href)
                 const curentPage = curentPageParam.searchParams.get("page")
                 console.log(`current page: ${curentPage}`)
-                 
+                let navStr
+
                 for (let i = 0; i < totalContainablePage; i++) {
                     console.log(`each page: ${i}`)
-                    let navStr
 
                     if (i === Number(curentPage)) {
                         footer.innerHTML += `
                                             <b>Page ${i}</b>
                                             `
                     } else {
-                        navStr = `
-                                    <li data-page="${i}">${i}<li>
+                        navStr += `
+                                    <li data-page="${i}" class="pli">${i}<li>
                                     `
                     }
                 }
+                document.getElementById("pagenumb").innerHTML = navStr
                 changeRenderingPageNumber(curentPage)
-
             }
         }
     }
@@ -48,9 +48,16 @@ async function handleFeedDisplay() {
     function changeRenderingPageNumber(pageNumber) {
         getContent(pageNumber)
 
-        
         // update the footer the click operation
-
+        const lis = document.querySelectorAll(".pli")
+        lis.forEach(e => {
+            e.addEventListener("click", (child) => {
+                const url = new URL(window.location.href)
+                url.searchParams.set("page", child.dataset.page)
+                window.history.replaceState({}, "", url.href)
+                getContent(Number(child.dataset.page))
+            })
+        })
     }
 
     async function getContent(page = 1) {
@@ -63,6 +70,9 @@ async function handleFeedDisplay() {
         const response = await res.json()
         console.log(response)
 
+        const page = response.totalPage
+
+        
     }
 
 }

@@ -11,6 +11,10 @@
 
 }
 
+/* #user {
+    margin-top: -10%; 
+} */
+
 #username h2 {
     font-size: 2em;
     font-weight: 700;
@@ -51,10 +55,10 @@
 
 #usersec {
     display: flex;
-    margin-top: -0.2em;
+    margin-top: -10%;
     width: 100%;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
 }
 
@@ -148,30 +152,32 @@
 }
 
 #hisnav {
-  border-bottom: 1px solid black;
-}
-#usersec {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  
+  /* border-bottom: 1px solid black; */
 }
 
+/* #usersec {
+    margin-top: 0;
+    padding-top: 0;
+  height: 100vh;
+  /*display: flex;
+  flex-direction: column; 
+} */
+
 #hisy {
-  display: block;
-  height: 100%;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
+  /* height: 100%;
+  width: 100%; */
 }
 
 #loadhiscon {
-  position: absolute;
+  position: relative;
   min-height: 100%;
   min-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: red;
   border: 5px solid black;
 }
 
