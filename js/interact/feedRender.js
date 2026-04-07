@@ -1,6 +1,7 @@
 import { icons, loader, routes } from "../../UI-components/env/env.js";
 import { popUp } from "../../UI-components/popup.js";
 import { userData } from "../auth/afterauth.js";
+
 let totalContainablePage = null
 async function handleFeedDisplay() {
     const section = document.getElementById("feedCon")
@@ -70,9 +71,10 @@ async function handleFeedDisplay() {
         const response = await res.json()
         console.log(response)
 
-        const page = response.totalPage
+        const pages = response.totalPage
+        totalContainablePage = pages
 
-        
+
     }
 
 }
