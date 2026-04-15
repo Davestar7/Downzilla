@@ -4,6 +4,8 @@ import header from '../UI-components/header.js'
 import {userData, logout} from '../js/auth/afterauth.js'
 import {secondCondition, headnavcall} from '../js/alert.js'
 import { updateHistory } from '../js/interact/userOperation.js';
+import {pushUrl} from "../js/createPage.js"
+import { comfirmPage } from '../js/checkcondition.js'
 
 function MainStructure() {
     let Page = document.getElementById('contentPage')
@@ -47,7 +49,7 @@ function topsec() {
             <div id="username">
                 <h2>
                     <em>
-                        <span id="userspan">hello</span> '${userData.names}'
+                        <span id="userspan">hello</span> <span id="usersn">'${userData.names}'</span>
                     </em>
                 </h2>
                 <div id="after">
@@ -58,6 +60,18 @@ function topsec() {
         `
     }
     return content
+    callSetting()
+    function callSetting() {
+      if (islogedIn === true) {
+        document.getElementById("usersn").addEventListener("click", () => {
+          pushUrl("info", `${userData.username} info`)
+          comfirmPage()
+        })
+        
+      } else if (islogedIn === undefined) {
+        callSetting()
+      }
+    }
 }
 
 function restPage() {
