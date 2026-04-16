@@ -32,7 +32,7 @@ function runFeedDisplay() {
                             <h3 id="intof">${headText}</h3>
                         </div>
                         <div id="sercCon">
-                            <div>
+                            <div id="searchIn">
                                 ${search}
                             </div>
                             <button id="searchrun">

@@ -15,7 +15,7 @@ function pushUrl(path, title, add=false) {
             }
         }
     } else {
-        const win = window.location.href
+        const win = window.location.pathname
         console.log(win)
         newUrl = `${win}/${path}`
         console.log(newUrl)

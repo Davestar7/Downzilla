@@ -73,6 +73,7 @@ const routes = {
     beginPlayD: domain + '/qurery/audio',
     uploadfeed: domain + '/qurery/uploaddata',
     getfeed: domain + '/qurery/getfeed',
+    getSingleFeed: domain + '/qurery/getContentData',
     streamUrl: domain + '/qurery/stream',
     downloadplay: domain + '/qurery/playdownload',
     seperateplaydown: domain + '/qurery/seperatedown',

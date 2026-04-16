@@ -46,6 +46,7 @@ function videodis(jsons = null, ismp) {
     const duration = timeformat(Number(details.duration))
     const format = details.formats
     const urls = details.original_url
+    const http_headers = details.http_headers
     console.log(urls)
     const request_Format = details.requested_formats //past to stream
     let formatS
@@ -53,6 +54,7 @@ function videodis(jsons = null, ismp) {
         formatS = e.url
     })
 
+    console.log(http_headers)
     const durations = Number(details.duration)
 
     const active = `
@@ -125,14 +127,14 @@ function videodis(jsons = null, ismp) {
         updateSelectableFormat("video")
         document.getElementById("dnbtn").innerHTML = "Download mp4"
 
-        AndDownload(title, null, null, format, urls)
+        AndDownload(title, null, null, format, urls, http_headers)
     } else {
         element.innerHTML = displays
         window.availableFormats = format || []
         
         updateSelectableFormat("audio")
         document.getElementById("dnbtn").innerHTML = "Download mp3"
-        listmpdownload(urls, title, "basic", format, discrip, source)
+        listmpdownload(urls, title, "basic", format, discrip, source, http_headers)
     }
 
     document.getElementById("upbtn").addEventListener("click", (e) => {
@@ -275,6 +277,7 @@ async function playlistPopup(json, url) {
     const format = jsons.formats
     const source = jsons.extractor_key
     const urls = details.original_url
+    const headers = details.http_headers
     console.log(format)
 
     const dis = `
@@ -316,8 +319,8 @@ async function playlistPopup(json, url) {
     window.availableFormats = format || []
     updateSelectableFormat("video")
 
-    AndDownloadFromPlay(title, 0, jsons.duration, format, url, discription, source)
-    listmpdownload(url, title, "play", format)
+    AndDownloadFromPlay(title, 0, jsons.duration, format, url, discription, source, headers)
+    listmpdownload(url, title, "play", format, discription, source, headers)
     document.getElementsByClassName("upbtnp")[0].addEventListener("click", (e) => {
         e.target.removeEventListener("click", () => {
             const upplay = document.getElementById("upbtnplay")
@@ -328,7 +331,7 @@ async function playlistPopup(json, url) {
     })
 }
 
-function AndDownload(title, starts, ends, formats, url) {
+function AndDownload(title, starts, ends, formats, url, headers) {
     const btn = document.getElementById("dnbtn")
     const btns = document.getElementsByClassName("dnbtn")[0]
     // const url = document.getElementById("downloadinput").value.trim()
@@ -344,11 +347,11 @@ function AndDownload(title, starts, ends, formats, url) {
         btn.classList.add("clicked")
         btn.innerHTML = `<i>prepering to download...</i>`
 
-        await downloadVideo(url, title, start, end, formats, "frommp4")
+        await downloadVideo(url, title, start, end, formats, "frommp4", headers)
     })
 }
 
-function AndDownloadFromPlay(title, starts, ends, formats, url, des, su) {
+function AndDownloadFromPlay(title, starts, ends, formats, url, des, su, headers) {
     const btn = document.getElementById("dnbtnplay")
     const btns = document.getElementsByClassName("dnbtnp")[0]
     const start = starts;
@@ -363,7 +366,7 @@ function AndDownloadFromPlay(title, starts, ends, formats, url, des, su) {
         btn.classList.add("clicked")
         btn.innerHTML = `<i>perpering to download...</i>`
 
-        await downloadVideo(url, title, start, end, formats, "fromplay", des, su)
+        await downloadVideo(url, title, start, end, formats, "fromplay", des, su, headers)
     })
 }
 
@@ -394,7 +397,7 @@ function AndPlaySingle(ent) {
     })
 }
 
-function listmpdownload(url, title, from, formats, des, su) {
+function listmpdownload(url, title, from, formats, des, su, headers) {
     let element;
     
     if (from == "basic") {
@@ -433,20 +436,26 @@ function listmpdownload(url, title, from, formats, des, su) {
         if (from == "basic") {
             element.classList.remove("dnbtn")
             element.classList.add("clicked")
-            downloadmp(url, title, from, select, ext, formats)
+            downloadmp(url, title, from, select, ext, formats, des, su, headers)
         } else if (from = "play") {
             element.classList.remove("mibtn")
             element.classList.add("clicked")
             select = null
             ext = null
-            downloadmp(url, title, from, select, ext, formats, des, su)
+            downloadmp(url, title, from, select, ext, formats, des, su, headers)
         }
         // alerts("Download should begin", 3000)
     })
 }
 
-function historyRender(DData, isPublic, type) {
-    const display = document.getElementById("hisConP")
+function historyRender(DData, isPublic, type, element = null) {
+    let display
+    if (element === null) {
+        display = document.getElementById("hisConP")
+    } else {
+        display = element 
+    }
+    
     display.innerHTML = "<em>updating details... <br> if stuck ensure it's not a playlist url</em>"
     
     if (DData.success != true) {
@@ -539,21 +548,18 @@ function historyRender(DData, isPublic, type) {
             dbtn.innerHTML = "awaiting download..."
             // dbtn.classList.add("clicked")
 
-            downloadVideo(urls, title, null, null, format, "history")
+            downloadVideo(urls, title, null, null, format, "history", httpHeaders)
         })
 
         mbtn.addEventListener("click", () => {
             mbtn.innerHTML = "awaiting download..."
             mbtn.classList.add("clicked")
-            downloadmp(urls, title, "history", null, "mp3", format)
+            downloadmp(urls, title, "history", null, "mp3", format, httpHeaders)
         })
 
         document.getElementsByClassName("upbtn")[0]?.addEventListener("click", () => {
             console.log("for video")
             const uploadm = document?.getElementById("upbtn")
-            e.target.removeEventListener("click", ()=> {
-                console.log("cancelled listerner")
-            })
             uploadm.style.background = "white"
             uploadm.innerHTML = `<i>uploading...</i>`
             uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
@@ -632,11 +638,10 @@ function historyRender(DData, isPublic, type) {
         AndPlaySingle(entries)
         document.getElementsByClassName("upbtn")[0].addEventListener("click", (e) => {
             const uploadp = document.getElementById("upbtn")
-            e.target.removeEventListener("click", () => {
-                uploadp.style.background = "gray"
-                uploadp.innerHTML = `<i>uploading...</i>`
-                uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadp)
-            })
+            uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadp)
+            uploadp.style.background = "gray"
+            uploadp.innerHTML = `<i>uploading...</i>`
+            e.target.removeEventListener("click", e)
         })
     }
     

@@ -91,10 +91,11 @@
     display: grid;
     grid-template-rows: 80% 20%;
     background-color: rgb(245, 250, 245);
-    border: 2px rgb(173, 243, 173) solid;
+    /* border: 2px rgb(173, 243, 173) solid; */
     border-radius: 4px;
-    box-shadow: 1px 2px 4px;
+    box-shadow: 1px 2px 10px;
     margin-bottom: 2.5em;
+    z-index: 100;
 }
 
 #hisConOne {

@@ -3,6 +3,7 @@ import {secondCondition, isConnected} from './alert.js'
 import {loadOnStart} from '../js/createPage.js'
 import { iconCheck } from '../UI-components/env/env.js'
 import historyPage from "../UI-components/historyData.js"
+import renderContent from "../UI-components/contentFromFeed.js"
 
 comfirmPage()
 let passloc = window.location
@@ -87,8 +88,8 @@ function checkIfUrlIsUnknown(path) {
 
     if (check === "user") {
         historyPage()
-    } else if (check === "renderfeed") {
-
+    } else if (check === "RenderFeed") {
+        renderContent()
     } else {
 
     }

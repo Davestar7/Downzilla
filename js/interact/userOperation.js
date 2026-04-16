@@ -14,6 +14,7 @@ function updateHistory() {
     console.log(userid)
     if (userid === false) {
         bod.innerText = "please login, No activity found"
+        return
     }
     let history;
   

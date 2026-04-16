@@ -288,7 +288,7 @@ async function getPlayList(id) {
     }
 }
 
-async function downloadVideo(outurl, title, start, end, format, from = null) {
+async function downloadVideo(outurl, title, start, end, format, from = null, headers) {
     isConnected()
     let btn = document.getElementsByClassName("clicked")[0]
 
@@ -320,10 +320,10 @@ async function downloadVideo(outurl, title, start, end, format, from = null) {
     console.log(`format and audio id: ${audio_id}+${select}`)
     
     try {
-        fetch(routes.beginD, {
+        await fetch(routes.beginD, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: height}),
+            body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: height, headers: headers}),
             credentials: "include"
         }).then(res => {
             if (!res.ok) {
@@ -395,13 +395,13 @@ async function downloadVideo(outurl, title, start, end, format, from = null) {
 //     })
 // }
 
-async function downloadmp(url, title, from, format_id, ext, format, des, su) {
+async function downloadmp(url, title, from, format_id, ext, format, des, su, header) {
     console.log("about to fetch")
     const preferedAformat = formatPasser.selectedFormats
     const res = await fetch(routes.downloadmp, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({url: url, title: title, format_id: format_id, ext: ext, formats: preferedAformat})
+        body: JSON.stringify({url: url, title: title, format_id: format_id, ext: ext, formats: preferedAformat, headers: header})
     })
     console.log("done fetching")
     

@@ -152,6 +152,7 @@ function justEight(f = []) {
 function updateDiscription(dis = "", ele) {
     defaultDis()
     function defaultDis() {
+        ele.innerHTML = ""
         const d = dis.slice(0, 55)
 
         const uiDis = `${d}...  <button id="all">${icons.DROP}</button>`
@@ -162,13 +163,17 @@ function updateDiscription(dis = "", ele) {
     function fullDiscription() {
         document.getElementById("all").addEventListener("click", () => {
             const disArr = dis.split(" ")
-            let newDis;
+            let newDis = "";
 
             disArr.forEach(e => {
                 if (e.includes("https://") || e.includes("http://")) {
                     newDis += `<a href="${e}" target="_blank">${e}</a> `
                 } else {
                     newDis += `${e} `
+                }
+
+                if (e.includes("\n")) {
+                    newDis += `<br>`
                 }
             })
             ele.innerHTML = `${newDis}   <button id="less">${icons.CLOSE}</button>`
