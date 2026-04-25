@@ -1,7 +1,7 @@
 import {popUp} from '../UI-components/popup.js'
 import {secondCondition, isConnected} from './alert.js'
 import {loadOnStart} from '../js/createPage.js'
-import { iconCheck } from '../UI-components/env/env.js'
+import { iconCheck, routes } from '../UI-components/env/env.js'
 import historyPage from "../UI-components/historyData.js"
 import renderContent from "../UI-components/contentFromFeed.js"
 
@@ -95,9 +95,20 @@ function checkIfUrlIsUnknown(path) {
     }
 }
 
-function backFunction() {
+async function backFunction(cancelSomething = null, id= null) {
     history.back()
     comfirmPage()
+
+    if (cancelSomething != null && id != null) {
+        const cenn = await fetch(routes.cancelQuery, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            credentials: "include",
+            body: JSON.stringify({id: id})
+        }) 
+        const p = await cenn.json()
+        console.log(p)
+    }
 }
 
 export {checkUrl, updateHomeUrl, comfirmPage, passloc, backFunction}

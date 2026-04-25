@@ -200,6 +200,25 @@ function signup() {
     popUp('signup')
 }
 
+function uiLoader(load, stop, text = "please wait...", timer = null) {
+    popuper.style.display = "flex"
+    if (load === true) {
+        popuper.innerHTML = `<div style="display: flex; justify-conent: center; align-items: center;">${loader(text)}</div>`
+    }
+    if (stop === true) {
+        popuper.style.display = "none"
+        return
+    }
+
+    if (timer != null && typeof timer === "number") {
+        setTimeout(() => {
+            popuper.style.display = "none"
+        }, timer);
+    }
+
+
+}
+
 // function logedInUser() {
 //     const user = userData.names
 
@@ -229,4 +248,4 @@ function forgot() {
     })
 }
 
-export {popUp, login, signup, alert}
+export {popUp, login, signup, alert, uiLoader}

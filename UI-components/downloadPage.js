@@ -30,8 +30,6 @@ function MainStructure() {
     }, 1000)
 }
 
-
-
 function InActivity() {
     const int = '<h4>download from over <span>200+</span> sites</h4>'
     const intro = `<h4>search for video with <span id="auto">Automatic</span> search and download</h4>`

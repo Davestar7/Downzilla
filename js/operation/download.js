@@ -1,6 +1,6 @@
 import { routes, loader, icons } from "../../UI-components/env/env.js"
 import {videodis, playListdis, playlistPopup} from "./downloadDis.js"
-import { alert } from "../../UI-components/popup.js"
+import { alert, uiLoader } from "../../UI-components/popup.js"
 import { isConnected, closeFunction } from "../alert.js"
 import { uploadHistory } from "../interact/history.js"
 import { formatPasser } from "./streamvideo.js";
@@ -172,7 +172,7 @@ async function cancelListerner(id) {
 
         alert("Cancelled successfully")
         callsearch()
-    })  
+    }, { once: true })  
 }
 
 async function getFormat(url, source) {
@@ -296,11 +296,14 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         btn = document.getElementsByClassName("dnbtn")[0]
     }
     btn.innerHTML = `<i>awaiting download...</i>`
+    uiLoader(true, false, "downloading......")
     
     const FSelect = document.getElementById("forSel")
     const url = outurl
     const select = FSelect.value;
     const height = FSelect.options[FSelect.selectedIndex].innerText
+    const rawHeight = FSelect.options[FSelect.selectedIndex].dataset.height
+    console.log(`raw height ${rawHeight}`)
 
     const perferedFormats = formatPasser.selectedFormats || format
     console.log(`format to be sent: ${perferedFormats[0]}`)
@@ -323,7 +326,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         await fetch(routes.beginD, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: height, headers: headers}),
+            body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: rawHeight, headers: headers}),
             credentials: "include"
         }).then(res => {
             if (!res.ok) {
@@ -336,6 +339,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
                     btn.classList.add("dnbtnp")
                     btn.classList.remove("clicked")
                 }
+                uiLoader(false, true)
                 return
                 // throw new Error("download failed");
             }
@@ -352,6 +356,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
                     btn.classList.add("dnbtnp")
                     btn.classList.remove("clicked")
                 }
+                uiLoader(false, true)
                 return
             }
 
@@ -368,6 +373,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
                 btn.classList.add("dnbtnp")
                 btn.classList.remove("clicked")
             }
+            uiLoader(false, true)
             localStorage.removeItem("DZDP")
         })
     } catch (e) {
@@ -380,6 +386,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
             btn.classList.add("dnbtnp")
             btn.classList.remove("clicked")
         }
+        uiLoader(false, true)
     }
 }
 
@@ -397,59 +404,88 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 
 async function downloadmp(url, title, from, format_id, ext, format, des, su, header) {
     console.log("about to fetch")
+    uiLoader(true, false, "downloading...")
+    console.log(header)
     const preferedAformat = formatPasser.selectedFormats
-    const res = await fetch(routes.downloadmp, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({url: url, title: title, format_id: format_id, ext: ext, formats: preferedAformat, headers: header})
-    })
-    console.log("done fetching")
-    
     let element;
+    try {
+        const res = await fetch(routes.downloadmp, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({url: url, title: title, format_id: format_id, ext: ext, formats: preferedAformat, headers: header})
+        })
+        console.log("done fetching")
 
-    if (!res.ok) {
-        const resp = await res.text()
-        console.log(resp)
-        alert(`download failed: ${resp}`)
-        if (from == "basic") {
+        if (!res.ok) {
+            const resp = await res.text()
+            console.log(resp)
+            alert(`download failed: ${resp}`)
+            if (from === "basic") {
+                element = document.getElementById("dnbtn")
+                element.classList.remove("clicked")
+                element.classList.add("dnbtn")
+                element.innerHTML = "Download audio"
+            } else if (from === "play") {
+                element = document.getElementById("dnbtnmic")
+                element.classList.remove("clicked")
+                element.classList.add("mibtn")
+                element.innerHTML = "Download audio"
+            } else if (from === "history") {
+                element = document.getElementsByClassName("mbtn")[0]
+                element.classList.remove("clicked")
+                // element.classList.add("mbtn")
+                element.innerHTML = "Download audio"
+            }
+            uiLoader(false, true)
+            return
+        }
+
+        const blob = await res.blob()
+        const link = document.createElement("a")
+        link.href = URL.createObjectURL(blob)
+        link.download = `${title}-downzilla.${ext || "mp3"}`
+        link.click()
+        URL.revokeObjectURL(link.href)
+        if (from === "basic") {
             element = document.getElementById("dnbtn")
             element.classList.remove("clicked")
             element.classList.add("dnbtn")
+            alert("download should begin", 3000)
             element.innerHTML = "Download audio"
-        } else if (from == "play") {
+        } else if (from === "play") {
             element = document.getElementById("dnbtnmic")
             element.classList.remove("clicked")
             element.classList.add("mibtn")
+            alert("download should begin", 3000)
             element.innerHTML = "Download audio"
-        } else if (from == "history") {
+        } else if (from === "history") {
             element = document.getElementsByClassName("mbtn")[0]
             element.classList.remove("clicked")
             // element.classList.add("mbtn")
             element.innerHTML = "Download audio"
         }
-        return
+        uiLoader(false, true)
+        uploadHistory(title, des, url, su, "video")
+    } catch (e) {
+        uiLoader(false, true)
+        alert(`Error: ${e.message}`)
+        if (from === "basic") {
+            element = document.getElementById("dnbtn")
+            element.classList.remove("clicked")
+            element.classList.add("dnbtn")
+            element.innerHTML = "Download audio"
+        } else if (from === "play") {
+            element = document.getElementById("dnbtnmic")
+            element.classList.remove("clicked")
+            element.classList.add("mibtn")
+            element.innerHTML = "Download audio"
+        } else if (from === "history") {
+            element = document.getElementsByClassName("mbtn")[0]
+            element.classList.remove("clicked")
+            // element.classList.add("mbtn")
+            element.innerHTML = "Download audio"
+        }
     }
-
-    const blob = await res.blob()
-    const link = document.createElement("a")
-    link.href = URL.createObjectURL(blob)
-    link.download = `${title}-downzilla.${ext || "mp3"}`
-    link.click()
-    URL.revokeObjectURL(link.href)
-    if (from == "basic") {
-        element = document.getElementById("dnbtn")
-        element.classList.remove("clicked")
-        element.classList.add("dnbtn")
-        alert("download should begin", 3000)
-        element.innerHTML = "Download audio"
-    } else if (from = "play") {
-        element = document.getElementById("dnbtnmic")
-        element.classList.remove("clicked")
-        element.classList.add("mibtn")
-        alert("download should begin", 3000)
-        element.innerHTML = "Download audio"
-    }
-    uploadHistory(title, des, url, su, "video")
 }
 
 // async function zippaydownload(ent, playtitle) {

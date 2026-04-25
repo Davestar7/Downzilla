@@ -146,7 +146,7 @@
     padding-right: 2em;
 }
 
-#starBtn {
+.starBtn {
     width: 8em;
     border: 1px solid rgb(42, 90, 42);
     text-align: center;
@@ -155,7 +155,7 @@
     font-weight: 700;
     transition: 1s ease;
 }
-#starBtn:hover {
+.starBtn:hover {
     background-color: rgb(206, 201, 201);
 }
 
@@ -205,23 +205,22 @@
     margin-top: -25px;
 }
 
-#starrer {
+/* .starbtn {
     background-color: transparent;
     border: 2px solid green;
     width: 10%;
     font-weight: 600;
-    color: black;
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 1px 1px 10px;
-}
+} */
 
-#cstarrer {
+.cstarrer {
     background-color: rgb(139, 214, 139);
     border: 2px solid green;
-    width: 10%;
     font-weight: 700;
     color: black;
+    width: 10%;
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 1px 1px 10px;

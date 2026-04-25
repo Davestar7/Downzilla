@@ -28,6 +28,7 @@ function pushUrl(path, title, add=false) {
 }
 
 function changePath(irl, title) {
+    history.replaceState(null, null, "")
     history.pushState(null, null, irl)
     document.title = `downzilla - ${title}`
     comfirmPage()

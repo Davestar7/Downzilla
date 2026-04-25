@@ -3,6 +3,7 @@ import {MainStructure} from '../UI-components/downloadPage.js'
 import feedPage from '../UI-components/renderfeed.js'
 import userPage from '../UI-components/user.js'
 import {pushUrl} from './createPage.js'
+import { uiLoader } from '../UI-components/popup.js';
 import {comfirmPage} from '../js/checkcondition.js'
 
 function done(cc) {
@@ -30,7 +31,7 @@ function begin(start) {
         
         if (navfeed != null) {
             navfeed.addEventListener('click', () => {
-                page.innerHTML = `<em>loading...</em>`
+                uiLoader(true, false, "please wait..", 1000)
                 pushUrl(feed, footers[0].title)
                 feedPage()
             })
@@ -38,7 +39,7 @@ function begin(start) {
 
         if (home != null) {
             home.addEventListener('click', () => {
-                page.innerHTML = `<em>loading...</em>`
+                uiLoader(true, false, "please wait..", 1000)
                 pushUrl(downloader, footers[1].title)
                 MainStructure()
 
@@ -54,7 +55,7 @@ function begin(start) {
 
         if (user != null) {
             user.addEventListener('click', () => {
-                page.innerHTML = `<em>loading...</em>`
+                uiLoader(true, false, "please wait..", 1000)
                 pushUrl(users, footers[2].title)
                 userPage()
             })

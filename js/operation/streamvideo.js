@@ -1,20 +1,41 @@
-import { icons } from "../../UI-components/env/env.js";
+import { icons, routes } from "../../UI-components/env/env.js";
+import { alert } from "../../UI-components/popup.js";
 
-function streamVideoformat(formats) {
-    let format;
-    let url;
+async function streamVideoFunction(formats, url, title, headers, thumbnail) {
+    let height;
+    // let urls;
     formats.forEach(f => {
         console.log(f)
-        if (f.height && f.height >= 240 && f.height <= 720 && f.resolution !== "audio only") {
-            url = f.url;
-            format = f.format_id
+        if (f.height && f.height >= 240 && f.height <= 480 && f.resolution !== "audio only") {
+            // url = f.urls;
+            height = f.height
         }
     })
+    console.log(url)
 
-    return {
-        format: format,
-        url: url
+    const start = await fetch(routes.startStream, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({url: url, title: title, formats: formats, height: height, headers: headers})
+    })
+    const fin = await start.json()
+    if (fin.success != true) {
+        alert("unable to play video", 10000)
+        return
     }
+    const id = fin.data
+
+    const videoCon = `
+                    <video poster="${thumbnail}" id="vimg" alt="${title}" title="downzilla-${title}" controls width="100%">
+                        <source src="${routes.Stream}?sid=${id}" type="video/mp4">
+                        No Browser support for this Element
+                    </video>    
+                    `
+    const ele = document?.getElementById("img-vid")
+    const plpop = document?.getElementById("popimg")
+
+    if (ele) ele.innerHTML = videoCon
+    if (plpop) ele.innerHTML = videoCon
 }
 
 const universalFormat = new Set([144, 240, 360, 480, 720, 1080])
@@ -98,9 +119,12 @@ function updateSelectableFormat(type = "video") {
             }
 
             if (universalFormat.has(fmt.height)) {
+                if (fmt.ext == "webm" || fmt.video_ext == "webm") return 
+
                 if (fmt.height && fmt.height >= 144 && fmt.height != check && fmt.abr != null) {
                     label += `${fmt.height}p ${fmt.ext}`;
                     check = fmt.height
+                    
                 } else {
                     return
                 }
@@ -116,6 +140,7 @@ function updateSelectableFormat(type = "video") {
                 }
                 option.text = label
                 
+                option.dataset.height = fmt.height
                 select.appendChild(option)
                 formatPasser.selectedFormats.push(fmt)
             } else {
@@ -185,4 +210,4 @@ function updateDiscription(dis = "", ele) {
     }
 }
 
-export {updateSelectableFormat, formatPasser, updateDiscription}
+export {updateSelectableFormat, formatPasser, updateDiscription, streamVideoFunction}

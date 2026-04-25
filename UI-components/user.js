@@ -59,20 +59,21 @@ function topsec() {
             </div>
         `
     }
+    
     return content
-    callSetting()
-    function callSetting() {
-      if (islogedIn === true) {
-        document.getElementById("usersn").addEventListener("click", () => {
-          pushUrl("info", `${userData.username} info`)
-          comfirmPage()
-        })
-        
-      } else if (islogedIn === undefined) {
-        callSetting()
-      }
-    }
 }
+
+function callSetting() {
+    if (islogedIn() === true) {
+      document.getElementById("usersn").addEventListener("click", () => {
+        pushUrl("info", `${userData.username} info`)
+        comfirmPage()
+      })
+      
+    } else if (islogedIn() === undefined) {
+      callSetting()
+    }
+  }
 
 function restPage() {
     const rest = document.getElementById("rest")
@@ -83,6 +84,7 @@ function restPage() {
       rest.innerHTML = `<em>Please login/signup</em>`
       return
     }
+    callSetting()
         navbtn = `<div>
                     <button class="usernavbtns" id="download">Activities</button>
                     <button class="usernavbtns" id="postH">Stared</button>

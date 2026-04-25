@@ -1,5 +1,5 @@
 import { userData } from "../js/auth/afterauth.js";
-import { icons, loader, routes } from "./env/env.js"
+import { icons, loader, routes } from "./env/env.js";
 import header from "./header.js";
 import { queryLoadable, cancelListerner } from "../js/operation/download.js";
 import { historyRender } from "../js/operation/downloadDis.js";
@@ -31,9 +31,7 @@ function main() {
     page.innerHTML = structure
     updateUiData()
 
-    document.getElementById("backbtnU").addEventListener("click", () => {
-        backFunction()
-    })
+    document.getElementById("backbtnU").addEventListener("click", backFunction, { once: true })
 }
 
 async function updateUiData() {
@@ -82,6 +80,10 @@ async function updateUiData() {
             document.getElementById("hisConP").innerHTML = `failed!!! \n ${idData.message}`
             return
         }
+        document.getElementById("backbtnU").removeEventListener("click", backFunction)
+        document.getElementById("backbtnU").addEventListener("click", () => {
+            backFunction(true, idData.data)
+        }, { once: true })
 
         const load = document.getElementById("hisConP")
         load.innerHTML = queryLoadable("getting Data...")
@@ -192,12 +194,12 @@ async function historyPageAsideUi(id) {
     
     classPoint.forEach(eh => {
         eh.addEventListener("click", (e) => {
-            const clicked = e.target
-            const pointer = clicked.dataset.newhistory
-            console.log(`cliced id ${pointer}`)
-
+            // const clicked = e.currentTarget
+            const pointer = e.currentTarget.dataset.newhistory
+            console.log(`clicked id ${pointer}`)
+            
             changePath(pointer, t)
-        })
+        }, { once: true })
     })
 
 }
