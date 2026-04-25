@@ -231,13 +231,12 @@ function updateFeed(data, successful) {
 
     const starbtn = document.querySelectorAll(".starbtn")
     starbtn.forEach((e) => {
-        // e.removeEventListener("click", starFunction, { once: true })
         e.addEventListener("click", (el) => {
             el.target.style.background = "rgb(139, 214, 139)"
             console.log("star function clicked")
             const cid = el.target.dataset.id
             const uid = el.target.dataset.pubid
-            const currentStars = currentStar || el.target.dataset.ts
+            const currentStars = el.target.dataset.ts
             console.log(`star id: ${cid} uploaderId: ${uid}`)
             el.target.classList.remove("starbtn")
             el.target.classList.add("cstarrer")
