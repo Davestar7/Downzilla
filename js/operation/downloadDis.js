@@ -836,9 +836,9 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
 async function share(from, id = {one: null, two: null}, title = "share downzilla") {
     let path;
     if (from == "public") {
-        path = `share ${domain}/shared/feed/${id.one}`
+        path = https://downzilla-backend.onrender.com/shared/feed/${id.one}`
     } else if (from == "private") {
-        path = `share ${domain}/shared/private/${id.one}/${id.two}`
+        path = `https://downzilla-backend.onrender.com/shared/private/${id.one}/${id.two}`
     }
 
     await navigator.share({
