@@ -133,6 +133,10 @@ footer {
         font-size: 1.5em;
     }
 
+    #header {
+       height: 8vh !important;
+    }
+
     #userhead {
         font-size: 0.8em;
     }
