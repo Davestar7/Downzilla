@@ -3,16 +3,27 @@ section {
     margin-top: 10%;
     background-color: white;
     overflow-y: visible;
+    /* overflow-x: hidden; */
 }
 
 #first {
+    width: 98vw;
     height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#seco {
+    height: 100%;
+    margin-bottom: 14vh;
 }
 
 #dcarry {
+    width: 90%;
     display: grid;
-    grid-template-rows: 2em 4em 0.5em 4em;
-    row-gap: 2em;
+    grid-template-rows: 10vh 10vh 6vh auto;
+    /* row-gap: 2em; */
     justify-content: center;
 }
 
@@ -24,7 +35,7 @@ section {
 }
 
 #stext h4 {
-    font-size: 2em;
+    font-size: 1.6rem;
     color: black;
     text-transform: capitalize;
 }
@@ -35,17 +46,18 @@ section {
 }
 
 #inp {
+    width: 94%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     align-content: center;
-    margin-top: 4em;
+    margin-top: 3em;
     margin-bottom: 3em;
 }
 
 #downloadinput {
     border: solid;
-    height: 3em;
+    height: 2.7em;
     width: 90%;
     border-radius: 3px;
 }
@@ -53,7 +65,7 @@ section {
 #searchvid {
     margin-left: 2%;
     width: 10%;
-    height: 3em;
+    height: 2.7em;
     border-radius: 2px;
     background: rgb(145, 210, 80);
     color: white;
@@ -93,7 +105,7 @@ section {
 }
 
 #result ol {
-    list-style-type: disc;
+    list-style-type: circle;
     color: gray;
 }
 
@@ -101,7 +113,7 @@ section {
     display: grid;
     gap: 2em;
     margin-bottom: 10vh;
-    max-width: 80vw;
+    width: 90%;
 }
 
 #resultVImg {
@@ -142,6 +154,10 @@ section {
     text-justify:distribute;
 }
 
+#hd a {
+    text-decoration: underline;
+}
+
 #playB {
     display: flex;
     flex-direction: column;
@@ -151,7 +167,7 @@ section {
     margin-bottom: 4em;
 }
 
-#dnbtn, #upbtn, #dnbtnp, #upbtnp {
+#dnbtn, #upbtn, #dnbtnp, #upbtnp, #sharefeed, #origin {
     width: 100%;
     height: 3em;
     border-radius: 3px;
@@ -178,8 +194,6 @@ section {
 #upbtn:hover, #upbtnp:hover {
     background: rgb(255, 255, 255);
 }
-
-
 
 #rangec {
     height: 30vh;
@@ -233,7 +247,7 @@ section {
 }
 
 .playlistResult {
-    display: flexx;
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding-top: 1em;
@@ -258,7 +272,9 @@ section {
 #metadel {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
+    justify-self: center;
     font-weight: 600;
 }
 
@@ -276,7 +292,7 @@ section {
     box-sizing: content-box;
     z-index: 888;
     box-shadow: 1px 1px 3px;
-    background-color: rgba(240, 236, 236, 0.486);
+    background-color: transparent;
     border-radius: 6px;
     overflow: hidden;
 }
@@ -348,7 +364,7 @@ section {
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-rows: 75% 25%;
+    grid-template-rows: 85% 15%;
     overflow: hidden;
     box-sizing: content-box;
     /* margin-bottom: -12%; */
@@ -357,7 +373,7 @@ section {
 #playpopcon {
     width: 100%;
     overflow-y: scroll;
-    /* padding-bottom: 10%; */
+    margin-top: -11%;
 }
 
 #popimg {
@@ -394,18 +410,15 @@ section {
 }
 
 #playBP {
-    z-index: 999;
-    /* overflow-y: scroll; */
+    margin: 0;
+    height: auto;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     /* justify-content: center; */
     border-top: 1px solid black;
-    /* margin-top: -1.5em; */
-    /* height: fit-content; */
-    height: 100%;
-    margin-bottom: 5%;        
+
 }
 
 #dnbtnplay, #dnbtnmic, #upbtnplay {
@@ -454,4 +467,77 @@ section {
 }
 #cancelbtn:hover {
     background-color: greenyellow;
+}
+
+@media (max-width: 900px) {
+    #first {
+        width: 100vw;
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+    
+    #dcarry {
+        min-height: 100%;
+        max-width: 99%;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        display: grid;
+        grid-template-rows: 8vh 20vh 8vh auto;
+        justify-content: center;
+        row-gap: 0.5em;
+    }
+    
+    #stext {
+        min-width: 98%;
+        margin-top: 3%;
+    }
+
+    #stext h4 {
+        font-size: 18px;
+    }
+
+    #inp {
+        height: 20vh;
+        width: 98vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #downloadinput #searchvid {
+        width: 100%;
+    }
+
+    #searchvid {
+        margin: 0;
+        margin-bottom: 4em;
+        width: 90%;
+        height: 2em;
+        border-radius: 5px;
+        font-weight: 600;
+    }
+    #searchvid::after {
+        content: " search";
+    }
+
+    #mpbtn {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 564px) {
+    #stext {
+        margin-top: 15%;
+        max-width: 95vw;
+    }
+
+    #format {
+        max-width: 93vw;
+    }
+}
+
+@media (max-width: 400px) {
+    #stext {
+        margin-top: 24%;
+    }
 }

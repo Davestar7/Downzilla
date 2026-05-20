@@ -17,8 +17,6 @@ async function uploadContent(title, thumbnail, description, url, source, type, f
             return
         }
 
-        console.log(`${username} of id ${userId} to upload ${title} from ${source} of description ${description} and url ${url} of type ${type}`)
-    
         const upresp = await fetch(routes.uploadfeed, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -53,13 +51,11 @@ async function uploadHistory(title, description, url, source, type, img) {
             alert("please login or signup to Downzilla")
         }, 2000);
         const htoString = `${title}>${description || "no description"}>${url}>${source}>${type}`
-        console.log(htoString)
+       
         localStorage.setItem("historyD", htoString)
         retry(islogedIn(), title, description, url, source, type, img)
         return
     }
-
-    console.log("history: "+ title + "of id: "+ userData.userId)
 
     const res = await fetch(routes.uploadHistory, {
         method: "POST",
@@ -73,7 +69,6 @@ async function uploadHistory(title, description, url, source, type, img) {
     if (response.success != true) {
         alert(response.message)
         const htoString = `${title}>${description}>${url}>${source}>${type}>${img}`
-        console.log(htoString)
         localStorage.setItem("historyD", htoString)
         return
     } else {

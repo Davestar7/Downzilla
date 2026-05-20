@@ -6,6 +6,9 @@ import header from '../UI-components/header.js'
 import { handleFeedDisplay } from '../js/interact/feedRender.js'
 
 function MainStructure() {
+    document.title = "Render shared content"
+    const metadis = "access and download numorous shared videos and playlist shared by users and creators on downzilla"
+    document.querySelector('meta[name="description"]').setAttribute('content', metadis)
     let page = document.getElementById('contentPage')
     page.innerHTML = `<loading>${loader()}</loading>`
     const headers = header()

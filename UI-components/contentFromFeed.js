@@ -4,10 +4,10 @@ import header from "./header.js"
 import { islogedIn } from "../js/checkuserlogin.js"
 import { routes, icons, loader } from "./env/env.js"
 import { queryLoadable, cancelListerner } from "../js/operation/download.js"
-import { historyRender } from "../js/operation/downloadDis.js"
+import { historyRender, share } from "../js/operation/downloadDis.js"
 import { changePath } from "../js/createPage.js"
 import { backFunction } from "../js/checkcondition.js"
-import { starFunction, unstarFunction } from "../js/interact/feedRender.js"
+import { shouldStar } from "../js/interact/feedRender.js"
 
 function main() {
     let page = document.getElementById("contentPage")
@@ -29,6 +29,9 @@ function main() {
                         </section>
                         `
     page.innerHTML = structure
+    const tit = "Shared content on downzilla, download from over 200+ sites on downzilla"
+    const metadis = `${tit} - shared on downzilla`
+    document.querySelector('meta[name="description"]').setAttribute('content', metadis)
 
     document.getElementById("backbtnU").addEventListener("click", backFunction, { once: true })
 
@@ -40,6 +43,8 @@ function main() {
     handleRender()
 }
 
+let allList = []
+
 async function handleRender() {
     const ele = document.getElementById("hisConP")
     
@@ -47,7 +52,6 @@ async function handleRender() {
         const url = window.location.pathname
         const splitted = url.split("/")
         const id = splitted[splitted.length-1]
-        console.log(`the content id: ${id}`)
 
         const getData = await fetch(routes.getSingleFeed, {
             method: "POST",
@@ -63,54 +67,48 @@ async function handleRender() {
         }
 
         const irl = data.data.url
+        const titl = data.data.title
         const type = data.data.type
-        const cid = data._id
-        const star = data.stars || []
-        const publisher = data.publisername 
-        const publisherId = data.publiserId
-        console.log(`content of url ${irl} of type ${type}`)
+        const cid = data.data._id
+        const star = data.data.stars || []
+        const publisher = data.data.publisername 
+        const publisherId = data.data.publiserId
+        document.title = `downzilla - ${titl}`
+        
         const st = document.getElementById("starrercon")
         
-        console.log(star.length)
-        let totalStars = Number(star.length-1)
+        let totalStars = Number(star.length)
         let starButton;
+        allList = []
+        allList.push(star)
         if (star.includes(userData.userId)) {
-            starButton = `<button id="starBtn" class="cstarrer" data-ts="${totalStars}" data-id="${cid}" data-pubid="${publisherId}" style="background-color: rgb(139, 214, 139);
+            starButton = `<button id="starBtn" class="cstarrer" data-index="1" data-id="${cid}" data-pubid="${publisherId}" style="background-color: rgb(139, 214, 139);
                         border: 2px solid green;
                         font-weight: 700;
-                        color: black;
-                        width: 10%;
+                        color: gold;
+                        width: 10em;
                         cursor: pointer;
                         border-radius: 5px;
-                "><span id="numberStar">${totalStars}</span>${icons.STARED}</button>`
+                "><span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
         } else {
-            starButton = `<button id="starBtn" class="starbtn" data-ts="${totalStars}" data-id="${cid}" data-pubid="${publisherId}" style="width: 8em;
+            starButton = `<button id="starBtn" class="starbtn" data-index="1" data-id="${cid}" data-pubid="${publisherId}" style="width: 10em;
                         border: 1px solid rgb(42, 90, 42);
                         text-align: center;
                         background-color: white;
                         border-radius: 9px;
                         font-weight: 700;
                         transition: 1s ease;
-                "><span id="numberStar">${totalStars}</span>${icons.STARED}</button>`
+                "><span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
         }
 
         st.innerHTML = starButton
 
         const stars = document?.querySelectorAll(".starbtn")[0]
 
-        const strred = document?.querySelectorAll(".cstarrer")[0]
         if (stars) {
             stars.addEventListener("click", (e) => {
                 console.log("star button clicted")
-                stars.style.background = "rgb(139, 214, 139)"
-                starFunction(e)
-            })
-        }
-        if (strred) {
-            strred.addEventListener("click", (e) => {
-                console.log("unstar button clicked")
-                strred.style.background = "white"
-                unstarFunction(e)
+                shouldStar(e)
             })
         }
         
@@ -138,22 +136,39 @@ async function handleRender() {
         const ids = stored.data
         cancelListerner(ids)
         
-        const start = await fetch(routes.getDData, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            credentials: "include",
-            body: JSON.stringify({id: ids})
-        })
-        const res = await start.json()
+        let res;
+        if (type === "video") {
+            const start = await fetch(routes.getDData, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
+                body: JSON.stringify({id: ids})
+            })
+            res = await start.json()
+        } else if (type === "playlist") {
+            const state = await fetch(routes.beginPlaylist, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
+                body: JSON.stringify({id: ids})
+            })
+            res = await state.json()
+        }
         if (res.success != true) {
             alert(`failed!! ${res.message}`)
             ele.innerHTML = `<em>Failed: ${res.message}</em>`
             return
         }
 
-        historyRender(res, true, type)
+        historyRender(res, true, type, null, true)
+        document.getElementById("sharedby").innerText = publisher
+        document.getElementById("origin").innerHTML = `<a href="${irl}" style="width: 100%; height: 100%;" target="_blank">View Original</a>`
+        document.getElementById("sharefeed").addEventListener("click", () => {
+            share("public", {one: cid}, titl)
+        })
     } catch (e) {
         alert("failed load Data", 3000)
+
         ele.innerHTML = `<em>Failed: ${e.message}</em>`
     }
 
@@ -174,20 +189,20 @@ async function sideRender() {
         return
     }
     const list = data.data || []
-    let t;
+    
     side.innerHTML = ""
     list.forEach(e => {
-        console.log(e)
+        
         const title = e.title;
-        t = title
+        
         const discription = e.description || "no discription"
         const type = e.type
-        let imgurl = e.cloudinaryUrl
+        let imgurl = e.cloudinaryurl
         const ids = e._id
         const uri = e.url
         const star = e.stars.length
         let newDiscrp = "";
-        const maxLen = 88
+        const maxLen = 187
 
         if (discription.length < maxLen) {
             newDiscrp = discription
@@ -203,7 +218,7 @@ async function sideRender() {
 
         template.innerHTML = `
                     <div id="sidePan" title="${title}">
-                        <div class="sidelisti" id="${ids}" data-newhistory="${ids}">
+                        <div class="sidelisti" id="${ids}" data-newhistory="${ids}" title="${title}">
                             <div id="mdside">
                                 <div id="sideimg">
                                     <img src="${imgurl}"></img>
@@ -239,7 +254,7 @@ async function sideRender() {
         eh.addEventListener("click", (e) => {
             // const clicked = e.currentTarget
             const pointer = e.currentTarget.dataset.newhistory
-            console.log(`clicked id ${pointer}`)
+            const t = e.currentTarget.title
 
             changePath(pointer, t)
         })
@@ -251,4 +266,4 @@ async function sideRender() {
     }
 }
 
-export default main
+export { main, allList }

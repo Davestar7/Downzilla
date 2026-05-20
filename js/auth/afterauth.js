@@ -16,7 +16,7 @@ function updateAuth(userd) {
         return
     }
     const userdata = userd.user
-    console.log(userd)
+    
     userData.username = userdata.username
     userData.names = userdata.name
     userData.email = userdata.email
@@ -24,7 +24,6 @@ function updateAuth(userd) {
     userData.downloadHistory = userdata.downloadHistory
     islogedIn(true)
     comfirmPage()
-    console.log(`user: ${userData.userId}`)
 }
 
 async function logout() {

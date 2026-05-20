@@ -4,10 +4,16 @@ import { userData } from "../auth/afterauth.js";
 import { alert as alerts } from "../../UI-components/popup.js";
 import { pushUrl, changePath } from "../createPage.js";
 import { comfirmPage } from "../checkcondition.js";
+import { allList } from "../../UI-components/contentFromFeed.js";
 
 let totalContainablePage = null
 let backup = []
-async function handleFeedDisplay() {
+let already = false
+async function handleFeedDisplay(newPage = null) {
+    if (newPage != null) {
+        changeRenderingPageNumber(newPage)
+        return
+    }
     const section = document.getElementById("feedCon")
     const dis = `
                 <div id="fcon">
@@ -19,6 +25,7 @@ async function handleFeedDisplay() {
 
     searchRender()
     choosePage()
+    infoWarn()
     
     function choosePage() {
         const foot = document.getElementById("pagenav")
@@ -29,22 +36,21 @@ async function handleFeedDisplay() {
         if (totalContainablePage === null) {
             getContent()
         } else {
-            if (typeof totalContainablePage === Number) { 
+            if (totalContainablePage) { 
                 const curentPageParam = new URL(window.location.href)
                 const curentPage = curentPageParam.searchParams.get("page")
-                console.log(`current page: ${curentPage}`)
+                
                 let navStr
 
-                for (let i = 0; i < totalContainablePage; i++) {
-                    console.log(`each page: ${i}`)
+                for (let i = 1; i <= totalContainablePage; i++) {
 
-                    if (i+1 === Number(curentPage)) {
+                    if (i === Number(curentPage)) {
                         footer.innerHTML += `
-                                            <b>Page ${i+1}</b>
+                                            <b>Page ${i}</b>
                                             `
                     } else {
                         navStr += `
-                                    <li data-page="${i+1}" class="pli">${i+1}<li>
+                                    <li data-page="${i}" class="pli">${i}<li>
                                     `
                     }
                 }
@@ -54,31 +60,33 @@ async function handleFeedDisplay() {
         }
     }
 
-    function changeRenderingPageNumber(pageNumber) {
-        getContent(pageNumber)
+    async function changeRenderingPageNumber(pageNumber) {
+        await getContent(pageNumber)
 
         // update the footer the click operation
         const lis = document.querySelectorAll(".pli")
         lis.forEach(e => {
             e.addEventListener("click", (child) => {
                 const url = new URL(window.location.href)
-                url.searchParams.set("page", child.dataset.page)
+                url.searchParams.set("page", child.target.dataset.page)
                 window.history.replaceState({}, "", url.href)
-                getContent(Number(child.dataset.page))
+                getContent(Number(child.target.dataset.page))
             })
         })
     }
 
     async function getContent(page = 1) {
-        if (backup.length === 0) {
+        uiLoader(true, false, "getting data...")
+        
+        if (backup.length == 0) {
             const res = await fetch(routes.getfeed, {
                 method: "GET",
                 headers: {"Content-Type": "application/json", "page": page},
                 credentials: "include",
             })
             const response = await res.json()
-            console.log(response)
-
+            
+            uiLoader(false, true)
             if (response.success != true) {
                 alerts("failed!!!", 2200)
                 updateFeed(response, false)
@@ -86,24 +94,31 @@ async function handleFeedDisplay() {
             }
 
             const pages = response.totalPage
-            totalContainablePage = pages
+            totalContainablePage = Number(pages)
 
             backup.push({page: page, data: response})
 
             updateFeed(response, true)
         } else {
-            let returned;
+            let returned = null;
             backup.forEach(e => {
-                if (e.page === page) {
+                if (e.currentPage === page) {
                     returned = e
                     return
                 }
             })
+            if (returned === null) {
+                backup = [];
+                changeRenderingPageNumber(page)
+                return
+            }
             updateFeed(returned.data, true)
         }
     }
 
 }
+
+let allStars = []
 
 function updateFeed(data, successful) {
     const page = document.getElementById("renderf")
@@ -116,11 +131,10 @@ function updateFeed(data, successful) {
         return
     }
 
-    console.log(data)
-
     const pages = data.totalPage
+    const current = data.currentPage
     const ur = new URL(window.location.href)
-    ur.searchParams.set("page", Number(pages))
+    ur.searchParams.set("page", Number(current))
     window.history.pushState({}, "", ur)
 
     const foot = document.getElementById("pagenav")
@@ -128,16 +142,15 @@ function updateFeed(data, successful) {
     const footer = document.getElementById("pagenumb")
 
     let navStr = ""
-    for (let i = 0; i < pages; i++) {
-        console.log(`each page: ${i}`)
-
-        if (i+1 === Number(pages)) {
+    for (let i = 1; i <= pages; i++) {
+        
+        if (i === Number(current)) {
             foot.innerHTML += `
-                                <b>Page ${i+1}</b>
+                                <b>Page ${i}</b>
                                  `
         } else {
             navStr += `
-                        <li data-page="${i+1}" class="pli">${i+1}</li>
+                        <li data-page="${i}" class="pli">${i}</li>
                          `
         }
     }
@@ -145,7 +158,9 @@ function updateFeed(data, successful) {
  
     const mainData = data.data
     let innerPage = ""
-    let pgtitle;
+
+    let all = 0
+    allStars = []
 
     mainData.forEach((data) => {
         const title = data.title
@@ -156,7 +171,6 @@ function updateFeed(data, successful) {
         const publisher = data.publisername 
         const publisherId = data.publiserId
         const source = data.source
-        pgtitle = title
 
         let image
         if (imgurl === null) {
@@ -173,29 +187,30 @@ function updateFeed(data, successful) {
             disc = `${discrip.slice(0, maxLen)}... ${icons.DROP}`
         }
 
-        console.log(star.length)
         let totalStars = Number(star.length)
+        allStars.push(star)
 
         let starButton;
+        all = all + 1
 
         if (star.includes(userData.userId)) {
-            starButton = `<button id="starBtn" class="cstarrer" data-ts="${totalStars}" data-id="${id}" data-pubid="${publisherId}" style="background-color: rgb(139, 214, 139);
+            starButton = `<button id="starBtn" class="cstarrer starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="background-color: rgb(139, 214, 139);
                         border: 2px solid green;
                         font-weight: 700;
-                        color: black;
+                        color: gold;
                         width: 10%;
                         cursor: pointer;
                         border-radius: 5px;
-                "><span id="numberStar">${totalStars}</span>${icons.STARED}</button>`
+                "><span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
         } else {
-            starButton = `<button id="starBtn" class="starbtn" data-ts="${totalStars}" data-id="${id}" data-pubid="${publisherId}" style="width: 8em;
+            starButton = `<button id="starBtn" class="starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="width: 8em;
                         border: 1px solid rgb(42, 90, 42);
                         text-align: center;
                         background-color: white;
                         border-radius: 9px;
                         font-weight: 700;
                         transition: 1s ease;
-                "> <span id="numberStar">${totalStars}</span>${icons.STARED}</button>`
+                "> <span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
         }
 
         const st = `<div id="renderContCon">
@@ -211,7 +226,7 @@ function updateFeed(data, successful) {
                         </div>
                         <div id="renderBtnCon">
                             ${starButton}
-                            <button id="detbtn" class="detailbtn" data-id="${id}">View</button>
+                            <button id="detbtn" class="detailbtn" data-id="${id}" title="${title}">View</button>
                         </div>
                     </div>`
         innerPage += st
@@ -223,7 +238,7 @@ function updateFeed(data, successful) {
         e.addEventListener("click", (el) => {
             const bt = el.target
             const innerId = bt.dataset.id
-
+            let pgtitle = bt.title
             pushUrl(innerId, pgtitle, true)
             comfirmPage()
         })
@@ -231,26 +246,22 @@ function updateFeed(data, successful) {
 
     const starbtn = document.querySelectorAll(".starbtn")
     starbtn.forEach((e) => {
-        e.addEventListener("click", (el) => {
-            el.target.style.background = "rgb(139, 214, 139)"
-            console.log("star function clicked")
-            const cid = el.target.dataset.id
-            const uid = el.target.dataset.pubid
-            const currentStars = el.target.dataset.ts
-            console.log(`star id: ${cid} uploaderId: ${uid}`)
-            el.target.classList.remove("starbtn")
-            el.target.classList.add("cstarrer")
-            starContent(cid, uid, el.target, "starbtn", currentStars)
-        }, { once: true })
+        e.addEventListener("click", async (el) => {
+            shouldStar(el)
+        })
     })
 
-    document?.querySelectorAll(".cstarrer").forEach((e) => {
-        // e.removeEventListener("click", unstarFunction, { once: true })
-        e.addEventListener("click", (el) => {
-            el.target.style.background = "white"
-            unstarFunction(el)
-        }, { once: true })
-    })
+    const lis = document?.querySelectorAll(".pli")
+    lis.forEach(e => {
+        e.addEventListener("click", (child) => {
+            const url = new URL(window.location.href)
+            url.searchParams.set("page", child.target.dataset.page)
+            window.history.replaceState({}, "", url.href)
+            handleFeedDisplay(Number(child.target.dataset.page))
+            
+        })
+    }, {once: true})
+
 }
 
 function searchRender() {
@@ -258,11 +269,10 @@ function searchRender() {
     const input = document.getElementById("sher")
 
     btn.addEventListener("click", async () => {
-        console.log("search feed clicked")
+        
         uiLoader(true, false)
         const text= input.value.toString()
-        console.log(`searching values: ${text}`)
-
+        
         if (text === "") {
             uiLoader(false, true)
             handleFeedDisplay()
@@ -276,7 +286,7 @@ function searchRender() {
             body: JSON.stringify({text: text})
         })
         const res = await re.json()
-        console.log(res)
+        
         uiLoader(false, true)
         if (res.success != true) {
             alerts("unable to search, something went wong", 5000)
@@ -296,103 +306,81 @@ function searchRender() {
     })
 }
 
-async function starContent(id, publiserId, btn, oldClass, currentStars) {
-    const starnum = document.getElementById("numberStar")
-    const n = Number(currentStars)
-    console.log(`star number: ${n}`)
-    starnum.innerText = n+1
-    console.log(`userId: ${userData.userId}`)
-
-    const res = await fetch(routes.star, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        credentials: "include",
-        body: JSON.stringify({id: id, userId: userData.userId, uploaderId: publiserId})
-    })
-    const result = await res.json()
-    if (result.success != true) {
-        alerts(result.message, 2000)
-        btn.classList.remove("cstarrer")
-        btn.classList.add(oldClass)
-        starnum.innerText = currentStars-1
-        btn.addEventListener("click", (el) => {
-            el.target.style.background = "white"
-            console.log("star failed but reclicked")
-            starFunction(el)
-        }, { once: true })
-        return
+async function shouldStar(el, which = false, slist = null, islist= false) {
+    
+    if (which === true) {
+        allStars = allList 
     }
-
-    document.querySelectorAll(".cstarrer").forEach((e) => {
-        e.addEventListener("click", (btns) => {
-            // btns.removeEventListener("click", unstarFunction)
-            btns.addEventListener("click", (el) => {
-                unstarFunction(el, currentStars+1)
-            }, {once: true})
-        })
-    })
-
-}
-
-async function unstarContent(id, publiserId, btn, oldClass, currentStars) {
-    const starnum = document.getElementById("numberStar")
-    const n = Number(currentStars)
-    console.log(n)
-    starnum.innerText = n-1
-
-    try {
+    if (islist === true) {
+        allStars = slist
+    }
+    
+    const index = Number(el.currentTarget.dataset.index)
+    const specify = allStars[index-1]
+    const id = userData.userId
+    
+    if (specify.includes(id)) {
+        allStars[index-1] = allStars[index-1].filter(i => i !== id)
+        document.getElementsByClassName("numberStar")[index-1].innerText = specify.length - 1
+        const cid = el.currentTarget.dataset.id
+        const uid = el.currentTarget.dataset.pubid
+        
         const res = await fetch(routes.removeStar, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             credentials: "include",
-            body: JSON.stringify({id: id, userId: userData.userId, uploaderId: publiserId})
+            body: JSON.stringify({id: cid, userId: userData.userId, uploaderId: uid})
+        })
+        const result = await res.json()
+        
+        if (result.success != true) {
+            alerts(result.message, 2000)
+            document.getElementsByClassName("numberStar")[index-1].innerText = specify.length + 1
+            // document.getElementById("numberStar").innerText = list.length + 1
+            // el.target.style.background = "rgb(139, 214, 139)"
+            // el.target.style.color = "gold"
+            allStars[index-1].splice(0, 0, id)
+            return
+        }
+        el.currentTarget.style.background = "white"
+        el.currentTarget.style.color = "black"
+        document.getElementsByClassName("numberStar")[index-1].style.color = "black"
+    } else if (!specify.includes(id)) {
+        allStars[index-1].splice(0, 0, id)
+        document.getElementsByClassName("numberStar")[index-1].innerText = (specify.length-1) + 1
+        const cid = el.currentTarget.dataset.id
+        const uid = el.currentTarget.dataset.pubid
+        const res = await fetch(routes.star, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            credentials: "include",
+            body: JSON.stringify({id: cid, userId: userData.userId, uploaderId: uid})
         })
         const result = await res.json()
         if (result.success != true) {
             alerts(result.message, 2000)
-            btn.classList.remove(oldClass)
-            btn.classList.add("cstarrer")
-            starnum.innerText = currentStars+1
-            btn.addEventListener("click", (el) => {
-                el.target.style.background = "rgb(139, 214, 139)"
-                console.log("unstar failed but reclicked")
-                unstarFunction(el)
-            }, { once: true })
+            document.getElementsByClassName("numberStar")[index-1].innerText = specify.length - 1
+            // document.getElementById("numberStar").innerText = list.length - 1
+            // el.target.style.color = "black"
+            // el.target.style.background = "white"
+            allStars[index-1] = allStars[index-1].filter(i => i !== id)
             return
         }
-
-        const starbtn = document.querySelectorAll(`.${oldClass}`)
-        starbtn.forEach((e) => {
-            // e.removeEventListener("click", starFunction)
-            e.addEventListener("click", (el) => {
-                starFunction(el, currentStars-1)
-            }, {once: true})
-        })
-
-    } catch (e) {
-        alerts("failed", 2000)
-    }
+        
+        el.currentTarget.style.background = "rgb(139, 214, 139)"
+        el.currentTarget.style.color = "gold"
+        // document.getElementById("numberStar").innerText = specify.length + 1
+        document.getElementsByClassName("numberStar")[index-1].style.color = "black"
+    } 
 }
 
-function starFunction(el, currentStar = null) {    
-    console.log("star function clicked")
-    const cid = el.target.dataset.id
-    const uid = el.target.dataset.pubid
-    const currentStars = currentStar || el.target.dataset.ts
-    console.log(`star id: ${cid} uploaderId: ${uid}`)
-    el.target.classList.remove("starbtn")
-    el.target.classList.add("cstarrer")
-    starContent(cid, uid, el.target, "starbtn", currentStars)
+function infoWarn() {
+    setTimeout(() => {
+        if (already === false) {
+            already = true
+            popUp("feedinfo")
+        }
+    }, 4000);
 }
 
-function unstarFunction(btn, currentStar = null) {
-    console.log("star function clicked")
-    const cid = btn.target.dataset.id
-    const uid = btn.target.dataset.pubid
-    const currentStars = currentStar || el.target.dataset.ts
-    btn.target.classList.add("starbtn")
-    btn.target.classList.remove("cstarrer")
-    unstarContent(cid, uid, btn.target, "starbtn", currentStars)
-}
-
-export { handleFeedDisplay, starFunction, unstarFunction }
+export { handleFeedDisplay, shouldStar }

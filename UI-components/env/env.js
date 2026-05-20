@@ -21,6 +21,9 @@ const icons = {
     DELETE: `<i class="fa-solid fa-trash iicon" data-text="Delete"></i>`,
     DROP: `<i class="fa-solid fa-angle-down iicon" data-text="open"></i>`,
     CLOSE: `<i class="fa-solid fa-angle-up iicon" data-text="close"></i>`,
+    EXIT: `<i class="fa-solid fa-right-from-bracket iicon" data-text="exit"></i>`,
+    FEEDBACK: `<i class="fa-solid fa-comment-dots iicon" data-text="-i-"></i>`,
+    SHARE: `<i class="fa-solid fa-share-from-square iicon" data-text="share"></i>`,
 }
 
 const defaultNames = {
@@ -55,6 +58,8 @@ const stream_domain = "http://localhost:7700/V1"
 
 const routes = {
     connected: domain + '/extra/connect',
+    tandc: domain + '/extra/tandc',
+    policy: domain + '/extra/policy',
     siginupurl: domain + '/auth/signin',
     logininurl: domain + '/auth/login',
     autoLogin: domain + '/auth/auto/',
@@ -62,6 +67,9 @@ const routes = {
     refreshToken: domain + '/auth/refreshtoken',
     protectedRoute: domain + '/auth/protectedroute',
     logout: domain + '/auth/logout',
+    resetData: domain + '/auth/reset',
+    verifyEmailForPassword: domain + '/auth/verifyresetemail',
+    resetPassword: domain + '/auth/resetpassword',
     qurerygoogle: domain + '/auth/googleauth/google',
     startQuery: domain + '/qurery/start',
     getSingleHistory: domain + '/qurery/getSH',
@@ -87,6 +95,8 @@ const routes = {
     removeStar: domain + `/qurery/unstar`,
     staredContent: domain + `/qurery/stared`,
     searchContent: domain + `/qurery/searchContent`,
+    totalStares: domain + `/qurery/totalstares`,
+    feedback: domain + `/extra/feedback`,
 }
 
 const gbtn = "document.getElementById('excen').innerHTML"
@@ -100,16 +110,18 @@ const googleIds = {
 
 function loader(text = "loading...") {
     const load = `
-                <div id="load-con">
-                    <div id="arc">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
+                <div id="originload">
+                    <div id="load-con">
+                        <div id="arc">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <i>${text}</i>
                     </div>
-                    <i>${text}</i>
                 </div>
                 `
     return load
@@ -154,4 +166,4 @@ async function iconCheck() {
     }
 }
 
-export {icons, defaultNames, footers, catches, routes, googleIds, loader, iconCheck }
+export {icons, defaultNames, footers, catches, routes, googleIds, loader, iconCheck, domain }

@@ -8,6 +8,16 @@
     
 }
 
+#originload {
+    position: relative;
+    padding-top: 5em;
+    height: 40%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #load-con {
     display: flex;
     justify-content: center;

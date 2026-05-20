@@ -6,7 +6,6 @@ import { comfirmPage } from '../checkcondition.js';
 import { alert } from '../../UI-components/popup.js';
 
 let accessToken = localStorage.getItem("DZAT")
-console.log(accessToken)
 
 window.addEventListener('load', async () => {
     
@@ -81,7 +80,6 @@ async function login() {
                 window.location.reload()
             } else {
                 alert("error occured while verifying data")
-                afterlogin('something went wong verifying data')
             }
             
         })
@@ -99,12 +97,11 @@ async function refreshaccessToken() {
         accessToken = data.accessT;
 
         localStorage.setItem("DZAT", accessToken)
-        console.log('refreshed access token')
+        
         alert('reloging you in')
         window.location.reload()
         return true
     } else {
-        console.log('refresh failed. login manually')
         localStorage.removeItem("DZAT")
         islogedIn(false)
         comfirmPage()
@@ -125,7 +122,7 @@ function afterlogin(val) {
             closeFunction()
             autoLogin()
         } else {
-            loginxml.innerHTML = `<em>${val}</em> <br> <button id="tryAgain" class="w-4 h-1.5 bg-blend-darken text-white">${icons.ARROWLEFT} try again</button>`;
+            loginxml.innerHTML = `<em>${val.message}</em> <br> <button id="tryAgain" class="w-4 h-1.5 bg-blend-darken text-white">${icons.ARROWLEFT} try again</button>`;
             autoclose()
         }
     }

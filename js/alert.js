@@ -52,7 +52,7 @@ async function listiners() {
         TandCc()
     })
 
-    TandCc()
+    // TandCc()
 
     close()
 }
@@ -89,6 +89,10 @@ function closeFunction(reload) {
         if (path.length == 3) {
             document.getElementById('popup').style.display = "none";
         } else if (path.length > 3) {
+            if (!path.includes("auth")) {
+                document.getElementById('popup').style.display = "none";
+                return
+            }
             firstCall()
             function firstCall() {
                 if(path[path.length-1] != "alert") {
@@ -149,28 +153,33 @@ function headnavcall() {
     }
 }
 
-function TandCc() {
-    document.getElementById('TaC').addEventListener('click', async (e) => {
-        e.preventDefault()
-        history.replaceState(null, null, "")
-        history.pushState(null, null, location.pathname + "/TandC")
-        comfirmPage()
-        returnBack()
-        TandCc()
+async function TandCc() {
+    const tcs = document.getElementById("tacdiv")
+   
+    const re = await fetch(routes.tandc, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"}
     })
-}
-
-async function TandCs() {
-    
-    let TaC = 'terms and conditions not found';
-    // back end logic
-    // can't use await on parent function call comfirm page when fetch is done
-    if (TaC == null) {
-        return "404 error"
-    } else {
-        return TaC;
+    const out = await re.json()
+    if (out.success !== true) {
+        tcs.innerText = `failed ${out.message}`
+        alert(e.message)
+        return
     }
+    const head = out.head
+    const body = out.body
 
+    const xml = `
+                <h3><b>${head}</b></h3>
+                <ul id="tclist"></ul>
+                `;
+    tcs.innerHTML = xml
+    body.forEach(e => {
+        const tm = document.createElement("li")
+        tm.id = "tclistl"
+        tm.innerHTML = e
+        document.getElementById("tclist").prepend(tm)
+    })
 }
 
 function logAlertpop() {
@@ -206,26 +215,23 @@ function ifAuthententicated() {
         if (islogedIn() === undefined) {
             let interval;
             let lettimer;
-            console.log("not logged in")
 
             lettimer = setTimeout(() => {
                 clearInterval(interval)
             }, 13000);
 
             interval = setInterval(() => {
-                console.log("checking... " + interval + " " + lettimer)
                 if (islogedIn() === true) {
                     clearInterval(interval)
                     clearTimeout(lettimer)
                     closeFunction(true)
                     alert(" ", 500)
-                    console.log("loggged in")
                 }
             }, 1000);
         } else {
-            console.log("already logged in")
+            
         }
     }, 1000);
 }
 
-export {returnBack, isConnected, listiners, condition, headnavcall, secondCondition, close, closeFunction, autoclose, TandCs}
+export {returnBack, isConnected, listiners, condition, headnavcall, secondCondition, close, closeFunction, autoclose, TandCc}

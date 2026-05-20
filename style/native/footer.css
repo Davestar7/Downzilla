@@ -112,6 +112,7 @@ footer {
     padding: 5%;
     border-radius: 3px;
     color: white;
+    cursor: pointer;
 }
 
 #userhead {
@@ -119,4 +120,57 @@ footer {
     font-weight: 600;
     color: black;
 
+}
+
+@media (max-width: 950px) {
+    footer {
+        max-height: 8vh;
+        border-top-right-radius: 7px;
+        border-top-left-radius: 7px;
+    }
+
+    #footer-ul li {
+        font-size: 1.5em;
+    }
+
+    #userhead {
+        font-size: 0.8em;
+    }
+
+    #headername h4 {
+        display: none;
+    }
+
+    #headername a h3 {
+        font-size: 1em;
+        font-weight: 800;
+    }
+
+    #head {
+        min-width: 100vw;
+        overflow-x: hidden;
+        
+    }
+}
+
+#feedbk {
+    height: 2.5em;
+    width: 2.5em;
+    cursor: pointer;
+    position: fixed;
+    bottom: 14%;
+    right: 5%;
+    z-index: 888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgb(148, 243, 148);
+    box-shadow: 1px 1px 2px black;
+}
+
+#feedbk i {
+    color: rgb(24, 23, 23);
+    font-weight: 900;
+    font-size: xx-large;
 }

@@ -5,13 +5,11 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail) {
     let height;
     // let urls;
     formats.forEach(f => {
-        console.log(f)
         if (f.height && f.height >= 240 && f.height <= 480 && f.resolution !== "audio only") {
             // url = f.urls;
             height = f.height
         }
     })
-    console.log(url)
 
     const start = await fetch(routes.startStream, {
         method: "POST",
@@ -58,7 +56,7 @@ function updateSelectableFormat(type = "video") {
             video()
         break;
         default:
-           console.log(`type of ${type} not found`)
+           alert(`type of ${type} not found`)
         break;
     }
     
@@ -152,7 +150,7 @@ function updateSelectableFormat(type = "video") {
 }
 
 function pushAudio() {
-    console.log("called push audio")
+    
     let check = window.availableFormats.filter(fmt => fmt.vcodec === "none" && fmt.acodec && fmt.acodec !== "none") || []
 
     if (check.length >= 6) {

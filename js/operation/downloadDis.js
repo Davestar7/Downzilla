@@ -1,6 +1,6 @@
-import {downloadVideo, getFormat, downloadmp } from "./download.js"
+import {downloadVideo, downloadmp, beginQuery } from "./download.js"
 import {updateSelectableFormat, updateDiscription, formatPasser, streamVideoFunction} from "./streamvideo.js"
-import { routes } from "../../UI-components/env/env.js"
+import { domain } from "../../UI-components/env/env.js"
 import { alert as alerts, popUp } from "../../UI-components/popup.js"
 import { closeFunction } from "../alert.js"
 import { uploadHistory, uploadContent } from "../interact/history.js"
@@ -15,7 +15,7 @@ function timeformat(sec) {
 
 let backupJson = undefined;
 
-function videodis(jsons = null, ismp) {
+async function videodis(jsons = null, ismp) {
     let display = document.getElementById("resultdis")
     let downloadable;
     if (jsons == null) {
@@ -38,23 +38,22 @@ function videodis(jsons = null, ismp) {
     }
     const details = downloadable.data
 
-    const title = details.title
-    const discrip = details.description || "no discription found"
-    const thumbnail = details.thumbnail
-    const uploader = details.uploader
-    const source = details.extractor_key
-    const duration = timeformat(Number(details.duration))
-    const format = details.formats
-    const urls = details.original_url
-    const http_headers = details.http_headers
-    console.log(urls)
-    const request_Format = details.requested_formats //past to stream
-    let formatS
-    request_Format.forEach(e => {
-        formatS = e.url
-    })
+    if (details?.entries !== undefined || details?.entries?.length >= 0) {
+        playListdis(jsons)
+    }
 
-    console.log(http_headers)
+    const title = details?.title
+    const discrip = details?.description || "no discription found"
+    const thumbnail = details?.thumbnail
+    const uploader = details?.uploader
+    const source = details?.extractor_key
+    const duration = timeformat(Number(details?.duration))
+    const format = details?.formats
+    const urls = details?.original_url
+    const http_headers = details?.http_headers
+    const request_Format = details?.requested_formats //past to stream
+    
+
     const durations = Number(details.duration)
 
     const active = `
@@ -128,6 +127,7 @@ function videodis(jsons = null, ismp) {
         document.getElementById("dnbtn").innerHTML = "Download mp4"
 
         AndDownload(title, null, null, format, urls, http_headers)
+        
     } else {
         element.innerHTML = displays
         window.availableFormats = format || []
@@ -138,44 +138,62 @@ function videodis(jsons = null, ismp) {
     }
 
     document.getElementById("upbtn").addEventListener("click", (e) => {
-        console.log("for video")
         const uploadm = document?.getElementById("upbtn")
-        e.target.removeEventListener("click", ()=> {
-            console.log("cancelled listerner")
-        })
         uploadm.style.background = "white"
         uploadm.innerHTML = `<i>uploading...</i>`
-        uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
+        uploadContent(title, thumbnail, discrip, urls, source, "video", uploadm)
     })
 
     streamVideoFunction(formatPasser.selectedFormats, urls, title, http_headers, thumbnail)
     uploadHistory(title, discrip, urls, source, "video", thumbnail)
+    saveUploadData({ a: title, b: thumbnail, c: discrip, d: urls, e: source, f: "video", g: document?.getElementById("upbtn") }, true)
 }
 
-function playListdis(jsons) {
+let playBackup = undefined
+
+function playListdis(jsons = null) {
     let display = document.getElementById("resultdis")
     display.innerHTML = "<em>updating details...</em>"
-    const downloadable = jsons.data;
-    console.log(downloadable)
+    let datas;
+    if (jsons !== null) playBackup = undefined
+    if (playBackup !== undefined) {
+        datas = playBackup.data
+        
+    } else {
+        playBackup = jsons
+        
+        datas = playBackup.data;
+    }
+
+    console.log(playBackup)
+    if (playBackup.success === false) {
+        alerts("failed to process playlist")
+        display.innerHTML = "failed"
+    }
+
+    const downloadable = datas
     
-    if (jsons.success != true) {
-        const errordis = "-" + jsons.message + `<br><em>check internet connection</em><br> <em>comfirm video URL</em><br> <em>then try again</em>`
+    if (playBackup.success != true) {
+        const errordis = "-" + playBackup.message + `<br><em>check internet connection</em><br> <em>comfirm video URL</em><br> <em>then try again</em>`
         display.innerHTML = errordis
         return
     }
 
-    const thumbs = downloadable.thumbnails
+    if (downloadable?.entries === undefined || downloadable?.entries.length === 0) {
+        videodis(jsons)
+    }
+    const thumbs = downloadable?.thumbnails
     let thumbnail = thumbs[thumbs.length - 1]
 
     const playlistdata = {
-        channel: downloadable.uploader,
-        discription: downloadable.description,
-        url: downloadable.original_url,
-        title: downloadable.title,
-        thumbnail: thumbnail.url,
-        playlist_count: downloadable.playlist_count,
-        site: downloadable.webpage_url_domain,
-        entries: downloadable.entries
+        channel: downloadable?.uploader,
+        discription: downloadable?.description,
+        url: downloadable?.original_url,
+        title: downloadable?.title,
+        thumbnail: thumbnail?.url,
+        playlist_count: downloadable?.playlist_count,
+        site: downloadable?.webpage_url_domain,
+        entries: downloadable?.entries
     }
 
     const ele = `
@@ -188,9 +206,9 @@ function playListdis(jsons) {
                                 </div>
                                 <div id="metadel">
                                     <h3><b>Title:</b> ${playlistdata.title}</h3>
-                                    <h4 id="pdis"><b>Discription: loading...</h4>
-                                    <span>videos found: ${playlistdata.playlist_count}</span>
-                                    <span>source: ${playlistdata.site}</span>
+                                    <h4 id="pdis"><b>Discription: loading...</h4> <br>
+                                    <span>videos found: ${playlistdata.playlist_count}</span> <br>
+                                    <span>source: ${playlistdata.site}</span> <br>
                                     <span>uploader: ${playlistdata.channel}</span>
                                 </div>
                             </div>
@@ -215,7 +233,7 @@ function playListdis(jsons) {
     
     const entries = playlistdata.entries;
     ent.innerHTML = "";
-    console.log(entries.length)
+    
     entries.forEach((e, i) => {
         const len = e.thumbnails
         const vtitle = e.title;
@@ -245,25 +263,27 @@ function playListdis(jsons) {
         ent.innerHTML += el;
     })
     AndPlaySingle(entries)
+    saveUploadData({a: playlistdata.title, b: playlistdata.thumbnail, c: playlistdata.discription, d: playlistdata.url, e: playlistdata.site, f: "playlist", g: document.getElementsByClassName("upbtn")[0]}, true)          
     uploadHistory(playlistdata.title, playlistdata.discription, playlistdata.url, playlistdata.site, "playlist", playlistdata.thumbnail)
-    document.getElementsByClassName("upbtn")[0].addEventListener("click", (e) => {
+    document.getElementsByClassName("upbtn")[0].addEventListener("click", () => {
         const uploadp = document.getElementById("upbtn")
-        e.target.removeEventListener("click", () => {
-            uploadp.style.background = "gray"
-            uploadp.innerHTML = `<i>uploading...</i>`
-            uploadContent(playlistdata.title, playlistdata.thumbnail, playlistdata.discription, playlistdata.url, playlistdata.site, "playlist", uploadp)
-        })
+        uploadp.style.background = "gray"
+        uploadp.innerHTML = `<i>uploading...</i>`
+        uploadContent(playlistdata.title, playlistdata.thumbnail, playlistdata.discription, playlistdata.url, playlistdata.site, "playlist", uploadp)
     })
     // andDownloadPlay(playlistdata.title, playlistdata.url, entries)
 }
 
 async function playlistPopup(json, url) {
-    if (json.success == false) {
+    if (json.success === false) {
         if (json.conditional == true) {
-            alerts("retrying fetch", 3000)
-            await getFormat(url, "playlist")
+            alerts("failed, please retry", 3000)
+            document.getElementById("playformat").innerHTML = `<button id="pret" style="padding: 5%; width: 10%; border: 1px solid black;">retry</button>`
+            document.getElementById("pret")?.addEventListener("click", () => {
+                beginQuery(url, "popplaylist", null, true)
+            })
         } else {
-            alerts("failed: " + jsons.message)
+            alerts("failed: " + json.message)
             closeFunction()
         }
         return
@@ -278,16 +298,17 @@ async function playlistPopup(json, url) {
     const time = timeformat(Number(jsons.duration))
     const format = jsons.formats
     const source = jsons.extractor_key
-    const urls = details.original_url
-    const headers = details.http_headers
-    console.log(format)
+    const urls = jsons.original_url
+    const headers = jsons.http_headers
 
     const dis = `
                     <div id="playlistpp">
                         <div id="playpopcon">
                             <div id="playcont">
                                 <div id="popimg">
-                                    <img src="${thumbnail}" title="${title}" id="popaimg"></img>
+                                    <div id="img-vid">
+                                        <img src="${thumbnail}" id="vimg" alt="${title}" title="downzilla video display">
+                                    </div>
                                 </div>
                                 <b>${title}</b>
                                 <i>00:00 - ${time}</i>
@@ -306,25 +327,17 @@ async function playlistPopup(json, url) {
                         <div id="playBP">
                             <button id="dnbtnplay" class="dnbtnp">download video</button>
                             <button id="dnbtnmic" class="mibtn">download as mp3</button>
-                            <button id="upbtnplay" class="upbtnp">Upload video</button>
+                            
                         </div>
                     </div>
                 `;
     document.getElementById("playformat").innerHTML = dis;
-
-    updateDiscription(discription, document.getElementById("popdis"))
 
     window.availableFormats = format || []
     updateSelectableFormat("video")
 
     AndDownloadFromPlay(title, 0, jsons.duration, format, url, discription, source, headers)
     listmpdownload(url, title, "play", format, discription, source, headers)
-    document.getElementsByClassName("upbtnp")[0].addEventListener("click", (e) => {
-        const upplay = document.getElementById("upbtnplay")
-        upplay.innerHTML = `<i>uploading...</i>`
-        upplay.style.background = "gray"
-        uploadContent(title, thumbnail, discription, urls, source, "video", upplay)
-    })
     streamVideoFunction(formatPasser.selectedFormats, url, title, headers, thumbnail)
 }
 
@@ -335,13 +348,14 @@ function AndDownload(title, starts, ends, formats, url, headers) {
     const start = starts;
     const end = ends;
     
-    btns?.addEventListener("click", () => {
+    btns?.addEventListener("click", async () => {
         btn.style.background = "gray"
         btn.classList.remove("dnbtn")
         btn.classList.add("clicked")
         btn.innerHTML = `<i>prepering to download...</i>`
 
-        downloadVideo(url, title, start, end, formats, "frommp4", headers)
+        await downloadVideo(url, title, start, end, formats, "frommp4", headers)
+        popUp("askshare")
     })
 }
 
@@ -352,15 +366,17 @@ function AndDownloadFromPlay(title, starts, ends, formats, url, des, su, headers
     const end = ends;
     
     btns?.addEventListener("click", async (e) => {
-        btns.removeEventListener("click", ()=> {
-            console.log("cancelled event listinner")
-        })
+        
         btn.style.background = "white"
         btn.classList.remove("dnbtnp")
         btn.classList.add("clicked")
         btn.innerHTML = `<i>perpering to download...</i>`
 
-        await downloadVideo(url, title, start, end, formats, "fromplay", des, su, headers)
+        await downloadVideo(url, title, start, end, formats, "fromplay", headers, document.getElementById("forSel"))
+        
+        setTimeout(() => {
+            popUp("askshare")
+        }, 5000);
     })
 }
 
@@ -369,9 +385,8 @@ function AndPlaySingle(ent) {
     let position
     btnCon.forEach(btn => {
         btn.addEventListener("click", (e) => {
-            console.log("clicked")
             popUp("playlist")
-            console.log(e.target)
+            
             const datas = e.target.dataset.position
             position = datas
 
@@ -379,12 +394,12 @@ function AndPlaySingle(ent) {
             const url = data.url;
             const title = data.title
             const duration = data.duration
-            console.log(url)
+            
             document.getElementById("playvidtit").innerHTML = `download - ${title}`
             if (title === "[Deleted video]") {
-                alert("sorry it seems to be a deleted video", 10000)
+                alerts("sorry it seems to be a deleted video", 10000)
             } else {
-                getFormat(url, "playlist")
+                beginQuery(url, "popplaylist", document.getElementById("playformat"), true)
             }
             // displayFormat(url, title, undefined, duration, "playlist")
         })
@@ -421,11 +436,8 @@ function listmpdownload(url, title, from, formats, des, su, headers) {
                     break;
             }
         }
-        console.log("clicked mp3 download")
+        
         element.innerHTML = "prepering to download..."
-        element.removeEventListener("click", () => {
-            console.log("event listener cancelled")
-        })
         element.style.background = "gray"
         if (from == "basic") {
             element.classList.remove("dnbtn")
@@ -442,7 +454,7 @@ function listmpdownload(url, title, from, formats, des, su, headers) {
     })
 }
 
-function historyRender(DData, isPublic, type, element = null) {
+function historyRender(DData, isPublic, type, element = null, isFeed = false) {
     let display
     if (element === null) {
         display = document.getElementById("hisConP")
@@ -457,20 +469,19 @@ function historyRender(DData, isPublic, type, element = null) {
         display.innerHTML = errordis
         return
     }
-    const details = DData.data
+    let details = DData.data
 
-    const title = details.title
-    const discrip = details.description || "no discription found in this content"
-    const thumbnail = details.thumbnail
-    const uploader = details.uploader
-    const source = details.extractor_key
-    const duration = timeformat(Number(details.duration))
-    const format = details.formats
-    const urls = details.original_url
-    const httpHeaders = details.http_headers //object
-    console.log(httpHeaders)
+    const title = details?.title
+    const discrip = details?.description || "no discription found in this content"
+    let thumbnail
+    const uploader = details?.uploader
+    const source = details?.extractor_key
+    const duration = timeformat(Number(details?.duration))
+    const format = details?.formats
+    const urls = details?.original_url
+    const httpHeaders = details?.http_headers //object
 
-    const durations = Number(details.duration)
+    const durations = Number(details?.duration)
 
     let uploadbtn;
     if (isPublic === true) {
@@ -479,176 +490,370 @@ function historyRender(DData, isPublic, type, element = null) {
         uploadbtn = '<button id="upbtn" class="upbtn">Upload video</button>'
     }
 
-    if (type == "video") {
-        try {
-            const active = `
-                        <div id="resultC">
-                            <div result="resultVImg">
-                                <div id="img-vid">
-                                    <img src="${thumbnail}" id="vimg" alt="${title}" title="downzilla video display">
+    if (isFeed === false) {    
+        if (type === "video") {
+            try {
+                thumbnail = details?.thumbnail
+                const active = `
+                            <div id="resultC">
+                                <div result="resultVImg">
+                                    <div id="img-vid">
+                                        <img src="${thumbnail}" id="vimg" alt="${title}" title="downzilla video display">
+                                    </div>
+                                    <h6>00:00 - ${duration}</h6>
                                 </div>
-                                <h6>00:00 - ${duration}</h6>
-                            </div>
-                            <div id="resDetail">
-                                <h3 id="ht">title:"${title}"</h3>
-                                <h4 id="hd">discription:"${discrip}"</h4>
-                                <h6>uploaded by "${uploader}"</h6>
-                                <h6>From ${source}</h6>
-                            </div>
-                            <div>
+                                <div id="resDetail">
+                                    <h3 id="ht">title:"${title}"</h3>
+                                    <h4 id="hd">discription:"${discrip}"</h4>
+                                    <h6>uploaded by "${uploader}"</h6>
+                                    <h6>From ${source}</h6>
+                                </div>
                                 <div>
-                                    <i>Select A Good Video format</i>
-                                </div>
-                                <div id="formatck">
-                                    <div id="format">
-                                        <div>
-                                            <i>Select video quality to download</i>
-                                        </div>
-                                        <div id="seldiv">
-                                            <select id="forSel"><em>loading...</em></select>
-                                        </div>
-                                        <div>
-                                            <pre id="forInfo"></pre>
+                                    <div>
+                                        <i>Select A Good Video format</i>
+                                    </div>
+                                    <div id="formatck">
+                                        <div id="format">
+                                            <div>
+                                                <i>Select video quality to download</i>
+                                            </div>
+                                            <div id="seldiv">
+                                                <select id="forSel"><em>loading...</em></select>
+                                            </div>
+                                            <div>
+                                                <pre id="forInfo"></pre>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div id="playB">
+                                    <button id="dnbtn" class="dnbtn">download btn</button>
+                                    <button id="dnbtn" class="mbtn">download btn</button>
+                                    ${uploadbtn}
+                                    <button id="sharefeed">Share</button>
+                                </div>
                             </div>
-                            <div id="playB">
-                                <button id="dnbtn" class="dnbtn">download btn</button>
-                                <button id="dnbtn" class="mbtn">download btn</button>
-                                ${uploadbtn}
-                            </div>
-                        </div>
-                    `
+                        `
 
-            display.innerHTML = active;
+                display.innerHTML = active;
 
-            updateDiscription(discrip, document.getElementById("hd"))
+                updateDiscription(discrip, document.getElementById("hd"))
 
-            window.availableFormats = format || []
-            updateSelectableFormat("video")
+                window.availableFormats = format || []
+                updateSelectableFormat("video")
 
-            const dbtn = document.getElementsByClassName("dnbtn")[0]
-            const mbtn = document.getElementsByClassName("mbtn")[0]
-            dbtn.innerHTML = "Download MP4"
-            mbtn.innerHTML = "Download MP3"
+                const dbtn = document.getElementsByClassName("dnbtn")[0]
+                const mbtn = document.getElementsByClassName("mbtn")[0]
+                dbtn.innerHTML = "Download MP4"
+                mbtn.innerHTML = "Download MP3"
 
-            dbtn.addEventListener("click", () => {
+                dbtn.addEventListener("click", () => {
+                    
+                    dbtn.innerHTML = "awaiting download..."
+                    // dbtn.classList.add("clicked")
+
+                    downloadVideo(urls, title, null, null, format, "history", httpHeaders)
+                })
+
+                mbtn.addEventListener("click", () => {
+                    mbtn.innerHTML = "awaiting download..."
+                    mbtn.classList.add("clicked")
+                    downloadmp(urls, title, "history", null, "mp3", format, discrip, source, httpHeaders)
+                })
+
+                document.getElementsByClassName("upbtn")[0]?.addEventListener("click", () => {
+                    const uploadm = document?.getElementById("upbtn")
+                    uploadm.style.background = "white"
+                    uploadm.innerHTML = `<i>uploading...</i>`
+                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
+                })
+                streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
+            } catch (e) {
+                console.log(e)
+                alerts("something seems wong", 3000)
+            }
+        } else if (type === "playlist") {
+            try {
+                thumbnail = details?.thumbnails[details?.thumbnails.length-1]?.url
                 
-                dbtn.innerHTML = "awaiting download..."
-                // dbtn.classList.add("clicked")
+                const playlist_count= details?.playlist_count
+                const site= details?.webpage_url_domain
+                const entries= details?.entries
+                const channel = details?.uploader
 
-                downloadVideo(urls, title, null, null, format, "history", httpHeaders)
-            })
-
-            mbtn.addEventListener("click", () => {
-                mbtn.innerHTML = "awaiting download..."
-                mbtn.classList.add("clicked")
-                downloadmp(urls, title, "history", null, "mp3", format, discrip, source, httpHeaders)
-            })
-
-            document.getElementsByClassName("upbtn")[0]?.addEventListener("click", () => {
-                console.log("for video")
-                const uploadm = document?.getElementById("upbtn")
-                uploadm.style.background = "white"
-                uploadm.innerHTML = `<i>uploading...</i>`
-                uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
-            })
-            streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
-        } catch (e) {
-            alerts("something seems wong", 3000)
-            historyRender(DData, isPublic, "playlist", element)
-        }
-    } else if (type == "playlist") {
-        try {
-            const playlist_count= details.playlist_count
-            const site= details.webpage_url_domain
-            const entries= details.entries
-            const channel = details.uploader
-            const ele = `
-                    <div id="playmain">
-                        <div class="playlistResult">
-                            <div id="disc">
-                                <div class="deatail">
-                                    <div class="vimgp">
-                                        <img src="${thumbnail}" id="vimg"></img>
-                                    </div>
-                                    <div id="metadel">
-                                        <h3><b>Title:</b> ${title}</h3>
-                                        <h4 id="hdp"><b>Discription: </b>${discrip}</h4>
-                                        <span>videos found: ${playlist_count}</span>
-                                        <span>source: ${site}</span>
-                                        <span>uploader: ${channel}</span>
+                const ele = `
+                        <div id="playmain">
+                            <div class="playlistResult">
+                                <div id="disc">
+                                    <div class="deatail">
+                                        <div class="vimgp">
+                                            <img src="${thumbnail}" id="vimg"></img>
+                                        </div>
+                                        <div id="metadel">
+                                            <h3><b>Title:</b> ${title}</h3>
+                                            <h4 id="hdp"><b>Discription: </b>${discrip}</h4>
+                                            <span>videos found: ${playlist_count}</span>
+                                            <span>source: ${site}</span>
+                                            <span>uploader: ${channel}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div id="entries">
-                                <em>uplading details...</em>
-                            </div>
-                        </div>
-                        <div id="btnss">
-                            <div>
-                                <button id="upbtn" class="upbtn">Upload playlist</button>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-
-            display.innerHTML = ele;
-
-            updateDiscription(discrip, document.getElementById("hdp"))
-
-            const ent = document.getElementById("entries")
-            
-            ent.innerHTML = "";
-            console.log(entries.length)
-            entries.forEach((e, i) => {
-                const len = e.thumbnails
-                const vtitle = e.title;
-                const vthumbnail = len[len.length - 1]
-                const position = i
-                
-                const discription = e.description || "no discription"
-                const duration = timeformat(e.duration)
-
-                const el = `
-                            <div id="listv">
-                                <div class="vlistp">
-                                    <div id="listcimg">
-                                        <img src="${vthumbnail.url}" id="listtimg"></img>
-                                    </div>
-                                    <div id="plistdc">
-                                        <h3>${vtitle}</h3>
-                                        <h4>${discription}</h4>
-                                        <span>00:00 - ${duration}</span>
-                                    </div>
-                                    <div id="downplbtn">
-                                        <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">download</button>
-                                    </div>
+                                <hr>
+                                <div id="entries">
+                                    <em>uplading details...</em>
                                 </div>
                             </div>
+                            <div id="btnss">
+                                <div>
+                                    <button id="upbtn" class="upbtn">Upload playlist</button>
+                                    <button id="sharefeed">Share</button>
+                                </div>
+                            </div>
+                        </div>
                         `;
-                ent.innerHTML += el;
-            })
-            AndPlaySingle(entries)
-            document.getElementsByClassName("upbtn")[0].addEventListener("click", (e) => {
-                const uploadp = document.getElementById("upbtn")
-                uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadp)
-                uploadp.style.background = "gray"
-                uploadp.innerHTML = `<i>uploading...</i>`
-                e.target.removeEventListener("click", e)
-            })
-        } catch (e) {
-            alerts("something went wong", 3000)
-            historyRender(DData, isPublic, "video", element)
+
+                display.innerHTML = ele;
+
+                updateDiscription(discrip, document.getElementById("hdp"))
+
+                const ent = document.getElementById("entries")
+                
+                ent.innerHTML = "";
+                console.log(entries.length)
+                entries.forEach((e, i) => {
+                    const len = e.thumbnails
+                    const vtitle = e.title;
+                    const vthumbnail = len[len.length - 1]
+                    const position = i
+                    
+                    const discription = e.description || "no discription"
+                    const duration = timeformat(e.duration)
+
+                    const el = `
+                                <div id="listv">
+                                    <div class="vlistp">
+                                        <div id="listcimg">
+                                            <img src="${vthumbnail.url}" id="listtimg"></img>
+                                        </div>
+                                        <div id="plistdc">
+                                            <h3>${vtitle}</h3>
+                                            <h4>${discription}</h4>
+                                            <span>00:00 - ${duration}</span>
+                                        </div>
+                                        <div id="downplbtn">
+                                            <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">download</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                    ent.innerHTML += el;
+                })
+                AndPlaySingle(entries)
+                document.getElementsByClassName("upbtn")[0]?.addEventListener("click", (e) => {
+                    const uploadp = document.getElementById("upbtn")
+                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadp)
+                    uploadp.style.background = "gray"
+                    uploadp.innerHTML = `<i>uploading...</i>`
+                    e.target.removeEventListener("click", e)
+                })
+            } catch (e) {
+                console.log(e)
+                alerts("something went wong", 3000)
+            }
+        }
+    } else {
+        if (type === "video") {
+            try {
+                thumbnail = details?.thumbnail
+                const active = `
+                            <div id="resultC">
+                                <div result="resultVImg">
+                                    <div id="img-vid">
+                                        <img src="${thumbnail}" id="vimg" alt="${title}" title="downzilla video display">
+                                    </div>
+                                    <h6>00:00 - ${duration}</h6>
+                                </div>
+                                <div id="resDetail">
+                                    <h3 id="ht">title:"${title}"</h3>
+                                    <h4 id="hd">discription:"${discrip}"</h4>
+                                    <h6>By "${uploader}"</h6>
+                                    <h6>From ${source}</h6>
+                                    <h6 id="sharedby"></h6>
+                                </div>
+                                <div>
+                                    <div id="formatck">
+                                        <div id="format">
+                                            <div id="seldiv">
+                                                <select id="forSel"><em>loading...</em></select>
+                                            </div>
+                                            <div>
+                                                <pre id="forInfo"></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="playB">
+                                    <button id="dnbtn" class="dnbtn">download btn</button>
+                                    <button id="dnbtn" class="mbtn">download btn</button>
+                                    <button id="sharefeed">Share</button>
+                                    <button id="origin">loading...</button>
+                                </div>
+                            </div>
+                        `
+
+                display.innerHTML = active;
+
+                updateDiscription(discrip, document.getElementById("hd"))
+
+                window.availableFormats = format || []
+                updateSelectableFormat("video")
+
+                const dbtn = document.getElementsByClassName("dnbtn")[0]
+                const mbtn = document.getElementsByClassName("mbtn")[0]
+                dbtn.innerHTML = "Download MP4"
+                mbtn.innerHTML = "Download MP3"
+
+                dbtn.addEventListener("click", () => {
+                    
+                    dbtn.innerHTML = "awaiting download..."
+                    // dbtn.classList.add("clicked")
+
+                    downloadVideo(urls, title, null, null, format, "history", httpHeaders)
+                })
+
+                mbtn.addEventListener("click", () => {
+                    mbtn.innerHTML = "awaiting download..."
+                    mbtn.classList.add("clicked")
+                    downloadmp(urls, title, "history", null, "mp3", format, discrip, source, httpHeaders)
+                })
+
+                document.getElementsByClassName("upbtn")[0]?.addEventListener("click", () => {
+                    console.log("for video")
+                    const uploadm = document?.getElementById("upbtn")
+                    uploadm.style.background = "white"
+                    uploadm.innerHTML = `<i>uploading...</i>`
+                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
+                })
+                streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
+            } catch (e) {
+                alerts("something seems wong", 3000)
+                // historyRender(DData, isPublic, "playlist", element)
+            }
+        } else if (type === "playlist") {
+            try {
+                thumbnail = details?.thumbnails[details?.thumbnails.length-1]?.url
+                const playlist_count= details?.playlist_count
+                const site= details?.webpage_url_domain
+                const entries= details?.entries
+                const channel = details?.uploader
+                const ele = `
+                        <div id="playmain">
+                            <div class="playlistResult">
+                                <div id="disc">
+                                    <div class="deatail">
+                                        <div class="vimgp">
+                                            <img src="${thumbnail}" id="vimg"></img>
+                                        </div>
+                                        <div id="metadel">
+                                            <h3><b>Title:</b> ${title}</h3>
+                                            <h4 id="hdp"><b>Discription: </b>${discrip}</h4>
+                                            <span>videos found: ${playlist_count}</span>
+                                            <span>source: ${site}</span>
+                                            <span>uploader: ${channel}</span>
+                                            <h6>From ${source}</h6>
+                                            <h6 id="sharedby"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div id="entries">
+                                    <em>uplading details...</em>
+                                </div>
+                            </div>
+                            <div id="btnss">
+                                <div>
+                                    <button id="sharefeed">Share</button>
+                                    <button id="origin">loading...</button>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+
+                display.innerHTML = ele;
+
+                updateDiscription(discrip, document.getElementById("hdp"))
+
+                const ent = document.getElementById("entries")
+                
+                ent.innerHTML = "";
+                
+                entries.forEach((e, i) => {
+                    const len = e.thumbnails
+                    const vtitle = e.title;
+                    const vthumbnail = len[len.length - 1]
+                    const position = i
+                    
+                    const discription = e.description || "no discription"
+                    const duration = timeformat(e.duration)
+
+                    const el = `
+                                <div id="listv">
+                                    <div class="vlistp">
+                                        <div id="listcimg">
+                                            <img src="${vthumbnail.url}" id="listtimg"></img>
+                                        </div>
+                                        <div id="plistdc">
+                                            <h3>${vtitle}</h3>
+                                            <h4>${discription}</h4>
+                                            <span>00:00 - ${duration}</span>
+                                        </div>
+                                        <div id="downplbtn">
+                                            <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">download</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                    ent.innerHTML += el;
+                })
+                AndPlaySingle(entries)
+                document.getElementsByClassName("upbtn")[0].addEventListener("click", (e) => {
+                    const uploadp = document.getElementById("upbtn")
+                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadp)
+                    uploadp.style.background = "gray"
+                    uploadp.innerHTML = `<i>uploading...</i>`
+                })
+            } catch (e) {
+                console.log(e)
+                alerts("something went wong", 3000)
+                // historyRender(DData, isPublic, "video", element)
+            }
         }
     }
-    
-    if (!DData.data.cloudinaryId && DData.data.cloudinaryUrl) {
-        uploadHistory(title, discrip, urls, source, type, thumbnail)
+}
+
+async function share(from, id = {one: null, two: null}, title = "share downzilla") {
+    let path;
+    if (from == "public") {
+        path = `share ${domain}/shared/feed/${id.one}`
+    } else if (from == "private") {
+        path = `share ${domain}/shared/private/${id.one}/${id.two}`
     }
 
+    await navigator.share({
+        url: path,
+        title: title,
+    })
+}
+
+let uploadDataStored;
+
+function saveUploadData(data = {a: null, b: null, c: null, d: null, e: null, f: null, g: null}, check = false) {
+    
+    if (check) {
+        uploadDataStored = data
+    } else if (!check) {
+        uploadContent(uploadDataStored.a, uploadDataStored.b, uploadDataStored.c, uploadDataStored.d, uploadDataStored.e, uploadDataStored.f, uploadDataStored.g)
+    }
 }
 
 //REMAINS CURRENTLY IN ACTIVE UNTIL BACKEND DOWNLOAD FULL PLAYLIST
@@ -683,4 +888,4 @@ function andDownloadPlay(title, url, ent) {
 
 }
 
-export {videodis, playListdis, playlistPopup, historyRender }
+export {videodis, playListdis, playlistPopup, historyRender, share, saveUploadData }

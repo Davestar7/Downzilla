@@ -1,9 +1,11 @@
-import {popUp} from '../UI-components/popup.js'
+import {popUp, alert} from '../UI-components/popup.js'
 import {secondCondition, isConnected} from './alert.js'
 import {loadOnStart} from '../js/createPage.js'
 import { iconCheck, routes } from '../UI-components/env/env.js'
 import historyPage from "../UI-components/historyData.js"
-import renderContent from "../UI-components/contentFromFeed.js"
+import {main as renderContent} from "../UI-components/contentFromFeed.js"
+import {main as setting} from "../UI-components/setting.js"
+import sharedUser from "./interact/privateSharedData.js"
 
 comfirmPage()
 let passloc = window.location
@@ -26,13 +28,12 @@ function updateHomeUrl(path) {
 }
 
 function comfirmPage() {
-    console.log("am called")
     const path = checkUrl()
     let stringUrl;
     if (path.length > 3) {
         passloc = window.location
         path.forEach((i, dex) => {
-            if (i.toString >= path[3]) {
+            if (i >= path[3]) {
                 stringUrl = i.toLocaleLowerCase().toString();
                 if (path.length == dex+1) {
                     loadOnUrl(stringUrl)
@@ -67,6 +68,9 @@ function loadOnUrl(pathname) {
         case 'forgotpassword':
             popUp('forgotpassword', ifReload)
         break
+        case 'info':
+            setting()
+        break
         default:
             checkIfUrlIsUnknown(pathname)
             break;
@@ -84,14 +88,18 @@ function checkIfUrlIsUnknown(path) {
     const uri = url.split("/")
 
     const check = uri[uri.length-2]
-    console.log(check)
+    
+    if (uri[uri.length-3] === "shared") {
+        sharedUser()
+        return
+    }
 
     if (check === "user") {
         historyPage()
     } else if (check === "RenderFeed") {
         renderContent()
     } else {
-
+        notFoundUi(path)
     }
 }
 
@@ -107,8 +115,13 @@ async function backFunction(cancelSomething = null, id= null) {
             body: JSON.stringify({id: id})
         }) 
         const p = await cenn.json()
-        console.log(p)
+        alert(p.message, 1000)
     }
+}
+
+function notFoundUi(path) {
+    const ui = `<b>404 ${path} is not a know path</b><br><a href="/" style="color:blue;">Go to downzilla download page</a>`
+    document.getElementById("contentPage").innerHTML = ui
 }
 
 export {checkUrl, updateHomeUrl, comfirmPage, passloc, backFunction}

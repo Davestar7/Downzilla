@@ -16,9 +16,7 @@ function pushUrl(path, title, add=false) {
         }
     } else {
         const win = window.location.pathname
-        console.log(win)
         newUrl = `${win}/${path}`
-        console.log(newUrl)
         history.replaceState(null, null, "")
         history.pushState(null, null, newUrl)
     }

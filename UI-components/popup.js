@@ -1,24 +1,28 @@
 import { icons, routes, googleIds, loader, iconCheck } from "./env/env.js";
-import {close as closex, TandCs, returnBack, closeFunction } from '../js/alert.js'
+import {close as closex, TandCc, returnBack, closeFunction } from '../js/alert.js'
 import {signupFunction} from '../js/auth/getSignup.js'
 import {login as logLis} from '../js/auth/loginUser.js'
 import {userData} from '../js/auth/afterauth.js'
 import { islogedIn } from "../js/checkuserlogin.js";
 import { comfirmPage } from "../js/checkcondition.js";
+import { resetPassword } from "./setting.js";
+import { saveUploadData } from "../js/operation/downloadDis.js";
 
 const popuper = document.getElementById('popup')
 
 async function popUp(type, reload = false) {
+
     popuper.style.display = "flex"
     popuper.innerHTML = loader()
     let pupUp;
     const textInput = `<input type="text" name="user" id="Tinput" placeholder="username" required>`;
     const nameInput = `<input type="text" name="Text" id="Ninput" placeholder="email or username" required>`;
     const emailInput = `<input type="email" name="email" id="Einput" placeholder="email address" required>`;
-    const password = `<input type="password" name="password" id="Pinput" placeholder="******" required>`;
+    const password = `<input type="password" name="password" id="Pinput" class="Pinput" placeholder="******" required>`;
     const loginbtn = `<button id="logbtn">sign in</button>`;
     const signupbtn = `<button id="signupbtn">signup with email</button>`;
     const submit = `<button id="submit" type="submit">Next</button`;
+    const textArea = `<textarea name="message" id="textAr" cols="20" rows="10">write message</textarea>`
     const close = icons.XMARK
     const back = icons.ARROWLEFT
 
@@ -52,17 +56,20 @@ async function popUp(type, reload = false) {
                 `
                 document.title = "Downzilla Sign-In"
                 logLis()
+
                 setTimeout(() => {
                     forgot()
                 }, 1000);
             break
         case 'TandC': 
-            popuper.innerHTML = loader("loading terms and condition...")
-            pupUp = await TandCs()
+            pupUp = `<div id="tacdiv"> ${loader("loading terms and condition...")}</div>`
+            setTimeout(() => {
+                clearneeded(true, true)
+            }, 1000);
         break
         case 'forgotpassword':
-            shouldOpen()
-            pupUp = `<div>
+            // shouldOpen()
+            pupUp = `<div id="passc">
                             <div id="didf"><h3>Forgot Password?</h3></div>
                             <form>
                                 <div id="femailput">
@@ -73,11 +80,11 @@ async function popUp(type, reload = false) {
                             </form>
                         </div>`;
             setTimeout(() => {
-                clearneeded(false, true)
+                clearneeded(true, false)
             }, 1000);
         break
         case 'forgotpassowrdReset':
-            shouldOpen()
+            // shouldOpen()
             pupUp = `<div id="forgot">
                         <div id="forgotv"><b>Reset password</b></div>
                         <div id="forgotdis">
@@ -88,6 +95,7 @@ async function popUp(type, reload = false) {
                                 </div>
                                 <div>
                                     <i>comfirm new password</i>
+                                    ${password}
                                 </div>
                                 ${submit}
                             </form>
@@ -98,7 +106,6 @@ async function popUp(type, reload = false) {
             }, 1000);
         break
         case 'playlist':
-            console.log("playlist")
             pupUp = loader("loading playlist...");
             pupUp = `
                 <div class="playdiv">
@@ -109,6 +116,49 @@ async function popUp(type, reload = false) {
             setTimeout(() => {
                 clearneeded(true, true)
             }, 1000);
+        break
+        case 'feedinfo': 
+            pupUp = `
+                <div id="warnCon" style="text-align: center;">
+                    <h3 style="font-size: 2em;">Disclamer</h3>
+                    <p style="font-size: 11px;">the downzilla content sharing option functions as a tool to connect users to content from different platforms
+                     to download and is <b>NOT</b> a substitute for the original media source. Shared content here can also be removed
+                      or become unaccessable at anytime, becouse we have no control for the content availability on the original source.</p>
+                </div>
+            `
+            setTimeout(() => {
+                clearneeded(true, true)
+            }, 1000);
+        break
+        case 'askshare':
+            pupUp = `
+                <div style="align-items: center;">
+                    <h4>Would you like to share this content to other users on downzilla?<h4>
+                    <button id="upbtn" class="upbtn">yea sure</button>
+                </div>
+            `
+            setTimeout(() => {
+                clearneeded(true, false)
+                document.getElementsByClassName("upbtn")[0].addEventListener("click", () => {
+                    alert("thanks for sharing")
+                    closeFunction()
+                    saveUploadData()
+                })
+            }, 1000);
+        break
+        case "feedback":
+            pupUp = `
+                    <div id="feedbackdiv">
+                        <form id="feedbackform">
+                            <h3>write feedback message</h3>
+                            ${textArea}
+                            ${submit}
+                        </form>
+                    </div>
+                `
+                setTimeout(() => {
+                    clearneeded(true, false)
+                }, 1000);
         break
         default:
             shouldOpen()
@@ -151,6 +201,7 @@ async function popUp(type, reload = false) {
         }
     }
     iconCheck()
+    tc()
 }
 
 function shouldOpen() {
@@ -219,19 +270,6 @@ function uiLoader(load, stop, text = "please wait...", timer = null) {
 
 }
 
-// function logedInUser() {
-//     const user = userData.names
-
-//     const display = `
-//         <div>
-//             <h1>Welcome <em>${user}</em></h1>
-//             <h3>you are logged in</h3>
-//         </div>
-//     `;
-
-//     return display
-// }
-
 function closenotify() {
     const btn = document.getElementById("closenotify")
     btn.addEventListener("click", ()=> {
@@ -244,7 +282,19 @@ function forgot() {
     document.getElementById('forgot').addEventListener('click', () => {
         history.replaceState(null, null, "")
         history.pushState(null, null, location.pathname + "/forgotpassword")
-        popUp('forgotpassword')
+        resetPassword()
+    })
+}
+
+function tc() {
+    document.getElementById('TaC')?.addEventListener('click', (e) => {
+        popUp("TandC")
+        e.preventDefault()
+        history.replaceState(null, null, "")
+        history.pushState(null, null, location.pathname + "/TandC")
+        // comfirmPage()
+        returnBack()
+        TandCc()
     })
 }
 

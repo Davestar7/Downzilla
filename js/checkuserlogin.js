@@ -8,7 +8,6 @@ function islogedIn(comfirm) {
     } else {
         bollval = bollval
     }
-    console.log(`is loged in ${bollval}`)
     return bollval
 }
 

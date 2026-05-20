@@ -42,11 +42,16 @@ function inputCon() {
     alet.innerHTML = ""
     if (inputData === "") {
         const ret = `<ol id="steps">
-                        <li>copy url link of video from site</li>
-                        <li>paste in option above</li>
-                        <li>click on search</li>
-                        <li>if url is valid download details wil display</li>
-                    </ol>`;
+                            <li>copy url link of video or playlist from site</li>
+                            <li>paste in available input option above</li>
+                            <li>select the accurate option for the url, if link is for single video select <em>"mp4"</em> if for playlist select <em>"playlist"</em> if you want to get only audio from video link select <em>"mp3"</em> <br> - <em>the mp3 option -audio download option- works only with video links only, playlist links are not directly supported </em></li>
+                            <li>Next - click on search</li>
+                            <li>Be patient while it loads, it might take up to few seconds</li>
+                            <li>if url is valid download details wil display <em>--you can watch the streamed video directly</em></li>
+                            <li>select a good video format <em>-qualify-</em> download <em>--recomended format choose between 144p to 480p unless you need a higher quality in HD then select a higher format</em></li>
+                            <li>if it a playlist first select a video among the list, you'll get that video data then select a format</li>
+                            <li>then click on download <em>--wait a little for the procces to finish please at this point don't refresh the page</em></li>
+                        </ol>`;
         document.getElementById("resultdis").innerHTML = ret;
         return
     }
@@ -153,8 +158,7 @@ async function cancelListerner(id) {
         btn.innerHTML = "canceling...",
         btnId.classList.remove("cancelbtn")
         btnId.style.background = "white"
-        console.log("cancel id: " + id)
-
+        
         const can = await fetch(routes.cancelQuery, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -175,12 +179,12 @@ async function cancelListerner(id) {
     }, { once: true })  
 }
 
-async function getFormat(url, source) {
+async function getFormat(id, source, url) {
     try {
         const qformat = await fetch(routes.getDData, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({url: url}),
+            body: JSON.stringify({id: id}),
             credentials: "include"
         })
 
@@ -190,45 +194,54 @@ async function getFormat(url, source) {
             playlistPopup(resp, url)
         }
     } catch (e) {
-        console.log(`error: `+ e)
+        
         alert(e.message, 8000)
         closeFunction()
     }
 }
 
-async function beginQuery(url, use, path = null) {
-    if (path === null) {
+async function beginQuery(url, use, path = null, ifpop=false) {
+    if (!path) {
         document.getElementById("resultdis").innerHTML = loader("querying please wait...")
     } else {
         path.innerHTML = loader("querying please wait...")
     }
-    console.log(`type: ${use}`)
+
+    let type = use
+    if (ifpop === true) {
+        type = "video"
+    }
+    
     const q = await fetch(routes.startQuery, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         credentials: "include",
-        body: JSON.stringify({url: url, type: use})
+        body: JSON.stringify({url: url, type: type})
     })
     const r = await q.json()
     const id = r.data
-    console.log(`gotten query id: ${id}`)
-
-    if (use === "video") {
-        getVideoData(id, false)
-    } else if (use === "audio") {
-        getVideoData(id, true)
-    } else if (use === "playlist") {
-        getPlayList(id)
+   
+    if (ifpop === true) {
+        if (use === "popplaylist") {
+            getFormat(id, "playlist", url)   
+        }
+    } else {
+        if (use === "video") {
+            getVideoData(id, false)
+        } else if (use === "audio") {
+            getVideoData(id, true)
+        } else if (use === "playlist") {
+            getPlayList(id)
+        }
     }
 }
 
 async function getVideoData(id, mptrue = false) {
     isConnected()
     document.getElementById("resultdis").innerHTML = queryLoadable("loading data please wait...")
-    let inputData = id
-    console.log(`id: ${inputData}`)
+    
     cancelListerner(id)
-    if (inputData === "") {
+    if (id === "") {
         alert("url not found", 7000)
         return
     }
@@ -238,17 +251,18 @@ async function getVideoData(id, mptrue = false) {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             credentials: "include",
-            body: JSON.stringify({id: inputData, ifTime: "notnull"})
+            body: JSON.stringify({id: id, ifTime: "notnull"})
         })
         const datas = await data.json()
         const jsonData = await datas
-        console.log(jsonData)
+        
         videodis(jsonData, mptrue)
         const searchbtn = document.getElementById("searchvid")
         searchbtn.classList.add("searchvid")
         searchbtn.innerHTML = icons.SEARCHICON
+        localStorage.removeItem("DZDP")
     } catch (e) {
-        console.log(e)
+        
         alert("check internet connection", 2000)
         isConnected()
         const searchbtn = document.getElementById("searchvid")
@@ -279,8 +293,8 @@ async function getPlayList(id) {
         const searchbtn = document.getElementById("searchvid")
         searchbtn.classList.add("searchvid")
         searchbtn.innerHTML = icons.SEARCHICON
+        localStorage.removeItem("DZDP")
     } catch (e) {
-        console.log(e)
         alert("check internet connection", 2000)
         const searchbtn = document.getElementById("searchvid")
         searchbtn.classList.add("searchvid")
@@ -288,7 +302,7 @@ async function getPlayList(id) {
     }
 }
 
-async function downloadVideo(outurl, title, start, end, format, from = null, headers) {
+async function downloadVideo(outurl, title, start, end, format, from = null, headers, selected = null) {
     isConnected()
     let btn = document.getElementsByClassName("clicked")[0]
 
@@ -296,21 +310,17 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         btn = document.getElementsByClassName("dnbtn")[0]
     }
     btn.innerHTML = `<i>awaiting download...</i>`
-    uiLoader(true, false, "downloading......")
-    
-    const FSelect = document.getElementById("forSel")
+    if (!selected) {
+        uiLoader(true, false, "downloading......")
+    }
+    const FSelect = document.getElementById("forSel") || selected
     const url = outurl
     const select = FSelect.value;
     const height = FSelect.options[FSelect.selectedIndex].innerText
     const rawHeight = FSelect.options[FSelect.selectedIndex].dataset.height
-    console.log(`raw height ${rawHeight}`)
 
     const perferedFormats = formatPasser.selectedFormats || format
-    console.log(`format to be sent: ${perferedFormats[0]}`)
-
-    console.log(`height: ${select}`)
-    console.log(start, "-to-", end)
-
+    
     let audioF;
     let audio_id
     format.forEach(e => {
@@ -320,7 +330,6 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         }
     });
 
-    console.log(`format and audio id: ${audio_id}+${select}`)
     
     try {
         await fetch(routes.beginD, {
@@ -377,7 +386,6 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
             localStorage.removeItem("DZDP")
         })
     } catch (e) {
-        console.log("cought error: ",e)
         alert("error occured: check internet connection", 4000)
         if (from === "frommp4" || from === null) {
             btn.classList.add("dnbtn")
@@ -403,9 +411,9 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 // }
 
 async function downloadmp(url, title, from, format_id, ext, format, des, su, header) {
-    console.log("about to fetch")
+    
     uiLoader(true, false, "downloading...")
-    console.log(header)
+    
     const preferedAformat = formatPasser.selectedFormats
     let element;
     try {
@@ -414,12 +422,11 @@ async function downloadmp(url, title, from, format_id, ext, format, des, su, hea
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({url: url, title: title, format_id: format_id, ext: ext, formats: preferedAformat, headers: header})
         })
-        console.log("done fetching")
-
+        
         if (!res.ok) {
-            const resp = await res.text()
-            console.log(resp)
-            alert(`download failed: ${resp}`)
+            const resp = await res.json()
+            
+            alert(`download failed: ${resp.message}`)
             if (from === "basic") {
                 element = document.getElementById("dnbtn")
                 element.classList.remove("clicked")
@@ -529,4 +536,4 @@ async function downloadmp(url, title, from, format_id, ext, format, des, su, hea
 //     }
 // }
 
-export {callsearch, downloadVideo, loadParam, getFormat, downloadmp, queryLoadable, cancelListerner }
+export {callsearch, downloadVideo, loadParam, getFormat, downloadmp, queryLoadable, cancelListerner, beginQuery }

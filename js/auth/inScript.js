@@ -16,7 +16,7 @@ async function handleCredentialResponse(response) {
            })
            const datas = googleAuth;
            const data = await datas.json()
-           console.log(data)
+           
            if (data.success === true) {
                 const accessToken = data.accessT
                 localStorage.setItem("DZAT", accessToken)

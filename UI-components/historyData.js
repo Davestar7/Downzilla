@@ -2,15 +2,14 @@ import { userData } from "../js/auth/afterauth.js";
 import { icons, loader, routes } from "./env/env.js";
 import header from "./header.js";
 import { queryLoadable, cancelListerner } from "../js/operation/download.js";
-import { historyRender } from "../js/operation/downloadDis.js";
+import { historyRender, share } from "../js/operation/downloadDis.js";
 import { alert, popUp } from "./popup.js";
 import { backFunction } from "../js/checkcondition.js";
 import { islogedIn } from "../js/checkuserlogin.js";
 import { changePath } from "../js/createPage.js";
-import { uploadContent } from "../js/interact/history.js";
 
-function main() {
-    console.log("history page called")
+function main(userid = null, contentid = null) {
+    document.title = "user Activity"
     let page = document.getElementById("contentPage")
     const head = header()
 
@@ -29,26 +28,37 @@ function main() {
                         </section>
                         `
     page.innerHTML = structure
-    updateUiData()
+    updateUiData(userid, contentid)
 
     document.getElementById("backbtnU").addEventListener("click", backFunction, { once: true })
 }
 
-async function updateUiData() {
+async function updateUiData(userid, contentid) {
     if (islogedIn() === undefined) {
         setTimeout(() => {
             updateUiData()
         }, 3000);
     } else if (islogedIn() === false) {
         alert("You are not Logged in", 8000)
-        document.getElementById("hisConP").innerHTML = "this Artivity is not found \n Not logged-in!"
-        popUp()
+        document.getElementById("hisConP").innerHTML = "This Artivity can not be accessed by you \n Not logged-in!"
+        setTimeout(() => {
+            popUp()
+        }, 1000);
     } else if (islogedIn() === true) {
         const link = document.location.pathname
         const idlink = link.split("/")
-        const id = idlink[idlink.length-1]
-        const userId = userData.userId
-        historyPageAsideUi(userId)
+        let id
+        let userId
+        if (userid !== null && contentid !== null) {
+            id = contentid;
+            userId = userid
+            alert("this content is privatly shared")
+        } else {
+            id = idlink[idlink.length-1]
+            userId = userData.userId
+        }
+
+        historyPageAsideUi(userData.userId)
         
         const history = await fetch(routes.getSingleHistory, {
             method: "POST",
@@ -57,7 +67,7 @@ async function updateUiData() {
             body: JSON.stringify({Hid: id, id: userId})
         })
         const datas = await history.json()
-        console.log(datas)
+        
         if (datas.success != true) {
             alert("failed to get Data", 3000)
             document.getElementById("hisConP").innerHTML = `failed!!! \n ${datas.message}`
@@ -66,8 +76,9 @@ async function updateUiData() {
         const url = datas.data.url
         const isPublic = datas.data.isPublic
         const type = datas.data.type
-        console.log(`is this history public? ${isPublic}`)
-
+        const tit = datas.data.title
+        document.title = `user - ${tit}`
+        
         const addToMappable = await fetch(routes.startQuery, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -89,21 +100,30 @@ async function updateUiData() {
         load.innerHTML = queryLoadable("getting Data...")
         const ids = idData.data
         cancelListerner(ids)
-        updateData(ids, isPublic, type)
+        updateData(ids, isPublic, type, id)
     }
 }
 
-async function updateData(id, isPublic, type) {
-    console.log(`query id ${id} and type is ${type}`)
-
-    const res = await fetch(routes.getDData, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        credentials: "include",
-        body: JSON.stringify({id: id})
-    })
-    const data = await res.json()
-    console.log(data) 
+async function updateData(id, isPublic, type, cid) {
+    let data;
+    if (type === "video") {
+        const res = await fetch(routes.getDData, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            credentials: "include",
+            body: JSON.stringify({id: id})
+        })
+        data = await res.json()
+    } else if (type === "playlist") {
+        const res = await fetch(routes.beginPlaylist, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            credentials: "include",
+            body: JSON.stringify({id: id})
+        })
+        data = await res.json()
+    }
+    
     if (data.success !== true) {
         alert("something went wong get Data", 5000)
         document.getElementById("hisConP").innerHTML = `failed!!! \n ${data.message}`
@@ -111,10 +131,14 @@ async function updateData(id, isPublic, type) {
     }
 
     historyRender(data, isPublic, type)
+    document.getElementById("sharefeed").addEventListener("click", () => {
+            share("private", {one: userData.userId, two, cid}, data.data.title)
+        })
 }
 
 async function historyPageAsideUi(id) {
     const side = document.getElementById("allV")
+    
     side.innerHTML = loader("fetching...")
     const res = await fetch(routes.getHistory, {
         method: "POST",
@@ -132,7 +156,7 @@ async function historyPageAsideUi(id) {
     let t;
     side.innerHTML = ""
     list.forEach(e => {
-        console.log(e)
+        
         const title = e.title;
         t = title
         const discription = e.description || ""
@@ -143,9 +167,8 @@ async function historyPageAsideUi(id) {
         const uri = e.url
         const star = e.stars
         let newDiscrp = "";
-        const maxLen = 88
-        console.log(`text lenght for list: ${discription.length}`)
-
+        const maxLen = 187
+        
         if (discription.length < maxLen) {
             newDiscrp = discription
         } else if (discription.length >= maxLen) {
@@ -189,15 +212,11 @@ async function historyPageAsideUi(id) {
     })
 
     const classPoint = document.querySelectorAll(".sidelisti")
-
-    console.log(classPoint.length)
     
     classPoint.forEach(eh => {
         eh.addEventListener("click", (e) => {
             // const clicked = e.currentTarget
             const pointer = e.currentTarget.dataset.newhistory
-            console.log(`clicked id ${pointer}`)
-            
             changePath(pointer, t)
         }, { once: true })
     })

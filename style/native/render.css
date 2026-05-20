@@ -1,8 +1,8 @@
 
 #render {
     display: grid;
-    grid-template-rows: 21vh auto;
-    margin-top: -10vh;
+    grid-template-rows: 24vh auto;
+    margin-top: -9vh;
 }
 
 #fcon {
@@ -14,6 +14,7 @@
 }
 
 #topr {
+    padding-top: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,20 +22,20 @@
 }
 
 #intof {
-    font-size: 3em;
+    font-size: 1.5rem;
     font-weight: 700;
     text-transform: capitalize;
     color: rgb(1, 43, 1);
 }
 
 #sercCon {
-    margin-top: 1em;
+    margin-top: 0.5rem;
+    width: 50%;
     display: grid;
     grid-template-columns: 90% 10%;
     border-radius: 7px;
     border: 2px green solid;
-    width: 50%;
-    height: 3.5em;
+    height: 3em;
     background-color: white;
     color: black;
     font-weight: 700;
@@ -63,19 +64,19 @@
 }
 
 #failed {
-    font-size: 20px;
+    font-size: 15px;
     text-transform: lowercase;
     font-weight: 500;
 }
 
 #retry {
-    padding: 8px;
+    padding: 6px;
     border: 1px solid black;
     background-color: transparent;
     border-radius: 3px;
     cursor: pointer;
     font-weight: 500;
-    width: 8%;
+    width: 7%;
 }
 
 #renderContCon {
@@ -83,10 +84,10 @@
     width: 100%;
     display: grid;
     grid-template-rows: 83% 17%;
-    background-color: rgba(199, 241, 199, 0.315);
-    border-radius: 10px;
+    background-color: rgba(244, 253, 244, 0.315);
+    border-radius: 2px;
     /* border: 1px solid rgb(45, 153, 45); */
-    box-shadow: 1px 1px 10px;
+    box-shadow: 1px 1px 5px;
     margin-bottom: 2em;
     z-index: 100;
 }
@@ -122,12 +123,13 @@
 }
 
 #renderContCon div h3 {
-    font-size: 1.5em;
-    font-weight: 999;
+    font-size: 1em;
+    font-weight: 887;
     /* text-transform: uppercase; */
 }
 
 #renderContCon div span {
+    font-size: 0.8em;
     color: rgb(87, 85, 85);
 }
 
@@ -146,7 +148,12 @@
     padding-right: 2em;
 }
 
+#starBtn {
+    cursor: pointer;
+}
+
 .starBtn {
+    cursor: pointer;
     width: 8em;
     border: 1px solid rgb(42, 90, 42);
     text-align: center;
@@ -160,6 +167,7 @@
 }
 
 #detbtn {
+    cursor: pointer;
     width: 8em;
     border: 1px solid rgb(42, 90, 42);
     text-align: center;
@@ -179,6 +187,7 @@
 }
 
 #pagenav li {
+    cursor: pointer;
     color: blue;
     text-decoration: underline;
     cursor: pointer;
@@ -219,9 +228,296 @@
     background-color: rgb(139, 214, 139);
     border: 2px solid green;
     font-weight: 700;
-    color: black;
+    color: gold;
     width: 10%;
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 1px 1px 10px;
+}
+
+#sharefeed, #origin {
+    height: 2em;
+    border: 1px soild green;
+    color: green;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    #render {
+        display: grid;
+        grid-template-rows: 20vh auto;
+        margin-top: -3vh;
+    }
+
+    #retry {
+        width: 16%;
+    }
+
+    #Hhead {
+        width: 100%;
+    }
+
+    #hps {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        overflow-x: hidden;
+        height: auto;
+    }
+
+    #historyPage {
+        width: 100vw;
+        min-height: 70vh;
+        overflow-x: hidden;
+    }
+
+    #hisConP {
+        padding-top: 2em;
+    }
+
+    #resultC, #playmain {
+        width: 100%;   
+    }
+
+    #vimg {
+        width: 100vw !important;
+    }
+
+    #resDetail {
+        margin-top: -2em;
+        margin-bottom: -3em;
+    }
+
+    hr {
+        display: none;
+    }
+
+    #listv {
+        align-self: center;
+        background-color: transparent;
+        min-width: 95vw !important;
+        border: none;
+    }
+
+    #plistdc {
+        font-size: 1em;
+    }
+
+    #plistdc h3 {
+        font-size: 1em;
+        display: inline-block;
+        width: 97%;
+        height: fit-content;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #playdc h4 {
+        font-size: 1em;
+        display: inline-block;
+        width: 97%;
+        height: fit-content;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #btnss button {
+        border: 2px solid rgb(162, 243, 162);
+    }
+
+    #allV {
+        margin-top: -5em;
+        margin-bottom: 9vh;
+        min-height: 40vh;
+        width: 98vw;
+        align-self: center;
+        overflow-y: visible;
+        overflow-x: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #allV::before {
+        content: "Recents";
+    }
+
+    #sidePan {
+        height: 17vw;
+        font-size: 1em;
+    }
+
+    .sidelisti {
+        display: grid;
+        grid-template-columns: 40% 70%;
+    }
+}
+
+@media (max-width: 800px) {
+    #forSel {
+        align-self: center;
+        width: 95% !important;
+    }
+    
+    #playB button {
+        width: 95% !important;
+        border: 1px solid;
+    }
+}
+
+@media (max-width: 750px) {
+    #renderContCon {
+        width: 97vw;
+        align-self: center;
+        height: 30vh;
+        display: grid;
+        grid-template-rows: 85% 15%;
+        box-shadow: 1px 1px 1px gray;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    #renderRT {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    #renderRT div {
+        display: block;
+    }
+
+    #rimg {
+        height: 63%;
+        width: 100%;
+    }
+
+    #rimg img {
+        object-fit: fill;
+        object-position: 100%;
+        image-rendering: auto;
+    }
+
+    #renderdis {
+        height: 37%;
+        width: 100%;
+    }
+
+    #renderContCon div h3 {
+        font-size: 1em;
+    }
+
+    #renderContCon div span {
+        font-size: x-small;
+        display: inline-block;
+        width: 97%;
+        height: fit-content;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    #publ {
+        padding: 0;
+        margin-top: -0.5rem;
+    }
+
+    #starBtn {
+        width: 8em !important;
+        padding: 0;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+    }
+
+    #sidePan {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 610px) {
+
+    #render {
+        margin-top: -1vh;
+    }
+
+    #sercCon {
+        width: 70%;
+        display: grid;
+        grid-template-columns: 85% 15%;
+    }
+
+    #Hhead {
+        margin-top: 2em;
+    }
+
+    #sidePan {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 550px) {
+    #plistdc {
+        font-size: 15px;
+    }
+
+    #hd {
+        width: 94%;
+        word-wrap: break-word;
+    }
+
+    .vlistp {
+        display: grid;
+        grid-template-columns: 35% 45% 20%;
+    }
+
+    #listv {
+        height: 10vh !important;
+    }
+
+    #listcimg, #plistdc, #downplbtn {
+        height: max-content !important;
+    }
+}
+
+@media (max-width: 450px) {
+    #render {
+        margin-top: 5vh;
+    }
+
+    #sidePan {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 360px) {
+    #render {
+        margin-top: 8vh;
+    }
+
+    #renderContCon {
+        height: 27vh;
+        width: 96vw;
+    }
+
+    #rimg img {
+        object-fit: fill;
+        object-position: 95%;
+        image-rendering: auto;
+    }
+
+    #renderContCon div h3 {
+        font-size: 15px;
+    }
+
+    #publ {
+        font-size: 12px;
+    }
 }
