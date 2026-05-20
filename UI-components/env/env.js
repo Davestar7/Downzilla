@@ -53,7 +53,7 @@ const catches = {
     error: `<h2>something went wong<h2>`
 }
 
-const domain = "http://localhost:7000"
+const domain = "https://downzilla-backend.onrender.com"
 const stream_domain = "http://localhost:7700/V1"
 
 const routes = {
