@@ -40,6 +40,7 @@ async function videodis(jsons = null, ismp) {
 
     if (details?.entries !== undefined || details?.entries?.length >= 0) {
         playListdis(jsons)
+        return
     }
 
     const title = details?.title
@@ -181,6 +182,7 @@ function playListdis(jsons = null) {
 
     if (downloadable?.entries === undefined || downloadable?.entries.length === 0) {
         videodis(jsons)
+        return
     }
     const thumbs = downloadable?.thumbnails
     let thumbnail = thumbs[thumbs.length - 1]
