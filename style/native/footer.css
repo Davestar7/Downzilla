@@ -133,9 +133,6 @@ footer {
         font-size: 1.5em;
     }
 
-    #head {
-       height: 7vh !important;
-    }
 
     #userhead {
         font-size: 0.8em;
@@ -151,6 +148,7 @@ footer {
     }
 
     #head {
+        height: 7vh !important;
         min-width: 100vw;
         overflow-x: hidden;
         
