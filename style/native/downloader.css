@@ -110,6 +110,10 @@ section {
     color: gray;
 }
 
+#result ol li {
+   margin-top: 0.5em;
+}
+
 #resultC {
     display: grid;
     gap: 2em;
