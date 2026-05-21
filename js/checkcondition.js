@@ -7,8 +7,8 @@ import {main as renderContent} from "../UI-components/contentFromFeed.js"
 import {main as setting} from "../UI-components/setting.js"
 import sharedUser from "./interact/privateSharedData.js"
 
-comfirmPage()
 let passloc = window.location
+comfirmPage()
 
 function Url() {
     const host = window.location.pathname
