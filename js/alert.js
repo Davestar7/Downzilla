@@ -28,12 +28,11 @@ function secondCondition() {
     if (logeds === false) {
         popUp()
         listiners()
-        TandCc()
     } else if (logeds === undefined) {
         settimeout(() => {
            secondCondition()
-        }, 1500)
-    }else {
+        }, 2000)
+    }else if (logeds === true) {
         closeFunction()
     }
 }
