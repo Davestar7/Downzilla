@@ -134,7 +134,9 @@
 }
 
 #tacdiv {
+    max-height: 60vh;
     position: relative;
+    padding-bottom: 1em;
 }
 
 #tclist {
