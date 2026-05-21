@@ -85,8 +85,11 @@ function InActivity() {
 function otherActivity() {
     const dataj = [
         {
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam nulla aspernatur labore voluptate quia, aut ipsa qui beatae voluptatum, eveniet placeat, id inventore praesentium ex ullam magnam non. Provident, minima."
+          text: "Downzilla is a fast and modern online video downloader that lets users download, stream, and share videos from supported platforms with ease. Designed for speed, reliability, and smooth playback, Downzilla supports high-quality video downloads, audio extraction, subtitle support, and shareable video links across devices."
         },
+       {
+          text: "With a clean interface and optimized performance, Downzilla helps users save and access online media quickly without complicated steps. Whether you want to download videos for offline viewing, generate shareable links, or stream content directly, Downzilla delivers a simple and efficient media experience."
+       }
     ]
 
     const innerxml = document.createElement("template")
