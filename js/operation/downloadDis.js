@@ -1,5 +1,5 @@
 import {downloadVideo, downloadmp, beginQuery } from "./download.js"
-import {updateSelectableFormat, updateDiscription, formatPasser, streamVideoFunction} from "./streamvideo.js"
+import {updateSelectableFormat, updateDiscription, formatPasser, streamVideoFunction, generateThumbnailContainer} from "./streamvideo.js"
 import { domain } from "../../UI-components/env/env.js"
 import { alert as alerts, popUp } from "../../UI-components/popup.js"
 import { closeFunction } from "../alert.js"
@@ -144,9 +144,12 @@ async function videodis(jsons = null, ismp) {
         uploadm.innerHTML = `<i>uploading...</i>`
         uploadContent(title, thumbnail, discrip, urls, source, "video", uploadm)
     })
-
-    streamVideoFunction(formatPasser.selectedFormats, urls, title, http_headers, thumbnail)
+       generateThumbnailContainer("#img-vid", thumbnail)
+       document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
+           streamVideoFunction(formatPasser.selectedFormats, urls, title, http_headers, thumbnail)
+      })
     uploadHistory(title, discrip, urls, source, "video", thumbnail)
+
     saveUploadData({ a: title, b: thumbnail, c: discrip, d: urls, e: source, f: "video", g: document?.getElementById("upbtn") }, true)
 }
 
@@ -569,7 +572,12 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
                     uploadm.innerHTML = `<i>uploading...</i>`
                     uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
                 })
-                streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
+               
+                    generateThumbnailContainer("#img-vid", thumbnail)
+document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
+           streamVideoFunction(formatPasser.selectedFormats, urls, title, http_headers, thumbnail)
+      })
+ 
             } catch (e) {
                 console.log(e)
                 alerts("something seems wong", 3000)
@@ -736,7 +744,11 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
                     uploadm.innerHTML = `<i>uploading...</i>`
                     uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
                 })
-                streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
+               
+                   generateThumbnailContainer("#img-vid", thumbnail)
+                    document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
+           streamVideoFunction(formatPasser.selectedFormats, urls, title, http_headers, thumbnail)
+      })
             } catch (e) {
                 alerts("something seems wong", 3000)
                 // historyRender(DData, isPublic, "playlist", element)
