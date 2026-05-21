@@ -528,7 +528,6 @@ section {
     #result ol {
        list-style-type: circle;
        color: gray;
-       line-height: 0.3em;
     }
 }
 
@@ -551,6 +550,5 @@ section {
     #result ol {
        list-style-type: circle;
        color: gray;
-       line-height: 0.4em;
     }
 }
