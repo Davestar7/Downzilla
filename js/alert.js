@@ -30,7 +30,9 @@ function secondCondition() {
         listiners()
         TandCc()
     } else if (logeds === undefined) {
-        secondCondition()
+        settimeout(() => {
+           secondCondition()
+        }, 1500)
     }else {
         closeFunction()
     }
