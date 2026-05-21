@@ -25,11 +25,13 @@ ifAuthententicated()
 function secondCondition() {
     const logeds = islogedIn()
     isConnected()
-    if (logeds == false) {
+    if (logeds === false) {
         popUp()
         listiners()
         TandCc()
-    } else {
+    } else if (logeds === undefined) {
+        secondCondition()
+    }else {
         closeFunction()
     }
 }
@@ -83,13 +85,13 @@ function close(load) {
 }
 
 function closeFunction(reload) {
-    let pathn = location.pathname
-        let path = pathn.split('/')
-        let remove = path.length;
-        if (path.length == 3) {
+    let pathn = window.location.pathname
+    let path = pathn.split('/')
+    let remove = path.length;
+    if (path.length == 3) {
             document.getElementById('popup').style.display = "none";
-        } else if (path.length > 3) {
-            if (!path.includes("auth")) {
+     } else if (path.length > 3) {
+          if (!path.includes("auth")) {
                 document.getElementById('popup').style.display = "none";
                 return
             }
