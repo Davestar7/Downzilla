@@ -12,7 +12,9 @@ function main() {
       return
     } else if (islogedIn() === undefined) {
       document.title = "info"
-      main()
+      setTimeout(() => {
+        main()
+      }, 1200)
       return
     }
     document.title = `${userData.username} - info`
