@@ -54,7 +54,7 @@ const catches = {
 }
 
 const domain = "https://downzilla-backend.onrender.com"
-const stream_domain = "http://localhost:7700/V1"
+const stream_domain = "downzilla-stream-production.up.railway.app/V1"
 
 const routes = {
     connected: domain + '/extra/connect',
