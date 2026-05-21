@@ -208,4 +208,99 @@ function updateDiscription(dis = "", ele) {
     }
 }
 
-export {updateSelectableFormat, formatPasser, updateDiscription, streamVideoFunction}
+function generateThumbnailContainer(containerPath, thumbnailUrl) {
+ 
+  const target = document.querySelector(containerPath);
+
+  if (!target) {
+    
+    return;
+  }
+
+  
+  const html = `
+    <div class="gc-card" style="
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      background-image: url('${CSS.escape ? thumbnailUrl : thumbnailUrl}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 24px;
+      box-sizing: border-box;
+    ">
+
+      <div style="
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent 40%,
+          rgba(0, 0, 0, 0.55) 100%
+        );
+        pointer-events: none;
+      "></div>
+
+      <button
+        class="gc-watch-btn"
+        style="
+          position: relative;
+          z-index: 1;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 28px;
+          border: 2px solid #00c853;
+          border-radius: 50px;
+          background: rgba(255, 255, 255, 0.12);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          color: #ffffff;
+          font-family: 'Segoe UI', system-ui, sans-serif;
+          font-size: 15px;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          cursor: pointer;
+          transition:
+            background 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.15s ease,
+            box-shadow 0.2s ease;
+          box-shadow: 0 0 18px rgba(0, 200, 83, 0.35);
+          white-space: nowrap;
+        "
+        onmouseover="
+          this.style.background='rgba(0,200,83,0.22)';
+          this.style.boxShadow='0 0 28px rgba(0,200,83,0.6)';
+          this.style.transform='scale(1.04)';
+        "
+        onmouseout="
+          this.style.background='rgba(255,255,255,0.12)';
+          this.style.boxShadow='0 0 18px rgba(0,200,83,0.35)';
+          this.style.transform='scale(1)';
+        "
+      >
+        <svg
+          width="16" height="16" viewBox="0 0 24 24"
+          fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+          style="flex-shrink:0;"
+        >
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        Watch
+      </button>
+
+    </div>
+  `;
+
+  target.innerHTML = html;
+}
+
+export {updateSelectableFormat, formatPasser, updateDiscription, streamVideoFunction, generateThumbnailContainer}
