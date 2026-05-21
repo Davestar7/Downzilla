@@ -62,7 +62,7 @@ function loadOnUrl(pathname) {
         case 'signup': 
             popUp('signup', ifReload)
         break
-        case 'tandc': 
+        case 'TandC': 
             popUp('TandC', ifReload)
         break
         case 'forgotpassword':
