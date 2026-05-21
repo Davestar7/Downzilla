@@ -524,6 +524,12 @@ section {
     #mpbtn {
         margin-top: 0;
     }
+
+    #result ol {
+       list-style-type: circle;
+       color: gray;
+       line-height: 0.3em;
+    }
 }
 
 @media (max-width: 564px) {
@@ -540,5 +546,11 @@ section {
 @media (max-width: 400px) {
     #stext {
         margin-top: 19%;
+    }
+
+    #result ol {
+       list-style-type: circle;
+       color: gray;
+       line-height: 0.4em;
     }
 }
