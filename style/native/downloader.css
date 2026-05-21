@@ -112,6 +112,11 @@ section {
 
 #result ol li {
    margin-top: 0.5em;
+   text-tansform: capitalize;
+}
+
+#result ol li::before {
+   content: "⭕";
 }
 
 #resultC {
