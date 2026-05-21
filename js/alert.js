@@ -181,7 +181,7 @@ async function TandCc() {
         const tm = document.createElement("li")
         tm.id = "tclistl"
         tm.innerHTML = e
-        document.getElementById("tclist").prepend(tm)
+        document.getElementById("tclist").append(tm)
     })
 }
 
