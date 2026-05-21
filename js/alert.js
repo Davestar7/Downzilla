@@ -29,7 +29,7 @@ function secondCondition() {
         popUp()
         listiners()
     } else if (logeds === undefined) {
-        settimeout(() => {
+        setTimeout(() => {
            secondCondition()
         }, 2000)
     }else if (logeds === true) {
