@@ -249,7 +249,7 @@ function generateThumbnailContainer(containerPath, thumbnailUrl) {
       "></div>
 
       <button
-        class="gc-watch-btn"
+        id="gc-watch-btn"
         style="
           position: relative;
           z-index: 1;
