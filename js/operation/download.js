@@ -27,6 +27,22 @@ function callsearch() {
     }
 }
 
+function normalizeUrl(input) {
+  const parsed = new URL(input);
+
+  const isYoutube =
+    parsed.hostname.includes("youtube.com") ||
+    parsed.hostname.includes("youtu.be");
+
+  if (isYoutube) {
+    parsed.searchParams.delete("si");
+    parsed.searchParams.delete("feature");
+    parsed.searchParams.delete("pp");
+  }
+
+  return parsed.toString();
+}
+
 function inputCon() {
     isConnected()
     let input = document.getElementById('downloadinput')
@@ -55,19 +71,21 @@ function inputCon() {
         document.getElementById("resultdis").innerHTML = ret;
         return
     }
-    condit(inputData)
+    const inputfit = normalizeUrl(inputData)
+    input.value = inputfit
+    condit(inputfit)
     setTimeout(() => {
         if (ur == null) {
-            window.localStorage.setItem("DZDP", inputData)
+            window.localStorage.setItem("DZDP", inputfit)
         } else {
-            if (inputData != ur) {
-                if (inputData != "") {
-                    window.localStorage.setItem("DZDP", inputData)
+            if (inputfit != ur) {
+                if (inputfit != "") {
+                    window.localStorage.setItem("DZDP", inputfit)
                 }
             }
-            inputData = ur
+            inputfit = ur
         }
-        // input.value = inputData;
+        // input.value = inputfit;
     }, 1000);
     
 }
