@@ -350,58 +350,53 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 
     
     try {
-        await fetch(routes.beginD, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: rawHeight, headers: headers}),
-            credentials: "include"
-        }).then(res => {
-            if (!res.ok) {
-                alert("download failed, please try again")
-                btn.innerHTML = "download mp4 video"
-                if (from === "frommp4" || from === null) {
-                    btn.classList.add("dnbtn")
-                    btn.classList.remove("clicked")
-                } else if (from === "fromplay") {
-                    btn.classList.add("dnbtnp")
-                    btn.classList.remove("clicked")
-                }
-                uiLoader(false, true)
-                return
-                // throw new Error("download failed");
-            }
-            return res.blob()
-        }).then(async blob => {
-            const text = await blob.text()
-            if (text.success && text.success === false) {
-                alert(blob.message, 5000)
-                btn.innerHTML = "retry download mp4 video"
-                if (from === "frommp4" || from === null) {
-                    btn.classList.add("dnbtn")
-                    btn.classList.remove("clicked")
-                } else if (from === "fromplay") {
-                    btn.classList.add("dnbtnp")
-                    btn.classList.remove("clicked")
-                }
-                uiLoader(false, true)
-                return
-            }
+        const response = await fetch(routes.beginD, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: rawHeight, headers: headers}),
+      credentials: "include"
+   });
 
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob)
-            link.download = `${title || "video"}-downzilla.mp4`
-            link.click();
-            alert("download should begin", 5000)
-            btn.innerHTML = "download mp4 video"
+        if (!response.ok) {
+           alert("download failed, please try again");
+            btn.innerHTML = "download mp4 video";
             if (from === "frommp4" || from === null) {
-                btn.classList.add("dnbtn")
-                btn.classList.remove("clicked")
-            } else if (from === "fromplay") {
-                btn.classList.add("dnbtnp")
-                btn.classList.remove("clicked")
-            }
-            uiLoader(false, true)
-            localStorage.removeItem("DZDP")
+                btn.classList.add("dnbtn");
+                btn.classList.remove("clicked");
+           } else if (from === "fromplay") {
+                btn.classList.add("dnbtnp");
+                btn.classList.remove("clicked");
+       }
+       uiLoader(false, true);
+       return;
+     }
+
+     const reader = response.body.getReader();
+     const chunks = [];
+
+     while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+     }
+
+      const blob = new Blob(chunks, { type: "video/mp4" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${title || "video"}-downzilla.mp4`;
+      link.click();
+      alert("download should begin", 5000);
+
+      btn.innerHTML = "download mp4 video";
+      if (from === "frommp4" || from === null) {
+          btn.classList.add("dnbtn");
+          btn.classList.remove("clicked");
+          } else if (from === "fromplay") {
+             btn.classList.add("dnbtnp");
+             btn.classList.remove("clicked");
+          }
+           uiLoader(false, true);
+           localStorage.removeItem("DZDP");
         })
     } catch (e) {
         alert("error occured: check internet connection", 4000)
