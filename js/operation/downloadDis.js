@@ -485,6 +485,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
     const format = details?.formats
     const urls = details?.original_url
     const httpHeaders = details?.http_headers //object
+    console.log(details)
 
     const durations = Number(details?.duration)
 
