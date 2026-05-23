@@ -509,7 +509,7 @@ async function downloadmp(url, title, from, format_id, ext, format, des, su, hea
         // Step 2 - Poll every 15 seconds
         const poll = setInterval(async () => {
             try {
-                const result = await fetch(`${routes.confirmAudio}?jobId=${jobId}`, {
+                const result = await fetch(`${routes.comfirmmp}?jobId=${jobId}`, {
                     credentials: "include"
                 }).then(r => r.json());
 
@@ -539,7 +539,7 @@ async function downloadmp(url, title, from, format_id, ext, format, des, su, hea
                     clearInterval(poll);
 
                     const link = document.createElement("a");
-                    link.href = `${routes.serveAudio}?jobId=${jobId}`;
+                    link.href = `${routes.downmp}?jobId=${jobId}`;
                     link.download = `${title}-downzilla.${ext || "mp3"}`;
                     link.click();
 
