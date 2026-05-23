@@ -341,9 +341,13 @@ async function playlistPopup(json, url) {
     window.availableFormats = format || []
     updateSelectableFormat("video")
 
-    AndDownloadFromPlay(title, 0, jsons.duration, format, url, discription, source, headers)
-    listmpdownload(url, title, "play", format, discription, source, headers)
-    streamVideoFunction(formatPasser.selectedFormats, url, title, headers, thumbnail)
+    generateThumbnailContainer("#img-vid", thumbnail)       document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
+           streamVideoFunction(formatPasser.selectedFormats, urls, title, headers, thumbnail)
+      })
+
+    AndDownloadFromPlay(title, 0, jsons.duration, format, urls, discription, source, headers)
+    listmpdownload(urls, title, "play", format, discription, source, headers)
+    
 }
 
 function AndDownload(title, starts, ends, formats, url, headers) {
@@ -485,7 +489,6 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
     const format = details?.formats
     const urls = details?.original_url
     const httpHeaders = details?.http_headers //object
-    console.log(details)
 
     const durations = Number(details?.duration)
 
