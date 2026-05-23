@@ -459,87 +459,108 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 // }
 
 async function downloadmp(url, title, from, format_id, ext, format, des, su, header) {
-    
+
     uiLoader(true, false, "downloading...")
-    
+
     const preferedAformat = formatPasser.selectedFormats
     let element;
+
+    const resetBtn = () => {
+        if (from === "basic") {
+            element = document.getElementById("dnbtn")
+            element.classList.remove("clicked")
+            element.classList.add("dnbtn")
+            element.innerHTML = "Download audio"
+        } else if (from === "play") {
+            element = document.getElementById("dnbtnmic")
+            element.classList.remove("clicked")
+            element.classList.add("mibtn")
+            element.innerHTML = "Download audio"
+        } else if (from === "history") {
+            element = document.getElementsByClassName("mbtn")[0]
+            element.classList.remove("clicked")
+            element.innerHTML = "Download audio"
+        }
+    }
+
     try {
-        const res = await fetch(routes.downloadmp, {
+        // Step 1 - Start download
+        const { success, jobId } = await fetch(routes.downloadmp, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({url: url, title: title, format_id: format_id, ext: ext, formats: preferedAformat, headers: header})
-        })
-        
-        if (!res.ok) {
-            const resp = await res.json()
-            
-            alert(`download failed: ${resp.message}`)
-            if (from === "basic") {
-                element = document.getElementById("dnbtn")
-                element.classList.remove("clicked")
-                element.classList.add("dnbtn")
-                element.innerHTML = "Download audio"
-            } else if (from === "play") {
-                element = document.getElementById("dnbtnmic")
-                element.classList.remove("clicked")
-                element.classList.add("mibtn")
-                element.innerHTML = "Download audio"
-            } else if (from === "history") {
-                element = document.getElementsByClassName("mbtn")[0]
-                element.classList.remove("clicked")
-                // element.classList.add("mbtn")
-                element.innerHTML = "Download audio"
-            }
-            uiLoader(false, true)
-            return
+            body: JSON.stringify({url, title, format_id, ext, formats: preferedAformat, headers: header})
+        }).then(r => r.json());
+
+        if (!success || !jobId) {
+            alert("download failed, please try again");
+            resetBtn();
+            uiLoader(false, true);
+            return;
         }
 
-        const blob = await res.blob()
-        const link = document.createElement("a")
-        link.href = URL.createObjectURL(blob)
-        link.download = `${title}-downzilla.${ext || "mp3"}`
-        link.click()
-        URL.revokeObjectURL(link.href)
         if (from === "basic") {
-            element = document.getElementById("dnbtn")
-            element.classList.remove("clicked")
-            element.classList.add("dnbtn")
-            alert("download should begin", 3000)
-            element.innerHTML = "Download audio"
+            document.getElementById("dnbtn").innerHTML = "<i>processing...</i>"
         } else if (from === "play") {
-            element = document.getElementById("dnbtnmic")
-            element.classList.remove("clicked")
-            element.classList.add("mibtn")
-            alert("download should begin", 3000)
-            element.innerHTML = "Download audio"
+            document.getElementById("dnbtnmic").innerHTML = "<i>processing...</i>"
         } else if (from === "history") {
-            element = document.getElementsByClassName("mbtn")[0]
-            element.classList.remove("clicked")
-            // element.classList.add("mbtn")
-            element.innerHTML = "Download audio"
+            document.getElementsByClassName("mbtn")[0].innerHTML = "<i>processing...</i>"
         }
-        uiLoader(false, true)
-        uploadHistory(title, des, url, su, "video")
+
+        // Step 2 - Poll every 15 seconds
+        const poll = setInterval(async () => {
+            try {
+                const result = await fetch(`${routes.confirmAudio}?jobId=${jobId}`, {
+                    credentials: "include"
+                }).then(r => r.json());
+
+                // Still processing - keep waiting
+                if (result.status === "processing") {
+                    if (from === "basic") {
+                        document.getElementById("dnbtn").innerHTML = "<i>still processing...</i>"
+                    } else if (from === "play") {
+                        document.getElementById("dnbtnmic").innerHTML = "<i>still processing...</i>"
+                    } else if (from === "history") {
+                        document.getElementsByClassName("mbtn")[0].innerHTML = "<i>still processing...</i>"
+                    }
+                    return;
+                }
+
+                // Failed - stop polling
+                if (result.status === "failed" || !result.success) {
+                    clearInterval(poll);
+                    alert("download failed, please try again");
+                    resetBtn();
+                    uiLoader(false, true);
+                    return;
+                }
+
+                // Done - stop polling and download
+                if (result.status === "done" && result.done) {
+                    clearInterval(poll);
+
+                    const link = document.createElement("a");
+                    link.href = `${routes.serveAudio}?jobId=${jobId}`;
+                    link.download = `${title}-downzilla.${ext || "mp3"}`;
+                    link.click();
+
+                    alert("download should begin", 3000);
+                    resetBtn();
+                    uiLoader(false, true);
+                    uploadHistory(title, des, url, su, "video");
+                }
+
+            } catch (e) {
+                clearInterval(poll);
+                alert(`Error: ${e.message}`);
+                resetBtn();
+                uiLoader(false, true);
+            }
+        }, 15000);
+
     } catch (e) {
-        uiLoader(false, true)
-        alert(`Error: ${e.message}`)
-        if (from === "basic") {
-            element = document.getElementById("dnbtn")
-            element.classList.remove("clicked")
-            element.classList.add("dnbtn")
-            element.innerHTML = "Download audio"
-        } else if (from === "play") {
-            element = document.getElementById("dnbtnmic")
-            element.classList.remove("clicked")
-            element.classList.add("mibtn")
-            element.innerHTML = "Download audio"
-        } else if (from === "history") {
-            element = document.getElementsByClassName("mbtn")[0]
-            element.classList.remove("clicked")
-            // element.classList.add("mbtn")
-            element.innerHTML = "Download audio"
-        }
+        uiLoader(false, true);
+        alert(`Error: ${e.message}`);
+        resetBtn();
     }
 }
 
