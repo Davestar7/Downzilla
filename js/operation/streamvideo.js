@@ -222,7 +222,7 @@ function generateThumbnailContainer(containerPath, thumbnailUrl) {
   const html = `
     <div class="gc-card" style="
       width: 100%;
-      height: 40vh;
+      height: 35vh;
       min-height: inherit;
       position: relative;
       overflow: hidden;
