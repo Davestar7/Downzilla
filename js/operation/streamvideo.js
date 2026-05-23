@@ -10,7 +10,7 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail) {
             height = f.height
         }
     })
-    console.log(headers)
+    
 
     const start = await fetch(routes.startStream, {
         method: "POST",
