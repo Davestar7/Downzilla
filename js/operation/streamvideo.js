@@ -10,11 +10,12 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail) {
             height = f.height
         }
     })
+    console.log(headers)
 
     const start = await fetch(routes.startStream, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({url: url, title: title, formats: formats, height: height, headers: headers})
+        body: JSON.stringify({url: url, title: title,headers: headers, formats: formats, height: height,})
     })
     const fin = await start.json()
     if (fin.success != true) {
