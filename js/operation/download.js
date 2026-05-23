@@ -370,7 +370,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         // Step 2 - Poll every 15 seconds
         const poll = setInterval(async () => {
             try {
-                const result = await fetch(`${routes.confirmD}?jobId=${jobId}`, {
+                const result = await fetch(`${routes.dComfirm}?jobId=${jobId}`, {
                     credentials: "include"
                 }).then(r => r.json());
 
@@ -401,7 +401,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
                     clearInterval(poll);
 
                     const link = document.createElement("a");
-                    link.href = `${routes.serveD}?jobId=${jobId}`;
+                    link.href = `${routes.download}?jobId=${jobId}`;
                     link.download = `${title || "video"}-downzilla.mp4`;
                     link.click();
 
