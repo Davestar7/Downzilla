@@ -341,7 +341,8 @@ async function playlistPopup(json, url) {
     window.availableFormats = format || []
     updateSelectableFormat("video")
 
-    generateThumbnailContainer("#img-vid", thumbnail)       document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
+    generateThumbnailContainer("#img-vid", thumbnail)       
+   document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
            streamVideoFunction(formatPasser.selectedFormats, urls, title, headers, thumbnail)
       })
 
