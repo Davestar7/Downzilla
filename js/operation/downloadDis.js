@@ -577,7 +577,8 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
                     uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
                 })
                
-                    generateThumbnailContainer("#img-vid", thumbnail)
+                generateThumbnailContainer("#img-vid", thumbnail)
+
 document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
            streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
       })
