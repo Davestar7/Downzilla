@@ -18,7 +18,7 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail) {
     })
     const fin = await start.json()
     if (fin.success != true) {
-        alert("unable to play video", 10000)
+        alert("unable to play video: "+fin.message, 10000)
         return
     }
     const id = fin.data
