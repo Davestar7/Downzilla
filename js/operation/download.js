@@ -370,7 +370,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         // Step 2 - Poll every 15 seconds
         const poll = setInterval(async () => {
             try {
-                const result = await fetch(`${routes.dComfirm}?jobId=${jobId}`, {
+                const result = await fetch(`${routes.dCheck}?jobId=${jobId}`, {
                     credentials: "include"
                 }).then(r => r.json());
 
