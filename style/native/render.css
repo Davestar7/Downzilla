@@ -283,7 +283,7 @@
 
     #vimg {
         width: 100vw !important;
-        height: 30vh !important;
+        height: 100%;
     }
 
     #resDetail {
