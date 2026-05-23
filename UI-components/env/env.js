@@ -76,6 +76,8 @@ const routes = {
     cancelQuery: domain + '/qurery/cancel',
     getDData: domain + '/qurery/getdata',
     beginD: stream_domain + "/downloadVideo",
+    dCheck: stream_domain + "/checkDownload",
+    download: stream_domain + "/download",
     startStream: stream_domain + "/startstream",
     Stream: stream_domain + "/stream",
     beginAudioD: domain + '/qurery/audiodownload',
