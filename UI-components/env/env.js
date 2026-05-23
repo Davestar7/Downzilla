@@ -90,6 +90,8 @@ const routes = {
     downloadplay: domain + '/qurery/playdownload',
     seperateplaydown: domain + '/qurery/seperatedown',
     downloadmp: stream_domain + "/downloadMp",
+    comfirmmp: stream_domain + "/comfirmmp",
+    downmp: stream_domain + "/servemp",
     uploadHistory: domain + `/qurery/uploadhistory`,
     getHistory: domain + `/qurery/gethistory`,
     deleteHistory: domain + `/qurery/deletehistory`,
