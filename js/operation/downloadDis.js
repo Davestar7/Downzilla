@@ -575,7 +575,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
                
                     generateThumbnailContainer("#img-vid", thumbnail)
 document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
-           streamVideoFunction(formatPasser.selectedFormats, urls, title, http_headers, thumbnail)
+           streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
       })
  
             } catch (e) {
@@ -747,7 +747,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                
                    generateThumbnailContainer("#img-vid", thumbnail)
                     document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
-           streamVideoFunction(formatPasser.selectedFormats, urls, title, http_headers, thumbnail)
+           streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
       })
             } catch (e) {
                 alerts("something seems wong", 3000)
