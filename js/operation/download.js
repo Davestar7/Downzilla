@@ -331,83 +331,115 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
     if (!selected) {
         uiLoader(true, false, "downloading......")
     }
+
     const FSelect = document.getElementById("forSel") || selected
     const url = outurl
     const select = FSelect.value;
     const height = FSelect.options[FSelect.selectedIndex].innerText
     const rawHeight = FSelect.options[FSelect.selectedIndex].dataset.height
-
     const perferedFormats = formatPasser.selectedFormats || format
-    
-    let audioF;
-    let audio_id
-    format.forEach(e => {
-        if (e.resolution == "audio only" && e.vcodec === "none" && !e.format_note) {
-            audioF = e
-            audio_id = audioF.format_id || null
-        }
-    });
 
-    
     try {
-        const response = await fetch(routes.beginD, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: rawHeight, headers: headers}),
-      credentials: "include"
-   });
+        // Step 1 - Start download
+        const { success, jobId } = await fetch(routes.beginD, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: rawHeight, headers}),
+            credentials: "include"
+        }).then(r => r.json());
 
-        if (!response.ok) {
-           alert("download failed, please try again");
+        if (!success || !jobId) {
+            alert("download failed, please try again");
             btn.innerHTML = "download mp4 video";
             if (from === "frommp4" || from === null) {
                 btn.classList.add("dnbtn");
                 btn.classList.remove("clicked");
-           } else if (from === "fromplay") {
+            } else if (from === "fromplay") {
                 btn.classList.add("dnbtnp");
                 btn.classList.remove("clicked");
-       }
-       uiLoader(false, true);
-       return;
-     }
-
-     const reader = response.body.getReader();
-     const chunks = [];
-
-     while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-     }
-
-      const blob = new Blob(chunks, { type: "video/mp4" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `${title || "video"}-downzilla.mp4`;
-      link.click();
-      alert("download should begin", 5000);
-
-      btn.innerHTML = "download mp4 video";
-      if (from === "frommp4" || from === null) {
-          btn.classList.add("dnbtn");
-          btn.classList.remove("clicked");
-          } else if (from === "fromplay") {
-             btn.classList.add("dnbtnp");
-             btn.classList.remove("clicked");
-          }
-           uiLoader(false, true);
-           localStorage.removeItem("DZDP");
-        })
-    } catch (e) {
-        alert("error occured: check internet connection", 4000)
-        if (from === "frommp4" || from === null) {
-            btn.classList.add("dnbtn")
-            btn.classList.remove("clicked")
-        } else if (from === "fromplay") {
-            btn.classList.add("dnbtnp")
-            btn.classList.remove("clicked")
+            }
+            uiLoader(false, true);
+            return;
         }
-        uiLoader(false, true)
+
+        btn.innerHTML = `<i>processing download...</i>`;
+
+        // Step 2 - Poll every 15 seconds
+        const poll = setInterval(async () => {
+            try {
+                const result = await fetch(`${routes.confirmD}?jobId=${jobId}`, {
+                    credentials: "include"
+                }).then(r => r.json());
+
+                // Still processing - keep waiting
+                if (result.status === "processing") {
+                    btn.innerHTML = `<i>still processing...</i>`;
+                    return;
+                }
+
+                // Failed - stop polling
+                if (result.status === "failed" || !result.success) {
+                    clearInterval(poll);
+                    alert("download failed, please try again");
+                    btn.innerHTML = "download mp4 video";
+                    if (from === "frommp4" || from === null) {
+                        btn.classList.add("dnbtn");
+                        btn.classList.remove("clicked");
+                    } else if (from === "fromplay") {
+                        btn.classList.add("dnbtnp");
+                        btn.classList.remove("clicked");
+                    }
+                    uiLoader(false, true);
+                    return;
+                }
+
+                // Done - stop polling and download
+                if (result.status === "done" && result.done) {
+                    clearInterval(poll);
+
+                    const link = document.createElement("a");
+                    link.href = `${routes.serveD}?jobId=${jobId}`;
+                    link.download = `${title || "video"}-downzilla.mp4`;
+                    link.click();
+
+                    alert("download should begin", 5000);
+                    btn.innerHTML = "download mp4 video";
+                    if (from === "frommp4" || from === null) {
+                        btn.classList.add("dnbtn");
+                        btn.classList.remove("clicked");
+                    } else if (from === "fromplay") {
+                        btn.classList.add("dnbtnp");
+                        btn.classList.remove("clicked");
+                    }
+                    uiLoader(false, true);
+                    localStorage.removeItem("DZDP");
+                }
+
+            } catch (e) {
+                clearInterval(poll);
+                alert("error checking download status");
+                btn.innerHTML = "download mp4 video";
+                if (from === "frommp4" || from === null) {
+                    btn.classList.add("dnbtn");
+                    btn.classList.remove("clicked");
+                } else if (from === "fromplay") {
+                    btn.classList.add("dnbtnp");
+                    btn.classList.remove("clicked");
+                }
+                uiLoader(false, true);
+            }
+        }, 15000);
+
+    } catch (e) {
+        alert("error occured: check internet connection", 4000);
+        if (from === "frommp4" || from === null) {
+            btn.classList.add("dnbtn");
+            btn.classList.remove("clicked");
+        } else if (from === "fromplay") {
+            btn.classList.add("dnbtnp");
+            btn.classList.remove("clicked");
+        }
+        uiLoader(false, true);
     }
 }
 
