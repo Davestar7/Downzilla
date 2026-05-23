@@ -348,6 +348,9 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
             credentials: "include"
         }).then(r => r.json());
 
+       console.log(success)
+       console.log(jobId)
+
         if (!success || !jobId) {
             alert("download failed, please try again");
             btn.innerHTML = "download mp4 video";
