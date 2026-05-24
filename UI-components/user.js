@@ -82,7 +82,9 @@ function callSetting() {
       })
       
     } else if (islogedIn() === undefined) {
-      callSetting()
+      setTimeout(() => {
+         callSetting()
+      }, 1300)
     }
 }
 
