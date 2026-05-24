@@ -334,10 +334,10 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 
     const FSelect = document.getElementById("forSel") || selected
     const url = outurl
-    const select = FSelect.value;
-    const height = FSelect.options[FSelect.selectedIndex].innerText
-    const rawHeight = FSelect.options[FSelect.selectedIndex].dataset.height
-    const perferedFormats = formatPasser.selectedFormats || format
+    const select = FSelect?.value;
+    const height = FSelect?.options[FSelect?.selectedIndex]?.innerText
+    const rawHeight = FSelect.options[FSelect?.selectedIndex]?.dataset?.height
+    const perferedFormats = formatPasser?.selectedFormats || format
 
     try {
         // Step 1 - Start download
@@ -450,7 +450,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 //     const url = playurl;
 //     const playlisttitle = title;
 //     console.log("begin download")
-//     document.getElementById("zPlayD").addEventListener("click", async () => {
+//     document.getElementById("zPlayD")?.addEventListener("click", async () => {
 //         document.getElementById("zPlayD").innerHTML = `<i>loading download...</i>`
 //         console.log("download zip folder")
 //         closeFunction()
@@ -462,7 +462,7 @@ async function downloadmp(url, title, from, format_id, ext, format, des, su, hea
 
     uiLoader(true, false, "downloading...")
 
-    const preferedAformat = formatPasser.selectedFormats
+    const preferedAformat = formatPasser?.selectedFormats
     let element;
 
     const resetBtn = () => {
