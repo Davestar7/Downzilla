@@ -103,7 +103,7 @@ async function handleRender() {
 
         st.innerHTML = starButton
 
-        const stars = document?.querySelectorAll(".starbtn")[0]
+        const stars = document?.getElementById("starBtn")
 
         if (stars) {
             stars.addEventListener("click", (e) => {
