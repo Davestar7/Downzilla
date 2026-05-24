@@ -139,9 +139,9 @@ function updateSelectableFormat(type = "video") {
                 }
                 option.text = label
                 
-                option?.dataset.height = fmt?.height
-                select?.appendChild(option)
-                formatPasser?.selectedFormats.push(fmt)
+                option.dataset.height = fmt.height
+                select.appendChild(option)
+                formatPasser.selectedFormats.push(fmt)
             } else {
                 return
             }
