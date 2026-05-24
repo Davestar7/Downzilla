@@ -4,7 +4,7 @@ import { alert } from "../../UI-components/popup.js";
 async function streamVideoFunction(formats, url, title, headers, thumbnail) {
     let height;
     // let urls;
-    formats.forEach(f => {
+    formats?.forEach(f => {
         if (f.height && f.height >= 240 && f.height <= 480 && f.resolution !== "audio only") {
             // url = f.urls;
             height = f.height
