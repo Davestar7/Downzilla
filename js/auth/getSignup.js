@@ -38,6 +38,11 @@ async function signupFunction() {
                 })
 
                 const data = await res.json()
+                if (data.success === false) {
+                   afterSignup(data)
+                   alert("failed to sign you up, please try again")
+                   return
+                }
                 data.textContent = `Response: ${JSON.stringify(data)}`
                 localStorage.setItem('DZAT', data.accessT)
                 afterSignup(data)
