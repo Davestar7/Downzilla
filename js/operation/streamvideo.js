@@ -47,7 +47,7 @@ const formatPasser = {
 function updateSelectableFormat(type = "video") {
     formatPasser.allFormats = []
     formatPasser.selectedFormats = []
-    const availableFormats = window.availableFormats
+    const availableFormats = window?.availableFormats
     formatPasser.allFormats = availableFormats
     switch (type) {
         case "audio":
@@ -62,13 +62,13 @@ function updateSelectableFormat(type = "video") {
     }
     
     function audio() {
-        const select = document.getElementById("forSel")
+        const select = document?.getElementById("forSel")
         const infobtn = document.getElementById("forInfo")
         select.innerHTML = "";
         
         let check;
-        availableFormats.forEach(fmt => {
-            const option = document.createElement("option");
+        availableFormats?.forEach(fmt => {
+            const option = document?.createElement("option");
             option.value = `${fmt.format_id} ${fmt.ext}`
 
             let label = ""
@@ -104,7 +104,7 @@ function updateSelectableFormat(type = "video") {
 
         pushAudio()
         let check;
-        availableFormats.forEach(fmt => {
+        availableFormats?.forEach(fmt => {
             const option = document.createElement("option");
             option.value = fmt.format_id
 
@@ -139,9 +139,9 @@ function updateSelectableFormat(type = "video") {
                 }
                 option.text = label
                 
-                option.dataset.height = fmt.height
-                select.appendChild(option)
-                formatPasser.selectedFormats.push(fmt)
+                option.dataset?.height = fmt.height
+                select?.appendChild(option)
+                formatPasser?.selectedFormats.push(fmt)
             } else {
                 return
             }
