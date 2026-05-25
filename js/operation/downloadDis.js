@@ -13,6 +13,7 @@ function timeformat(sec) {
     return retur.toString()
 }
 
+const monetag = "https://omg10.com/4/11056236"
 let backupJson = undefined;
 
 async function videodis(jsons = null, ismp) {
@@ -365,7 +366,12 @@ function AndDownload(title, starts, ends, formats, url, headers) {
         btn.innerHTML = `<i>prepering to download...</i>`
 
         await downloadVideo(url, title, start, end, formats, "frommp4", headers)
-        popUp("askshare")
+        setTimeout(() => {
+          popUp("askshare")
+          setTimeout(() => {
+               window.open(monetag, "_blank");
+            }, 3000)
+        }, 1000)
     })
 }
 
@@ -386,6 +392,9 @@ function AndDownloadFromPlay(title, starts, ends, formats, url, des, su, headers
         
         setTimeout(() => {
             popUp("askshare")
+            setTimeout(() => {
+               window.open(monetag, "_blank");
+            }, 3000)
         }, 5000);
     })
 }
