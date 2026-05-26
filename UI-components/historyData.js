@@ -38,7 +38,7 @@ async function updateUiData(userid, contentid) {
         setTimeout(() => {
             updateUiData()
         }, 3000);
-    } else if (islogedIn() === false) {
+    } else if (islogedIn() === false && userid === null) {
         alert("You are not Logged in", 8000)
         document.getElementById("hisConP").innerHTML = "This Artivity can not be accessed by you \n Not logged-in!"
         setTimeout(() => {
@@ -140,6 +140,10 @@ async function historyPageAsideUi(id) {
     const side = document.getElementById("allV")
     
     side.innerHTML = loader("fetching...")
+    if(islogedIn() === false) {
+       side.innerHTML = "Not authenticated!"
+       return
+    }
     const res = await fetch(routes.getHistory, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
