@@ -65,7 +65,7 @@ async function uploadHistory(title, description, url, source, type, img) {
     })
 
     const response = await res.json()
-    console.log(response)
+    
     if (response.success != true) {
         const htoString = `${title}>${description}>${url}>${source}>${type}>${img}`
         localStorage.setItem("historyD", htoString)
