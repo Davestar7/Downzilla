@@ -3,7 +3,7 @@ import historyPage from "../../UI-components/historyData.js"
 
 function main() {
     const url = window.location.pathname;
-    const plist = url.split("/").filter(Boolean);
+    const plist = url.split("/")
     const user_id = plist[plist.length - 2];
     const history_id = plist[plist.length - 1];
 
