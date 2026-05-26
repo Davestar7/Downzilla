@@ -7,6 +7,7 @@ function main() {
     const user_id = plist[plist.length - 2];
     const history_id = plist[plist.length - 1];
 
+    console.log(history_id, user_id)
     historyPage(user_id, history_id);
 }
 
