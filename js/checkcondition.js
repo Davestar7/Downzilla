@@ -32,13 +32,12 @@ function comfirmPage() {
     let stringUrl;
     
     if (path.length > 3) {
-        console.log(path)
         passloc = window.location
         path.forEach((i, dex) => {
            // if (i >= path[3]) {
                 
                 stringUrl = i.toLocaleLowerCase().toString();
-                console.log(`${path.length} === ${dex+1}`)
+                
                 if (path.length === dex+1) {
                     console.log("resieved")
                     loadOnUrl(stringUrl)
@@ -56,7 +55,6 @@ function comfirmPage() {
 
 // check pages url
 function loadOnUrl(pathname) {
-    console.log(pathname)
     const ifReload = true;
     switch (pathname) {
         case 'auth':
@@ -94,7 +92,7 @@ function checkIfUrlIsUnknown(path) {
     const uri = url.split("/")
 
     const check = uri[uri.length-2]
-    console.log(uri[uri.length-3])
+    
     if (uri[uri.length-3] === "shared") {
         sharedUser()
         return
