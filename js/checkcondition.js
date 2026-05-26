@@ -32,10 +32,10 @@ function comfirmPage() {
     let stringUrl;
     
     if (path.length > 3) {
-        
+        console.log(path)
         passloc = window.location
         path.forEach((i, dex) => {
-           // if (i.length !== dex+1) {
+           // if (i >= path[3]) {
                 
                 stringUrl = i.toLocaleLowerCase().toString();
                 console.log(`${path.length} === ${dex+1}`)
