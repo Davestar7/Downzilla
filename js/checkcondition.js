@@ -34,12 +34,9 @@ function comfirmPage() {
     if (path.length > 3) {
         passloc = window.location
         path.forEach((i, dex) => {
-           // if (i >= path[3]) {
-                
-                stringUrl = i.toLocaleLowerCase().toString();
-                
+           // if (i >= path[3]) {     
+                stringUrl = i.toLocaleLowerCase().toString();  
                 if (path.length === dex+1) {
-                    console.log("resieved")
                     loadOnUrl(stringUrl)
                 }
                 passloc = window.location;
