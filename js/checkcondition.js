@@ -32,11 +32,15 @@ function comfirmPage() {
     let stringUrl;
     
     if (path.length > 3) {
+        console.log("1")
         passloc = window.location
         path.forEach((i, dex) => {
+            console.log("2")
             if (i >= path[3]) {
+                console.log("3")
                 stringUrl = i.toLocaleLowerCase().toString();
                 if (path.length == dex+1) {
+                    console.log("4")
                     loadOnUrl(stringUrl)
                 }
                 passloc = window.location;
