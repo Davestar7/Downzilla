@@ -88,7 +88,7 @@ function checkIfUrlIsUnknown(path) {
     const uri = url.split("/")
 
     const check = uri[uri.length-2]
-    
+    console.log(uri[uri.length-3])
     if (uri[uri.length-3] === "shared") {
         sharedUser()
         return
