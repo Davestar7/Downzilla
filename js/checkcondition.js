@@ -30,6 +30,7 @@ function updateHomeUrl(path) {
 function comfirmPage() {
     const path = checkUrl()
     let stringUrl;
+    console.log("confirm page worked")
     if (path.length > 3) {
         passloc = window.location
         path.forEach((i, dex) => {
