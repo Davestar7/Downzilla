@@ -7,7 +7,7 @@ import { callsearch } from '../js/operation/download.js';
 
 function MainStructure() {
     document.title = "Downzilla Downloader";
-    const metadis = "download videos, playlist and mp3's from over 200+ sites at ease, by pasting the media url"
+    const metadis = "download videos, playlist and mp3's from over 200+ sites for free online at ease, with url and be able to share and stream videos"
     document.querySelector('meta[name="description"]').setAttribute('content', metadis)
     let page = document.getElementById('contentPage')
     page.innerHTML = ""
