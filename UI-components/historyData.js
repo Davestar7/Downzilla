@@ -38,13 +38,15 @@ async function updateUiData(userid, contentid) {
         setTimeout(() => {
             updateUiData()
         }, 3000);
+        return
     } else if (islogedIn() === false && userid === null) {
         alert("You are not Logged in", 8000)
         document.getElementById("hisConP").innerHTML = "This Artivity can not be accessed by you \n Not logged-in!"
         setTimeout(() => {
             popUp()
         }, 1000);
-    } else if (islogedIn() === true) {
+        return
+    }
         const link = document.location.pathname
         const idlink = link.split("/")
         let id
@@ -101,7 +103,7 @@ async function updateUiData(userid, contentid) {
         const ids = idData.data
         cancelListerner(ids)
         updateData(ids, isPublic, type, id)
-    }
+    
 }
 
 async function updateData(id, isPublic, type, cid) {
