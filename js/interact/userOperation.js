@@ -73,7 +73,7 @@ function updateHistoryUi(data, state) {
         const isPublic = e.isPublic
         const type = e.type
         const id = e._id
-        
+        const cloudId = e.cloudinaryId || ""
         let imgurl = e.cloudinaryUrl
         const uri = e.url
         const star = e.stars
@@ -84,6 +84,7 @@ function updateHistoryUi(data, state) {
             url: uri,
             title: title,
             type: type,
+            cloudId: cloudId
         })
 
         if (discription.length < maxLen) {
@@ -111,7 +112,7 @@ function updateHistoryUi(data, state) {
         }
 
         const template = document.createElement("template")
-        template.innerHTML = `<div id="historyCon" title="${title} downzilla">
+        template.innerHTML = `<div id="historyCon" title="${title} downzilla", class="${id}">
                             <div id="hisConOne">
                                 <div id="hisimg">
                                     <img src="${imgurl}" id="himg"></img>
@@ -164,7 +165,7 @@ function updateHistoryUi(data, state) {
         e.addEventListener("click", (el) => {
             const id = el.currentTarget.dataset.id
             const data = contentdata.get(id)
-            deleteContent(id, data.title, data.url)
+            deleteContent(id, data.title, data.url, cloudId: data.cloudId)
         })
     })
 }
@@ -296,17 +297,20 @@ async function staredContentUi() {
 
 }
 
-async function deleteContent(contentId, title, url) {
+async function deleteContent(contentId, title, url, cloudId) {
     try {
         const del = await fetch(routes.deleteHistory, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({userId: userData.userId, id: contentId, title: title, url: url})
+            body: JSON.stringify({userId: userData.userId, id: contentId, title: title, url: url, cloudId: cloudId})
         })
         const deleted = await del.json()
 
         alert(deleted.message, 3000)
-        if(deleted.success === true) storedHistory = null
+        if(deleted.success === true) {
+           storedHistory = null
+           document.getElementsByClassName(contentId)[0].style.display = "none"
+        }
     } catch (e) {
         alert("error deleting", 3000)
     }
