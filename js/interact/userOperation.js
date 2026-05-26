@@ -165,7 +165,7 @@ function updateHistoryUi(data, state) {
         e.addEventListener("click", (el) => {
             const id = el.currentTarget.dataset.id
             const data = contentdata.get(id)
-            deleteContent(id, data.title, data.url, cloudId: data.cloudId)
+            deleteContent(id, data.title, data.url, data.cloudId)
         })
     })
 }
