@@ -51,6 +51,7 @@ function comfirmPage() {
 
 // check pages url
 function loadOnUrl(pathname) {
+    console.log(pathname)
     const ifReload = true;
     switch (pathname) {
         case 'auth':
