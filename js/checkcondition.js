@@ -35,7 +35,7 @@ function comfirmPage() {
         
         passloc = window.location
         path.forEach((i, dex) => {
-            if (i !== dex+1) {
+           // if (i.length !== dex+1) {
                 
                 stringUrl = i.toLocaleLowerCase().toString();
                 console.log(`${path.length} === ${dex+1}`)
@@ -44,7 +44,7 @@ function comfirmPage() {
                     loadOnUrl(stringUrl)
                 }
                 passloc = window.location;
-            }
+            //}
         })
     }else {
         loadOnStart()
