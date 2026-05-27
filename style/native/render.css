@@ -186,9 +186,13 @@
     font-size: 1em;
 }
 
+#rnavdiv {
+   display: flex;
+}
+
 #pagenav li {
     cursor: pointer;
-    color: blue;
+    color: gray;
     text-decoration: underline;
     cursor: pointer;
     transition: 1s ease;
