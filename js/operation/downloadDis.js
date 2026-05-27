@@ -74,7 +74,7 @@ async function videodis(jsons = null, ismp) {
                     </div>
                     <div>
                         <div>
-                            <i>Select A Good Video format</i>
+                            <i></i>
                         </div>
                         <div id="formatck">
                             <em>loading mp4 formats...</em>
@@ -529,7 +529,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
                                 </div>
                                 <div>
                                     <div>
-                                        <i>Select A Good Video format</i>
+                                        <i></i>
                                     </div>
                                     <div id="formatck">
                                         <div id="format">
