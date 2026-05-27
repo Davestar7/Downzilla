@@ -32,7 +32,7 @@ async function handleFeedDisplay(newPage = null) {
 
         foot.innerHTML = `<ul id="pagenumb"></ul>`
         const footer = document.getElementById("pagenumb")
-
+        footer.innerHTML = <div id="rnavdiv"></div>
         if (totalContainablePage === null) {
             getContent()
         } else {
@@ -54,7 +54,7 @@ async function handleFeedDisplay(newPage = null) {
                                     `
                     }
                 }
-                document.getElementById("pagenumb").innerHTML = navStr
+                document.getElementById("rnavdiv").innerHTML = navStr
                 changeRenderingPageNumber(curentPage)
             }
         }
