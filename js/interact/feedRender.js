@@ -50,7 +50,7 @@ async function handleFeedDisplay(newPage = null) {
                                             `
                     } else {
                         navStr += `
-                                    <li data-page="${i}" class="pli">${i}<li>
+                                    <span id="li" data-page="${i}" class="pli">${i}<span>
                                     `
                     }
                 }
@@ -140,7 +140,7 @@ function updateFeed(data, successful) {
     const foot = document.getElementById("pagenav")
     foot.innerHTML = `<ul id="pagenumb"></ul>`
     const footer = document.getElementById("pagenumb")
-
+    footer.innerHTML = `<div id="rnavdiv"></div>`
     let navStr = ""
     for (let i = 1; i <= pages; i++) {
         
@@ -150,11 +150,11 @@ function updateFeed(data, successful) {
                                  `
         } else {
             navStr += `
-                        <li data-page="${i}" class="pli">${i}</li>
+                        <span id="li" data-page="${i}" class="pli">${i}</span>
                          `
         }
     }
-    document.getElementById("pagenumb").innerHTML = navStr
+    document.getElementById("rnavdiv").innerHTML = navStr
  
     const mainData = data.data
     let innerPage = ""
