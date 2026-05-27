@@ -180,7 +180,6 @@
 #pagenav {
     border-top: 1px solid;
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     font-weight: 400;
