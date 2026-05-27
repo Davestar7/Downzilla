@@ -191,14 +191,14 @@
    width: 100%;
 }
 
-#pagenav li {
+#li {
     cursor: pointer;
     color: gray;
     text-decoration: underline;
     cursor: pointer;
     transition: 1s ease;
 }
-#pagenav li:hover {
+#li:hover {
     color: rgb(92, 92, 250);
     font-weight: 700;
 }
