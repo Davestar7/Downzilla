@@ -1,4 +1,16 @@
 [[redirects]]
+  from = "/sitemap.xml"
+  to = "https://downzilla-backend.onrender.com/extra/sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "https://downzilla-backend.onrender.com/extra/robots.txt"
+  status = 200
+  force = true
+
+[[redirects]]
 from = "/*"
 to = "/index.html"
 status = 200
