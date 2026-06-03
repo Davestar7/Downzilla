@@ -5,6 +5,8 @@ import { isConnected, closeFunction } from "../alert.js"
 import { uploadHistory } from "../interact/history.js"
 import { formatPasser } from "./streamvideo.js";
 
+const monetag = "https://omg10.com/4/11056236"
+
 function callsearch() {
     const searchbtn = document.getElementById("searchvid")
     searchbtn.classList.add("searchvid")
@@ -417,6 +419,12 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
                     uiLoader(false, true);
                     localStorage.removeItem("DZDP");
                 }
+                alert("apologies: sponsor about to redirect you")
+                setTimeout(() => {
+                  setTimeout(() => {
+                    window.open(monetag, "_blank");
+                  }, 3000)
+                }, 1000)
 
             } catch (e) {
                 clearInterval(poll);
