@@ -118,6 +118,7 @@
 #metadataSec h3 {
     font-weight: 600;
     font-size: 1.3em;
+    text-overflow: ellipsis;
 }
 
 #metadataSec p {
