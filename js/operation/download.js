@@ -419,8 +419,9 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
                     uiLoader(false, true);
                     localStorage.removeItem("DZDP");
                 }
-                alert("apologies: sponsor about to redirect you")
+                
                 setTimeout(() => {
+                  alert("apologies: sponsor may redirect you")
                   setTimeout(() => {
                     window.open(monetag, "_blank");
                   }, 3000)
