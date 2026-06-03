@@ -370,6 +370,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         btn.innerHTML = `<i>processing download...</i>`;
 
         // Step 2 - Poll every 15 seconds
+        function startPolling() {
         const poll = setInterval(async () => {
             try {
                 const result = await fetch(`${routes.dCheck}?jobId=${jobId}`, {
@@ -441,6 +442,15 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
                 uiLoader(false, true);
             }
         }, 15000);
+        }
+        startPolling()
+
+        document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && jobId) {
+        clearInterval(poll);
+        startPolling();
+    }
+});
 
     } catch (e) {
         alert("error occured: check internet connection", 4000);
