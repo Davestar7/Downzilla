@@ -118,7 +118,6 @@
 #metadataSec h3 {
     font-weight: 600;
     font-size: 1.3em;
-    text-overflow: ellipsis;
 }
 
 #metadataSec p {
@@ -271,6 +270,12 @@
 
     #metadataSec h3 {
         font-size: 1em;
+        display: inline-block;
+        width: 97%;
+        height: fit-content;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     #metadataSec p {
