@@ -424,8 +424,8 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
                   alert("apologies: sponsor may redirect you")
                   setTimeout(() => {
                     window.open(monetag, "_blank");
-                  }, 3000)
-                }, 1000)
+                  }, 2000)
+                }, 2000)
 
             } catch (e) {
                 clearInterval(poll);
@@ -557,6 +557,12 @@ async function downloadmp(url, title, from, format_id, ext, format, des, su, hea
                     uiLoader(false, true);
                     uploadHistory(title, des, url, su, "video");
                 }
+                setTimeout(() => {
+                  alert("apologies: sponsor may redirect you")
+                  setTimeout(() => {
+                    window.open(monetag, "_blank");
+                  }, 2000)
+                }, 2000)
 
             } catch (e) {
                 clearInterval(poll);
