@@ -368,82 +368,116 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         btn.innerHTML = `<i>processing download...</i>`;
 
         // Step 2 - Poll every 15 seconds
-        function startPolling() {
-        const poll = setInterval(async () => {
-            try {
-                const result = await fetch(`${routes.dCheck}?jobId=${jobId}`, {
-                    credentials: "include"
-                }).then(r => r.json());
+        let poll;
 
-                // Still processing - keep waiting
-                if (result.status === "processing") {
-                    btn.innerHTML = `<i>still processing...</i>`;
-                    return;
-                }
+const resetBtn = () => {
+    btn.innerHTML = "download mp4 video";
+    if (from === "frommp4" || from === null) {
+        btn.classList.add("dnbtn");
+        btn.classList.remove("clicked");
+    } else if (from === "fromplay") {
+        btn.classList.add("dnbtnp");
+        btn.classList.remove("clicked");
+    }
+};
 
-                // Failed - stop polling
-                if (result.status === "failed" || !result.success) {
-                    clearInterval(poll);
-                    alert("download failed, please try again");
-                    btn.innerHTML = "download mp4 video";
-                    if (from === "frommp4" || from === null) {
-                        btn.classList.add("dnbtn");
-                        btn.classList.remove("clicked");
-                    } else if (from === "fromplay") {
-                        btn.classList.add("dnbtnp");
-                        btn.classList.remove("clicked");
-                    }
-                    uiLoader(false, true);
-                    return;
-                }
+const startServeDownload = async () => {
+    try {
+        const response = await fetch(`${routes.download}?jobId=${jobId}`, {
+            credentials: "include"
+        });
 
-                // Done - stop polling and download
-                if (result.status === "done" && result.done) {
-                    clearInterval(poll);
-
-                    const link = document.createElement("a");
-                    link.href = `${routes.download}?jobId=${jobId}`;
-                    link.download = `${title || "video"}-downzilla.mp4`;
-                    link.click();
-
-                    alert("download should begin", 5000);
-                    btn.innerHTML = "download mp4 video";
-                    if (from === "frommp4" || from === null) {
-                        btn.classList.add("dnbtn");
-                        btn.classList.remove("clicked");
-                    } else if (from === "fromplay") {
-                        btn.classList.add("dnbtnp");
-                        btn.classList.remove("clicked");
-                    }
-                    uiLoader(false, true);
-                    localStorage.removeItem("DZDP");
-                }
-                
-                setTimeout(() => {
-                  alert("apologies: sponsor may redirect you")
-                  setTimeout(() => {
-                    window.open(monetag, "_blank");
-                  }, 2000)
-                }, 2000)
-
-            } catch (e) {
-                clearInterval(poll);
-                alert("error checking download status");
-                btn.innerHTML = "download mp4 video";
-                if (from === "frommp4" || from === null) {
-                    btn.classList.add("dnbtn");
-                    btn.classList.remove("clicked");
-                } else if (from === "fromplay") {
-                    btn.classList.add("dnbtnp");
-                    btn.classList.remove("clicked");
-                }
-                uiLoader(false, true);
-            }
-        }, 15000);
+        if (!response.ok) {
+            alert("download failed, please try again");
+            resetBtn();
+            uiLoader(false, true);
+            return;
         }
-        startPolling()
 
-        document.addEventListener("visibilitychange", () => {
+        const contentLength = response.headers.get("Content-Length");
+        const total = parseInt(contentLength, 10);
+        let loaded = 0;
+
+        const reader = response.body.getReader();
+        const chunks = [];
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks.push(value);
+            loaded += value.length;
+
+            if (total) {
+                const percent = Math.round((loaded / total) * 100);
+                btn.innerHTML = `<i>downloading... ${percent}%</i>`;
+            } else {
+                btn.innerHTML = `<i>downloading... ${(loaded / 1024 / 1024).toFixed(1)}MB</i>`;
+            }
+        }
+
+        const blob = new Blob(chunks, { type: "video/mp4" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `${title || "video"}-downzilla.mp4`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+
+        alert("download complete!", 3000);
+        resetBtn();
+        uiLoader(false, true);
+        localStorage.removeItem("DZDP");
+
+        setTimeout(() => {
+            alert("apologies: sponsor may redirect you");
+            setTimeout(() => {
+                window.open(monetag, "_blank");
+            }, 2000);
+        }, 2000);
+
+    } catch (e) {
+        alert(`download error: ${e.message}`);
+        resetBtn();
+        uiLoader(false, true);
+    }
+};
+
+const startPolling = () => {
+    poll = setInterval(async () => {
+        try {
+            const result = await fetch(`${routes.dCheck}?jobId=${jobId}`, {
+                credentials: "include"
+            }).then(r => r.json());
+
+            if (result.status === "processing") {
+                btn.innerHTML = `<i>still processing...</i>`;
+                return;
+            }
+
+            if (result.status === "failed" || !result.success) {
+                clearInterval(poll);
+                alert("download failed, please try again");
+                resetBtn();
+                uiLoader(false, true);
+                return;
+            }
+
+            if (result.status === "done" && result.done) {
+                clearInterval(poll);
+                await startServeDownload();
+            }
+
+        } catch (e) {
+            clearInterval(poll);
+            alert("error checking download status");
+            resetBtn();
+            uiLoader(false, true);
+        }
+    }, 15000);
+};
+
+startPolling();
+
+document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible" && jobId) {
         clearInterval(poll);
         startPolling();
