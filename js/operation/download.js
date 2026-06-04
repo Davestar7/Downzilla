@@ -428,7 +428,7 @@ const startServeDownload = async () => {
         localStorage.removeItem("DZDP");
 
         setTimeout(() => {
-            alert("apologies: sponsor may redirect you");
+            alert("sponsors about to carry out action");
             setTimeout(() => {
                 window.open(monetag, "_blank");
             }, 2000);
