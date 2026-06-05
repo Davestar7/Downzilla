@@ -353,8 +353,12 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 
     let poll;
     let jobId;
+    let downloadStarted = false; // prevent multiple downloads
 
     const startServeDownload = () => {
+        if (downloadStarted) return; // don't restart if already downloading
+        downloadStarted = true;
+
         const link = document.createElement("a");
         link.href = `${routes.download}?jobId=${jobId}`;
         link.download = `${title || "video"}-downzilla.mp4`;
@@ -376,6 +380,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
     };
 
     const startPolling = () => {
+        if (downloadStarted) return; // don't poll if download already started
         poll = setInterval(async () => {
             try {
                 const result = await fetch(`${routes.dCheck}?jobId=${jobId}`, {
@@ -409,6 +414,14 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         }, 15000);
     };
 
+    // Only restart polling on visibility change, never restart download
+    const onVisibilityChange = () => {
+        if (document.visibilityState === "visible" && jobId && !downloadStarted) {
+            clearInterval(poll);
+            startPolling();
+        }
+    };
+
     try {
         const response = await fetch(routes.beginD, {
             method: "POST",
@@ -429,12 +442,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 
         startPolling();
 
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "visible" && jobId) {
-                clearInterval(poll);
-                startPolling();
-            }
-        });
+        document.addEventListener("visibilitychange", onVisibilityChange);
 
     } catch (e) {
         alert("error occured: check internet connection", 4000);
