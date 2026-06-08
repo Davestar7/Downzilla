@@ -764,6 +764,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                     document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
            streamVideoFunction(formatPasser.selectedFormats, urls, title, httpHeaders, thumbnail)
       })
+               uploadHistory(title, discrip, urls, source, "video", thumbnail)
             } catch (e) {
                 alerts("something seems wong", 3000)
                 // historyRender(DData, isPublic, "playlist", element)
@@ -815,7 +816,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                 const ent = document.getElementById("entries")
                 
                 ent.innerHTML = "";
-                
+                    uploadHistory(title, discrip, urls, source, "playlist", thumbnail)
                 entries.forEach((e, i) => {
                     const len = e.thumbnails
                     const vtitle = e.title;
