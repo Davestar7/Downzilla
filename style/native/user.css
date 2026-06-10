@@ -3,7 +3,8 @@
     margin-top: -7%;
     padding-top:4%;
     height: 25vh;
-    background-color: rgb(153, 218, 131);
+    /*background-color: rgb(153, 218, 131);*/
+    background: rgb(102, 51, 153);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -80,14 +81,15 @@
     height: 2em;
     border-bottom: 1px solid rgb(8, 190, 8);
     border-radius: 4px;
-    background-color: rgba(221, 238, 203, 0.781);
+    /*background-color: rgba(221, 238, 203, 0.781);*/
+    background: rgb(102, 51, 153);
     font-weight: 600;
 }
 .usernavbtns:hover {
-   background-color: rgba(208, 250, 163, 0.781);
+   background-color: rgba(103, 51, 153, 0.781);
 }
 .usernavbtns::after {
-    background-color: rgb(145, 210, 80);
+    background-color: rgb(106, 52, 160);
 }
 
 #historyCon {
@@ -186,7 +188,7 @@
     background-color: white;
     border: 1px green solid;
     border-radius: 10px;
-    color: green;
+    color: purple;
     font-weight: 600;
 }
 #hisUp:hover {
