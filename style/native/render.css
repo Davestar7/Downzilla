@@ -165,7 +165,7 @@
     transition: 1s ease;
 }
 .starBtn:hover {
-    background-color: rgb(206, 201, 201);
+    background-color: rgb(42, 97, 50);
 }
 
 #detbtn {
@@ -235,7 +235,7 @@
 
 .cstarrer {
     background-color: rgb(94, 59, 128);
-    border: 2px solid green;
+    border: 2px solid purple;
     font-weight: 700;
     color: gold;
     width: 10%;
@@ -336,7 +336,7 @@
     }
 
     #btnss button {
-        border: 2px solid rgb(162, 243, 162);
+        border: 2px solid rgb(94, 59, 128);
     }
 
     #allV {
