@@ -234,14 +234,14 @@ async function staredContentUi() {
         all = all + 1
 
         if (star.includes(userData.userId)) {
-            starButton = `<button id="starBtn" class="cstarrer starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="background-color: rgb(139, 214, 139);
+            starButton = `<button id="starBtn" class="cstarrer starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="background-color: rgb(94, 59, 110);
                         border: 2px solid green;
                         font-weight: 700;
                         color: gold;
                         width: 10%;
                         cursor: pointer;
                         border-radius: 5px;
-                "><span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
+                "><span id="numberStar" class="numberStar" style="color: white;">${totalStars}</span>${icons.STARED}</button>`
         } else {
             starButton = `<button id="starBtn" class="starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="width: 8em;
                         border: 1px solid rgb(42, 90, 42);
