@@ -35,7 +35,7 @@
     display: grid;
     grid-template-columns: 90% 10%;
     border-radius: 7px;
-    border: 2px purple solid;
+    border: 2px rgb(59, 31, 77) solid;
     height: 3em;
     background-color: white;
     color: black;
@@ -52,7 +52,7 @@
 
 #searchrun {
     /*background-color: rgb(6, 131, 6);*/
-    background: rgb(192, 143, 226);
+    background: rgb(94, 59, 128);
     color: white;
     font-weight: 700;
     
