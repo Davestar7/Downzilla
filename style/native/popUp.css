@@ -73,7 +73,8 @@
 }
 
 #logbtn {
-    background-color: rgb(145, 210, 80);
+    /*background-color: rgb(145, 210, 80);*/
+    background: rgb(102, 51, 153);
     font-weight: 700;
     text-transform: capitalize;
     color: white;
@@ -81,7 +82,7 @@
 
 }
 #logbtn:hover {
-    background-color: rgb(144, 194, 93);
+    background-color: rgb(102, 51, 160);
 }
 
 #signupbtn {
@@ -116,19 +117,19 @@
 #submit {
     width: 90%;
     height: 2rem;
-    background-color: greenyellow;
+    background-color: rgb(163, 102, 204);
     margin-top: 1.5em;
     border-radius: 3px;
     cursor: pointer;
 }
 
 #submit:hover {
-    background-color: rgb(159, 207, 63);
+    background-color: rgb(163, 100, 207);
 }
 
 #TaC {
-    color: rgb(85, 85, 201);
-    text-decoration: underline;
+    color: rgb(163, 110, 201);
+    /*text-decoration: underline;*/
     text-transform: capitalize;
     cursor: pointer;
 }
@@ -204,7 +205,7 @@ hr {
     width: 22em;
     height: 4em;
     border-radius: 3px;
-    background-color: rgb(149, 248, 149);
+    background-color: rgb(163, 102, 204);
     font-size: 1em;
     font-weight: 600;
     color: white;
@@ -213,7 +214,7 @@ hr {
     text-transform: capitalize;
 }
 .playdownbtn:hover {
-    background-color: rgb(197, 247, 197);
+    background-color: rgb(168, 106, 206);
     box-shadow: 2px 2px 10px;
 }
 
@@ -222,7 +223,7 @@ hr {
         width: 100vw;
         height: 76vh;
         border-radius: 0%;
-        border-top: 2px solid rgb(152, 236, 152);
+        border-top: 2px solid rgb(192, 143, 226);
     }
 }
 
