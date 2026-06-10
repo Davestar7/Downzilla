@@ -82,8 +82,8 @@ async function handleRender() {
         allList = []
         allList.push(star)
         if (star.includes(userData.userId)) {
-            starButton = `<button id="starBtn" class="cstarrer" data-index="1" data-id="${cid}" data-pubid="${publisherId}" style="background-color: rgb(157, 111, 194);
-                        border: 2px solid green;
+            starButton = `<button id="starBtn" class="cstarrer" data-index="1" data-id="${cid}" data-pubid="${publisherId}" style="background-color: rgb(157, 111, 190);
+                        border: 2px solid purple;
                         font-weight: 700;
                         color: gold;
                         width: 10em;
