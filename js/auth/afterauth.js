@@ -16,7 +16,13 @@ function updateAuth(userd) {
         return
     }
     const userdata = userd.user
-    
+
+    if (userdata.id === null || userdata.id === undefined || userdata.id == "") {
+        alert("incomplete data - please relogin")
+        logout()
+        return
+    }
+     
     userData.username = userdata.username
     userData.names = userdata.name
     userData.email = userdata.email
