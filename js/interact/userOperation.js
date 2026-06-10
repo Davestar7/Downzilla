@@ -235,7 +235,7 @@ async function staredContentUi() {
 
         if (star.includes(userData.userId)) {
             starButton = `<button id="starBtn" class="cstarrer starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="background-color: rgb(94, 59, 110);
-                        border: 2px solid green;
+                        border: 2px solid purple;
                         font-weight: 700;
                         color: gold;
                         width: 10%;
