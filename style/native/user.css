@@ -150,13 +150,13 @@
     padding-bottom: 3px;
     padding-left: 2em;
     padding-right: 2em;
-    background-color: rgb(96, 243, 96);
+    background-color: rgb(94, 59, 128);
     border-radius: 10px;
     color: white;
     font-weight: 600;
 }
 #getHisD:hover {
-    background-color: rgb(146, 245, 146);
+    background-color: rgb(94, 59, 132);
 }
 
 #hisy {
@@ -186,13 +186,13 @@
     padding-left: 2em;
     padding-right: 2em;
     background-color: white;
-    border: 1px green solid;
+    border: 1px purple solid;
     border-radius: 10px;
     color: purple;
     font-weight: 600;
 }
 #hisUp:hover {
-    background-color: rgb(243, 236, 236);
+    background-color: rgb(84, 49, 128);
 }
 
 #backbtnU {
@@ -314,7 +314,7 @@
 
 #historyPage {
     overflow-y: scroll;
-    border-right: 1px solid green;
+    border-right: 1px solid purple;
 }
 
 #allV {
