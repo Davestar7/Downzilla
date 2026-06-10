@@ -258,7 +258,7 @@ function generateThumbnailContainer(containerPath, thumbnailUrl) {
           align-items: center;
           gap: 8px;
           padding: 12px 28px;
-          border: 2px solid #00c853;
+          border: 2px solid purple;
           border-radius: 50px;
           background: rgba(255, 255, 255, 0.12);
           backdrop-filter: blur(14px);
