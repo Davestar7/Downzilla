@@ -40,7 +40,7 @@ footer {
 
 .indicate {
     /* background-color: rgb(208, 248, 147);*/
-    background: rgb(192, 143, 226);
+    background: rgb(59, 31, 77);
     border-radius: 8px;
     padding: 10%;
 }
@@ -65,7 +65,7 @@ footer {
     display: flex;
     justify-content: center;
     // background: rgb(123, 201, 56);
-    background: rgb(102, 51, 153);
+    background: rgb(59, 31, 77);
     top: 0;
     position: absolute;
     margin-bottom: 1px solid rgb(123, 201, 53);
