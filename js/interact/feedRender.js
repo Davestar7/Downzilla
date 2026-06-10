@@ -194,7 +194,7 @@ function updateFeed(data, successful) {
         all = all + 1
 
         if (star.includes(userData.userId)) {
-            starButton = `<button id="starBtn" class="cstarrer starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="background-color: rgb(94, 59, 128);
+            starButton = `<button id="starBtn" class="cstarrer starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="background-color: rgb(94, 59, 110);
                         border: 2px solid rgb(94, 59, 128);
                         font-weight: 700;
                         color: gold;
