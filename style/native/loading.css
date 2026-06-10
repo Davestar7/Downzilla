@@ -1,3 +1,7 @@
+body {
+    background: rgba(157, 111, 170, 0.3);
+}
+
 #homeload {
     display: flex;
     width: 100%;
