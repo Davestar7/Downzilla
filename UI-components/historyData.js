@@ -54,7 +54,9 @@ async function updateUiData(userid, contentid) {
         if (userid !== null && contentid !== null) {
             id = contentid;
             userId = userid
-            alert("this content is privatly shared")
+            settimeout(() => {
+               alert("this content is privatly")
+            }, 2000)
         } else {
             id = idlink[idlink.length-1]
             userId = userData.userId
