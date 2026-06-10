@@ -39,7 +39,8 @@ footer {
 }
 
 .indicate {
-    background-color: rgb(208, 248, 147);
+    /* background-color: rgb(208, 248, 147);*/
+    background: rgb(192, 143, 226);
     border-radius: 8px;
     padding: 10%;
 }
