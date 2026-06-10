@@ -242,7 +242,7 @@ async function sideRender() {
         const idlink = link.split("/")
         const pageId = idlink[idlink.length-1]
         if (ids === pageId) {
-            document.getElementById(ids).style.background = "rgba(158, 250, 158, 0.507)"
+            document.getElementById(ids).style.background = "rgba(157, 111, 196, 0.5)"
         }
     })
 
