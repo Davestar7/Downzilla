@@ -195,7 +195,7 @@ function updateFeed(data, successful) {
 
         if (star.includes(userData.userId)) {
             starButton = `<button id="starBtn" class="cstarrer starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="background-color: rgb(139, 214, 139);
-                        border: 2px solid green;
+                        border: 2px solid rgb(94, 59, 128);
                         font-weight: 700;
                         color: gold;
                         width: 10%;
@@ -204,7 +204,7 @@ function updateFeed(data, successful) {
                 "><span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
         } else {
             starButton = `<button id="starBtn" class="starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="width: 8em;
-                        border: 1px solid rgb(42, 90, 42);
+                        border: 1px solid rgb(94, 59, 128);
                         text-align: center;
                         background-color: white;
                         border-radius: 9px;
