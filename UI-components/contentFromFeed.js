@@ -82,14 +82,14 @@ async function handleRender() {
         allList = []
         allList.push(star)
         if (star.includes(userData.userId)) {
-            starButton = `<button id="starBtn" class="cstarrer" data-index="1" data-id="${cid}" data-pubid="${publisherId}" style="background-color: rgb(139, 214, 139);
+            starButton = `<button id="starBtn" class="cstarrer" data-index="1" data-id="${cid}" data-pubid="${publisherId}" style="background-color: rgb(157, 111, 194);
                         border: 2px solid green;
                         font-weight: 700;
                         color: gold;
                         width: 10em;
                         cursor: pointer;
                         border-radius: 5px;
-                "><span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
+                "><span id="numberStar" class="numberStar" style="color: white;">${totalStars}</span>${icons.STARED}</button>`
         } else {
             starButton = `<button id="starBtn" class="starbtn" data-index="1" data-id="${cid}" data-pubid="${publisherId}" style="width: 10em;
                         border: 1px solid rgb(42, 90, 42);
