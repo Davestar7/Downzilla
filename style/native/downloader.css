@@ -42,7 +42,7 @@ section {
 
 #stext h4 span {
     /* color: rgb(168,228, 102); */
-    color: rgb(192, 143, 226);
+    color: rgb(157, 111, 196);
     text-transform: capitalize;
 }
 
@@ -69,13 +69,13 @@ section {
     height: 2.7em;
     border-radius: 2px;
     /* background: rgb(145, 210, 80); */
-    background: rgb(163, 102, 204);
+    background: rgb(94, 59, 128);
     color: white;
     cursor: pointer;
     transition: 1s ease-in-out;
 }
 #searchvid:hover {
-    background: rgb(145, 212, 85);
+    background: rgb(94, 59, 130);
 }
 
 #mpbtn {
@@ -91,13 +91,13 @@ section {
 #mpbtn button {
     
     /* background-color: rgb(214, 236, 179);*/
-    background: rgb(163, 102, 204);
+    background: rgb(94, 59, 128);
     margin-left: 2%;
     margin-right: 2%;
 }
 
 #mpbtn button:hover {
-    background-color: rgb(163, 105, 207);
+    background-color: rgb(94, 59, 138);
 }
 
 #result {
@@ -190,25 +190,25 @@ section {
 
 #dnbtn, #dnbtnp {
     /*background: rgb(125, 236, 125);*/
-    background: rgb(192, 143, 226);
+    background: rgb(94, 59, 128);
     color: white;
     font-weight: 700;
     transition: 2s ease;
 }
 #nbtn:hover, #dnbtnp:hover {
-    background: rgb(192, 148, 229);
+    background: rgb(94, 59, 138);
 }
 
 #upbtn, #upbtnp {
     /*background: rgb(255, 255, 255);*/
-    background: rgb(192, 143, 226);
+    background: rgb(94, 59, 128);
     border:  3px rgb(199, 238, 127) solid;
     transition: 2s ease;
     color: white;
     font-weight: 700;
 }
 #upbtn:hover, #upbtnp:hover {
-    background: rgb(189, 140, 227);
+    background: rgb(94, 59, 138);
 }
 
 #rangec {
@@ -442,24 +442,24 @@ section {
     width: 90%;
     border-radius: 9px;
     margin-bottom: 3px;
-    border-color: 5px green solid;
+    border-color: 5px rgb(157, 111, 196) solid;
     transition: 1s ease;
 }
 
 .dnbtnp {
-    background-color: greenyellow;
+    background-color: purple;
 }
 
 .mibtn {
-    background-color: rgb(178, 250, 69);
+    background-color: rgb(94, 59, 128);
 }
 
 .upbtnp {
-    background-color: rgb(202, 241, 205);
+    background-color: rgb(94, 59, 128);
 }
 
 .mibtn:hover, .dnbtnp:hover, .upbtnp:hover {
-    background-color: rgb(163, 238, 163);
+    background-color: rgb(94, 59, 140);
 }
 
 .clicked {
@@ -477,12 +477,12 @@ section {
 #cancelbtn {
     width: 4em;
     padding: 5px;
-    background-color: green;
+    background-color: rgb(94, 59, 128);
     border-radius: 4px;
     transition: 1sec ease;
 }
 #cancelbtn:hover {
-    background-color: greenyellow;
+    background-color: purple;
 }
 
 @media (max-width: 900px) {
