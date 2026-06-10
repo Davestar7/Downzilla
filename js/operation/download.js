@@ -376,7 +376,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
             setTimeout(() => {
                 window.open(monetag, "_blank");
             }, 2000);
-        }, 2000);
+        }, 4000);
     };
 
     const startPolling = () => {
