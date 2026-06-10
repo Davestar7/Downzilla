@@ -201,7 +201,7 @@ function updateFeed(data, successful) {
                         width: 10%;
                         cursor: pointer;
                         border-radius: 5px;
-                "><span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
+                "><span id="numberStar" class="numberStar" style="color: white;">${totalStars}</span>${icons.STARED}</button>`
         } else {
             starButton = `<button id="starBtn" class="starbtn" data-index="${all}" data-id="${id}" data-pubid="${publisherId}" style="width: 8em;
                         border: 1px solid rgb(94, 59, 128);
