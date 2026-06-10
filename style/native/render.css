@@ -221,6 +221,7 @@
     padding-left: 2em;
     padding-right: 2em;
     margin-top: -25px;
+    z-index: 111;
 }
 
 /* .starbtn {
