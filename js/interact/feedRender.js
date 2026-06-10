@@ -367,7 +367,7 @@ async function shouldStar(el, which = false, slist = null, islist= false) {
             return
         }
         
-        el.currentTarget.style.background = "rgb(139, 214, 139)"
+        el.currentTarget.style.background = "rgb(94, 59, 128)"
         el.currentTarget.style.color = "gold"
         // document.getElementById("numberStar").innerText = specify.length + 1
         document.getElementsByClassName("numberStar")[index-1].style.color = "black"
