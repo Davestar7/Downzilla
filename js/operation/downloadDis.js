@@ -473,7 +473,7 @@ function listmpdownload(url, title, from, formats, des, su, headers) {
     })
 }
 
-function historyRender(DData, isPublic, type, element = null, isFeed = false) {
+function historyRender(DData, isPublic, type, element = null, isFeed = false, vid = null) {
     let display
     if (element === null) {
         display = document.getElementById("hisConP")
@@ -571,7 +571,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false) {
                     dbtn.innerHTML = "awaiting download..."
                     // dbtn.classList.add("clicked")
 
-                    downloadVideo(urls, title, null, null, format, "history", httpHeaders)
+                    downloadVideo(urls, title, null, null, format, "history", httpHeaders, vid)
                 })
 
                 mbtn.addEventListener("click", () => {
@@ -743,7 +743,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                     dbtn.innerHTML = "awaiting download..."
                     // dbtn.classList.add("clicked")
 
-                    downloadVideo(urls, title, null, null, format, "history", httpHeaders)
+                    downloadVideo(urls, title, null, null, format, "history", httpHeaders, vid)
                 })
 
                 mbtn.addEventListener("click", () => {
