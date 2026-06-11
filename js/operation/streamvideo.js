@@ -1,7 +1,7 @@
 import { icons, routes } from "../../UI-components/env/env.js";
 import { alert } from "../../UI-components/popup.js";
 
-async function streamVideoFunction(formats, url, title, headers, thumbnail) {
+async function streamVideoFunction(formats, url, title, headers, thumbnail, vid = null) {
     let height;
     // let urls;
     formats?.forEach(f => {
@@ -15,7 +15,7 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail) {
     const start = await fetch(routes.startStream, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({url: url, title: title,headers: headers, formats: formats, height: height,})
+        body: JSON.stringify({url: url, title: title,headers: headers, formats: formats, height: height, vid: vid})
     })
     const fin = await start.json()
     if (fin.success != true) {
