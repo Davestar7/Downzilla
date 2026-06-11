@@ -426,7 +426,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         const response = await fetch(routes.beginD, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: rawHeight, headers, uid = vid}),
+            body: JSON.stringify({url, format_id: select, title, start, end, formats: perferedFormats, height: rawHeight, headers, uid: vid}),
             credentials: "include"
         }).then(r => r.json());
 
