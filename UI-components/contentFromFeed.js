@@ -160,7 +160,7 @@ async function handleRender() {
             return
         }
 
-        historyRender(res, true, type, null, true)
+        historyRender(res, true, type, null, true, id)
         document.getElementById("sharedby").innerText = publisher
         document.getElementById("origin").innerHTML = `<a href="${irl}" style="width: 100%; height: 100%;" target="_blank">View Original</a>`
         document.getElementById("sharefeed").addEventListener("click", () => {
