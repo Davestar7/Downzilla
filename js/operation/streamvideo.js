@@ -36,7 +36,7 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail, vid 
     if (ele) ele.innerHTML = videoCon
     if (plpop) ele.innerHTML = videoCon
     setTimeout(() => {
-         window.open(monetag, "_blank");
+         window.open("https://omg10.com/4/11056236", "_blank");
     }, 10600);
 }
 
