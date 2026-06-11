@@ -23,7 +23,7 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail, vid 
         return
     }
     const id = fin.data
-
+    
     const videoCon = `
                     <video poster="${thumbnail}" id="vimg" alt="${title}" title="downzilla-${title}" controls width="100%">
                         <source src="${routes.Stream}?sid=${id}" type="video/mp4">
@@ -35,6 +35,9 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail, vid 
 
     if (ele) ele.innerHTML = videoCon
     if (plpop) ele.innerHTML = videoCon
+    setTimeout(() => {
+         window.open(monetag, "_blank");
+    }, 10600);
 }
 
 const universalFormat = new Set([144, 240, 360, 480, 720, 1080])
