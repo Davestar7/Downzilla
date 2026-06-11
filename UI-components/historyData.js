@@ -134,7 +134,7 @@ async function updateData(id, isPublic, type, cid) {
         return
     }
 
-    historyRender(data, isPublic, type)
+    historyRender(data, isPublic, type, cid)
     document.getElementById("sharefeed").addEventListener("click", () => {
             share("private", {one: userData.userId, two: cid}, data.data.title)
         })
