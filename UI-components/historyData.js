@@ -107,10 +107,14 @@ async function updateUiData(userid, contentid) {
         updateData(ids, isPublic, type, id)
     
 }
-
+let already = false;
 async function updateData(id, isPublic, type, cid) {
     let data;
+    if (already === true) {
+        return
+    }
     if (type === "video") {
+        already = true
         const res = await fetch(routes.getDData, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -119,6 +123,7 @@ async function updateData(id, isPublic, type, cid) {
         })
         data = await res.json()
     } else if (type === "playlist") {
+        already = true
         const res = await fetch(routes.beginPlaylist, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
