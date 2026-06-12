@@ -52,7 +52,7 @@ function main() {
 }
 
 function submitResetData() {
-    let interva
+    
     document.getElementById("forsub").style.background = "gainsboro";
     document.getElementById("forsub").style.border = "gainsboro";
     document.addEventListener("keypress", (e) => {
@@ -60,7 +60,7 @@ function submitResetData() {
         const text = document.getElementById("namer").value;
         const email = document.getElementById("emailr").value;
 
-        interva = setTimeout(() => {
+        setinterval(() => {
           events(text, email)
         }, 950);
     } )
