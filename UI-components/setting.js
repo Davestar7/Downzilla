@@ -56,7 +56,7 @@ function submitResetData() {
     document.getElementById("forsub").style.background = "gainsboro";
     document.getElementById("forsub").style.border = "gainsboro";
     document.addEventListener("keypress", (e) => {
-        clearTimeout(interva)
+        
         const text = document.getElementById("namer").value;
         const email = document.getElementById("emailr").value;
 
