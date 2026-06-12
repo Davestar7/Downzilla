@@ -62,7 +62,7 @@ function submitResetData() {
 
         setInterval(() => {
           events(text, email)
-        }, 1000);
+        }, 100);
     } )
 
     function events(text, email) {
