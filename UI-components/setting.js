@@ -66,7 +66,7 @@ function submitResetData() {
     } )
 
     function events(text, email) {
-        //submitFunction("both", text, email)
+        submitFunction("both", text, email)
         if (text.toLowerCase() !== userData.names.toLowerCase()) {
           submitFunction("name",text, email)
         } else if (email !== userData.email) {
