@@ -63,7 +63,7 @@ async function updateUiData(userid, contentid) {
         }
 
         historyPageAsideUi(userData.userId)
-        
+        if (!id || !userId) return
         const history = await fetch(routes.getSingleHistory, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
