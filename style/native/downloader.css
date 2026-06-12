@@ -304,7 +304,7 @@ section {
 }
 
 #metadel h4, #metadel span {
-    front-weight: 500;
+    font-weight: 500;
 }
 
 #entries {
