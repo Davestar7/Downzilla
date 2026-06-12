@@ -299,6 +299,10 @@ section {
     min-height: 30vh;
 }
 
+#metadel h4, #metadel span {
+    front-weight: 500;
+}
+
 #entries {
     max-height: 100vh;
     max-width: 95vw;
