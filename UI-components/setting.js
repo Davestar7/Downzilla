@@ -60,13 +60,13 @@ function submitResetData() {
         const text = document.getElementById("namer").value;
         const email = document.getElementById("emailr").value;
 
-        setinterval(() => {
+        setInterval(() => {
           events(text, email)
         }, 950);
     } )
 
     function events(text, email) {
-        submitFunction("both", text, email)
+        //submitFunction("both", text, email)
         if (text.toLowerCase() !== userData.names.toLowerCase()) {
           submitFunction("name",text, email)
         } else if (email !== userData.email) {
