@@ -272,7 +272,9 @@ section {
 #disc {
     margin-bottom: 1em;
     border-bottom: 1px solid;
-    height: 80vh;
+    height: fit-content;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
 }
 
 .deatail {
