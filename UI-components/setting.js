@@ -55,18 +55,18 @@ function submitResetData() {
     
     document.getElementById("forsub").style.background = "gainsboro";
     document.getElementById("forsub").style.border = "gainsboro";
-    document.addEventListener("keypress", (e) => {
+    document.addEventListener("input", (e) => {
         
         const text = document.getElementById("namer").value;
         const email = document.getElementById("emailr").value;
 
         setInterval(() => {
           events(text, email)
-        }, 950);
+        }, 1000);
     } )
 
     function events(text, email) {
-        submitFunction("both", text, email)
+        //submitFunction("both", text, email)
         if (text.toLowerCase() !== userData.names.toLowerCase()) {
           submitFunction("name",text, email)
         } else if (email !== userData.email) {
