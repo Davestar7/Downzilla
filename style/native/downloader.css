@@ -278,8 +278,10 @@ section {
 }
 
 .deatail {
-    display: grid;
-    grid-template-rows: 70% 30%;
+    display: flex;
+    /*grid-template-rows: 70% 30%;*/
+    flex-direction: column;
+    overflow: hidden;
 }
 
 #vimg {
