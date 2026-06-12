@@ -66,6 +66,7 @@ function submitResetData() {
     } )
 
     function events(text, email) {
+        submitFunction("both", text, email)
         if (text.toLowerCase() !== userData.names.toLowerCase()) {
           submitFunction("name",text, email)
         } else if (email !== userData.email) {
@@ -79,14 +80,13 @@ function submitResetData() {
     }
 
     function submitFunction(which, name, email) {
-      console.log(which)
+      
       const submit = document.getElementById("forsub")
       submit.style.background = "rgb(20, 124, 20)"
       submit.style.border = "green"
 
       submit.addEventListener("click", async (e) => {
         e.target.innerText = "loading"
-          console.log("resert data btn clicked")
 
           const resp = await fetch(routes.resetData, {
               method: "POST",
