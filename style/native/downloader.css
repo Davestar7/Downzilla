@@ -172,6 +172,10 @@ section {
     text-decoration: underline;
 }
 
+#resDetail h4 {
+    font-weight: 500;
+}
+
 #playB {
     display: flex;
     flex-direction: column;
