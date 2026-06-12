@@ -272,7 +272,7 @@ section {
 #disc {
     margin-bottom: 1em;
     border-bottom: 1px solid;
-    min-height: fit-content;
+    min-height: 30vh;
     padding-top: 0.5em;
     padding-bottom: 1em;
 }
@@ -294,7 +294,7 @@ section {
     align-items: center;
     justify-self: center;
     font-weight: 600;
-    min-height: 21vh;
+    min-height: 30vh;
 }
 
 #entries {
