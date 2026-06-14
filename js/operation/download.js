@@ -215,7 +215,7 @@ async function getFormat(id, source, url) {
         }
     } catch (e) {
         
-        alert(e.message, 8000)
+        alert("failed", 8000)
         closeFunction()
     }
 }
