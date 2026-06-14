@@ -155,8 +155,8 @@ async function handleRender() {
             res = await state.json()
         }
         if (res.success != true) {
-            alert(`failed!! ${res.message}`)
-            ele.innerHTML = `<em>Failed!!!</em>`
+            alert(`failed!!!`)
+            ele.innerHTML = `<em>Failed: ${res.message}</em>`
             return
         }
 
