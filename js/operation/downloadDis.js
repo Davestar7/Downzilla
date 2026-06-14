@@ -489,6 +489,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false, vi
         return
     }
     let details = DData.data
+    console.log(details)
 
     const title = details?.title
     const discrip = details?.description || "no discription found in this content"
