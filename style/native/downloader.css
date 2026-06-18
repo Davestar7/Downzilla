@@ -123,11 +123,12 @@ section {
 }
 
 #reterr {
-    display: -webkit-box;
-    max-height: 30vh;
-  -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+        display: inline-block;
+        width: 97%;
+        height: 30vh; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 }
 
 #resultC {
