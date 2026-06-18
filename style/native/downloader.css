@@ -123,12 +123,10 @@ section {
 }
 
 #reterr {
-    display: inline-flex;
-    overflow: hidden;
-    max-height: 30vh;
-}
-#reterr::after {
-    text-overflow: emphasis;
+    display: -webkit-box;
+   -webkit-line-clamp: 5; /* number of lines */
+   -webkit-box-orient: vertical;
+   overflow: hidden;
 }
 
 #resultC {
