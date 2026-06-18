@@ -156,7 +156,7 @@ async function handleRender() {
         }
         if (res.success != true) {
             alert(`failed!!!`)
-            ele.innerHTML = `<em>Failed: ${res.message}</em>`
+            ele.innerHTML = `<em>Failed:<span id="reterr"> ${res.message}</span></em>`
             return
         }
 
