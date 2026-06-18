@@ -385,7 +385,7 @@
 }
 
 #sidem p {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     color: rgb(46, 42, 42);
         height: fit-content;
