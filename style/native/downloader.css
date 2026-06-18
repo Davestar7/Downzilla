@@ -124,6 +124,7 @@ section {
 
 #reterr {
     display: inline-flex;
+    overflow: hidden;
     max-height: 30vh;
 }
 #reterr::after {
