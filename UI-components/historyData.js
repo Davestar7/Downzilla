@@ -135,7 +135,7 @@ async function updateData(id, isPublic, type, cid) {
     
     if (data.success !== true) {
         alert("something went wong get Data", 5000)
-        document.getElementById("hisConP").innerHTML = `failed!!! \n ${data.message}`
+        document.getElementById("hisConP").innerHTML = `<span id="reterr">failed!!! \n ${data.message}</span>`
         return
     }
 
