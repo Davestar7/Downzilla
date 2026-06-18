@@ -123,12 +123,15 @@ section {
 }
 
 #reterr {
-        display: inline-block;
-        width: 97%;
-        height: 30vh; 
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    display: -webkit-box;
+    width: 97%;
+    max-height: calc(6 * 1.5em); /* Adjust 1.5em to match your line-height */
+    line-height: 1.5; /* Set a consistent line height */
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Change from nowrap to normal */
 }
 
 #resultC {
