@@ -124,9 +124,10 @@ section {
 
 #reterr {
     display: -webkit-box;
-   -webkit-line-clamp: 5; /* number of lines */
-   -webkit-box-orient: vertical;
-   overflow: hidden;
+    max-height: 30vh;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 #resultC {
