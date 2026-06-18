@@ -377,17 +377,19 @@
 #ds b {
     font-weight: 600;
     font-size: 1em;
+        display: inline-block;
+        width: 97%;
+        height: fit-content;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 }
 
 #sidem p {
     display: flex;
     flex-direction: column;
     color: rgb(46, 42, 42);
-}
-
-#sidem p, #sidem b{
-        display: inline-block;
-        width: 97%;
+    width: 97%;
         height: fit-content;
         white-space: nowrap;
         overflow: hidden;
