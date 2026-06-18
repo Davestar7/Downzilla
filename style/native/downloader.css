@@ -122,6 +122,14 @@ section {
    content: "⭕";
 }
 
+#reterr {
+    display: inline-flex;
+    max-height: 30vh;
+}
+#reterr::after {
+    text-overflow: emphasis;
+}
+
 #resultC {
     display: grid;
     gap: 2em;
