@@ -372,6 +372,7 @@
 
 #sidem {
     height: 82.5%;
+    overflow: hidden;
 }
 
 #ds b {
