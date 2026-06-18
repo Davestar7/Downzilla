@@ -386,8 +386,12 @@
 }
 
 #sidem p, #sidem b{
-  overflow: hidden;
-  text-overflow: ellipsis;
+        display: inline-block;
+        width: 97%;
+        height: fit-content;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 }
 
 #sidebtn {
