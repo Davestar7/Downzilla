@@ -143,7 +143,7 @@ async function videodis(jsons = null, ismp) {
         const uploadm = document?.getElementById("upbtn")
         uploadm.style.background = "white"
         uploadm.innerHTML = `<i>uploading...</i>`
-        uploadContent(title, thumbnail, discrip, urls, source, "video", uploadm)
+        uploadContent(title, thumbnail, discrip, urls, source, "video", uploadm, details?.age_limit)
     })
        generateThumbnailContainer("#img-vid", thumbnail)
        document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
@@ -275,7 +275,7 @@ function playListdis(jsons = null) {
         const uploadp = document.getElementById("upbtn")
         uploadp.style.background = "gray"
         uploadp.innerHTML = `<i>uploading...</i>`
-        uploadContent(playlistdata.title, playlistdata.thumbnail, playlistdata.discription, playlistdata.url, playlistdata.site, "playlist", uploadp)
+        uploadContent(playlistdata.title, playlistdata.thumbnail, playlistdata.discription, playlistdata.url, playlistdata.site, "playlist", uploadp, downloadable?.age_limit)
     })
     // andDownloadPlay(playlistdata.title, playlistdata.url, entries)
 }
@@ -585,7 +585,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false, vi
                     const uploadm = document?.getElementById("upbtn")
                     uploadm.style.background = "white"
                     uploadm.innerHTML = `<i>uploading...</i>`
-                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
+                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm, details?.age_limit)
                 })
                
                 generateThumbnailContainer("#img-vid", thumbnail)
@@ -677,10 +677,9 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                 AndPlaySingle(entries)
                 document.getElementsByClassName("upbtn")[0]?.addEventListener("click", (e) => {
                     const uploadp = document.getElementById("upbtn")
-                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadp)
+                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadp, details?.age_limit)
                     uploadp.style.background = "gray"
                     uploadp.innerHTML = `<i>uploading...</i>`
-                    e.target.removeEventListener("click", e)
                 })
             } catch (e) {
                 console.log(e)
