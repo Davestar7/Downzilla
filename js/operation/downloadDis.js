@@ -33,7 +33,7 @@ async function videodis(jsons = null, ismp) {
     display.innerHTML = "<em>updating details... <br> if stuck ensure it's not a playlist url</em>"
     
     if (downloadable.success != true) {
-        const errordis = "-" + `<span id="reterr">${downloadable.message} </span>` + `<br><em>check internet connection</em><br> <em>comfirm video URL</em><br> <em>then try again</em>`
+        const errordis = "-" + `<span id="reterr">${downloadable.message} </span>` + `<br><em>check internet connection</em><br> <em>comfirm video URL</em><br> <em>then try again</em>`;
         display.innerHTML = errordis
         return
     }
