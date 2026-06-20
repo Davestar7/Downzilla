@@ -3,8 +3,12 @@ import { userData } from "../auth/afterauth.js"
 import { islogedIn } from "../checkuserlogin.js";
 import { popUp, alert } from "../../UI-components/popup.js";
 
-async function uploadContent(title, thumbnail, description, url, source, type, from) {
+async function uploadContent(title, thumbnail, description, url, source, type, from, age_limit = null) {
 
+    if (age_limit && age_limit >= 18){
+        alert("can't share adult content noticed")
+        return
+    } 
     upload()
 
     async function upload() {
