@@ -49,7 +49,7 @@ async function uploadHistory(title, description, url, source, type, img) {
         setTimeout(() => {
             popUp()
             alert("please login or signup to Downzilla")
-        }, 2000);
+        }, 9000);
         const htoString = `${title}>${description || "no description"}>${url}>${source}>${type}`
        
         localStorage.setItem("historyD", htoString)
