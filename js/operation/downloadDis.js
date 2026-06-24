@@ -494,7 +494,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false, vi
     const title = details?.title
     const discrip = details?.description || "no discription found in this content"
     let thumbnail
-    const uploader = details?.uploader
+    const uploader = details?.uploader || "unknown"
     const source = details?.extractor_key
     const duration = timeformat(Number(details?.duration))
     const format = details?.formats
