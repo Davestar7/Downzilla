@@ -34,13 +34,12 @@ function main() {
     document.querySelector('meta[name="description"]').setAttribute('content', metadis)
 
     document.getElementById("backbtnU").addEventListener("click", backFunction, { once: true })
-
+    handleRender()
     if (islogedIn === false) {
         popUp()
     }
 
     sideRender()
-    handleRender()
 }
 
 let allList = []
