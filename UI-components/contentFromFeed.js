@@ -9,6 +9,8 @@ import { changePath } from "../js/createPage.js"
 import { backFunction } from "../js/checkcondition.js"
 import { shouldStar } from "../js/interact/feedRender.js"
 
+let started = false;
+
 function main() {
     let page = document.getElementById("contentPage")
     const head = header()
@@ -45,6 +47,8 @@ function main() {
 let allList = []
 
 async function handleRender() {
+    if (started) return
+    started = true
     const ele = document.getElementById("hisConP")
     
     try {
@@ -170,7 +174,7 @@ async function handleRender() {
 
         ele.innerHTML = `<em>Failed: ${e.message}</em>`
     }
-
+    started = false
 }
 
 async function sideRender() {
