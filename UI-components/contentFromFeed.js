@@ -36,12 +36,13 @@ function main() {
     document.querySelector('meta[name="description"]').setAttribute('content', metadis)
 
     document.getElementById("backbtnU").addEventListener("click", backFunction, { once: true })
-    handleRender()
+    
     if (islogedIn === false) {
         popUp()
     }
 
     sideRender()
+    handleRender()
 }
 
 let allList = []
@@ -157,6 +158,7 @@ async function handleRender() {
             })
             res = await state.json()
         }
+        started = false
         if (res.success != true) {
             alert(`failed!!!`)
             ele.innerHTML = `<em>Failed:<span id="reterr"> ${res.message}</span></em>`
@@ -174,7 +176,6 @@ async function handleRender() {
 
         ele.innerHTML = `<em>Failed: ${e.message}</em>`
     }
-    started = false
 }
 
 async function sideRender() {
