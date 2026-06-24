@@ -12,6 +12,8 @@ import { shouldStar } from "../js/interact/feedRender.js"
 let started = false;
 
 function main() {
+    if (started) return
+    started = true
     let page = document.getElementById("contentPage")
     const head = header()
 
@@ -41,6 +43,7 @@ function main() {
         popUp()
     }
 
+    
     sideRender()
     handleRender()
 }
@@ -48,8 +51,7 @@ function main() {
 let allList = []
 
 async function handleRender() {
-    if (started) return
-    started = true
+    
     const ele = document.getElementById("hisConP")
     
     try {
