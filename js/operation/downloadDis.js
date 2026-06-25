@@ -261,7 +261,7 @@ function playListdis(jsons = null) {
                                     <span>00:00 - ${duration}</span>
                                 </div>
                                 <div id="downplbtn">
-                                    <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">download</button>
+                                    <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">Details</button>
                                 </div>
                             </div>
                         </div>
@@ -667,7 +667,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                                             <span>00:00 - ${duration}</span>
                                         </div>
                                         <div id="downplbtn">
-                                            <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">download</button>
+                                            <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">details</button>
                                         </div>
                                     </div>
                                 </div>
@@ -838,7 +838,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                                             <span>00:00 - ${duration}</span>
                                         </div>
                                         <div id="downplbtn">
-                                            <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">download</button>
+                                            <button id="downloadplbtn" class="downloadplbtn" data-position="${position}">details</button>
                                         </div>
                                     </div>
                                 </div>
