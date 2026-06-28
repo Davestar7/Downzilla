@@ -269,7 +269,7 @@ async function sideRender() {
 
     if (islogedIn() === false) {
         alert("please login/signup")
-        settimeout(() => {
+        setTimeout(() => {
            popUp()
         }, 2000)
     }
