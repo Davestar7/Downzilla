@@ -10,6 +10,13 @@
   </url>
 
   <url>
+    <loc>https://www.downzilla.buzz/user/RenderFeed</loc>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
     <loc>https://downzilla.buzz/features</loc>
     <lastmod>2026-06-28</lastmod>
     <changefreq>monthly</changefreq>
