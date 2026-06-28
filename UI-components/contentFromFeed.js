@@ -276,7 +276,7 @@ async function sideRender() {
 
     const atemp = document.createElement("template")
     atemp.innerHTML = `<span id="atemp" style="color purple; text-decoration: underline; padding-top: 5vh;">more </span>`;
-    side.prepend(atemp.content.firstElementChild);
+    side.append(atemp.content.firstElementChild);
 
     document.getElementById("atemp").addEventListener('click', () => {
                 uiLoader(true, false, "please wait..", 1000)
