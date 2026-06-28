@@ -1,0 +1,43 @@
+# Downzilla
+
+Website: https://downzilla.buzz
+
+Name: Downzilla
+
+Description:
+Downzilla is an online video downloader that enables users to extract and download publicly accessible video and audio from supported websites through a web browser.
+
+Primary Features:
+- Video downloads
+- Audio downloads
+- Multiple download formats
+- Multiple quality options
+- video streaming
+- Playlist support (where available)
+- Mobile-friendly interface
+
+Documentation:
+https://downzilla.buzz/docs
+
+FAQ:
+https://downzilla.buzz/faq
+
+Features:
+https://downzilla.buzz/features
+
+Supported Sites:
+https://downzilla.buzz/supported-sites
+
+Terms of Service:
+https://www.downzilla.buzz/user/user/info/TandC
+
+Robots:
+https://downzilla.buzz/robots.txt
+
+Sitemap:
+https://downzilla.buzz/sitemap.xml
+
+Notes:
+- Download options depend on the source website.
+- Supported websites may change over time.
+- Users are responsible for complying with applicable copyright laws and the terms of service of the source websites.
