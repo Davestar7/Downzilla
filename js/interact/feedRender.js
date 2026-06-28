@@ -8,7 +8,8 @@ import { allList } from "../../UI-components/contentFromFeed.js";
 
 let totalContainablePage = null
 let backup = []
-let already = false
+let already = localStorage.get("already") || false
+
 async function handleFeedDisplay(newPage = null) {
     if (newPage != null) {
         changeRenderingPageNumber(newPage)
@@ -379,6 +380,7 @@ function infoWarn() {
         if (already === false) {
             already = true
             popUp("feedinfo")
+            localStorage.setItem("already", already)
         }
     }, 4000);
 }
