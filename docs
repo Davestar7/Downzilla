@@ -1,0 +1,73 @@
+Documentation
+
+Introduction
+
+Downzilla is an online service for extracting downloadable media information from supported websites.
+
+The service detects available media streams and presents supported download options.
+
+---
+
+How It Works
+
+1. Paste a supported video URL.
+2. Click Search.
+3. Downzilla analyzes the video url.
+4. Available formats are displayed.
+5. Select your preferred format.
+6. Click Download to begin download (might take some time to begin)
+
+---
+
+Features
+
+- Fast media extraction
+- Multiple video qualities
+- Audio-only downloads
+- Playlist support (where supported)
+- Mobile-friendly interface
+- video streaming
+- sharing download link
+
+---
+
+Supported Formats
+
+Formats depend on the source website and may include:
+
+- MP4
+- WebM
+- MP3
+- M4A
+
+---
+
+Error Messages
+
+Invalid URL
+
+The provided URL is not supported or is incorrectly formatted.
+
+Video Unavailable
+
+The content cannot currently be accessed.
+
+Extraction Failed
+
+The media could not be processed. Please try again later.
+
+Rate Limited
+
+Too many requests were received. Wait a few minutes before trying again.
+
+---
+
+Privacy
+
+Downzilla does not permanently store downloaded media. Temporary processing may occur to generate download information.
+
+---
+
+Contact
+
+For support or bug reports, contact us through the website's contact page.
