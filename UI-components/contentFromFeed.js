@@ -9,6 +9,7 @@ import { changePath, pushUrl } from "../js/createPage.js"
 import { backFunction } from "../js/checkcondition.js"
 import { shouldStar } from "../js/interact/feedRender.js"
 import {footers} from './env/env.js';
+import feedPage from './renderfeed.js'
 
 let started = false;
 
