@@ -8,7 +8,7 @@ import { allList } from "../../UI-components/contentFromFeed.js";
 
 let totalContainablePage = null
 let backup = []
-let already = localStorage.get("already") || false
+let already = localStorage.getItem("already") || false
 
 async function handleFeedDisplay(newPage = null) {
     if (newPage != null) {
