@@ -1,11 +1,35 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://downzilla.buzz/sitemap.xml
+
+# OpenAI
 User-agent: GPTBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic
 User-agent: ClaudeBot
 Allow: /
 
+# Google AI
 User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# ByteDance
+User-agent: Bytespider
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Google Search
+User-agent: Googlebot
 Allow: /
