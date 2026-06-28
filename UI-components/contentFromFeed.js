@@ -1,4 +1,4 @@
-import {popUp, alert} from "./popup.js"
+import {popUp, alert, uiLoader} from "./popup.js"
 import { userData } from "../js/auth/afterauth.js"
 import header from "./header.js"
 import { islogedIn } from "../js/checkuserlogin.js"
