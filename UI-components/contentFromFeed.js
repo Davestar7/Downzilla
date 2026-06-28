@@ -5,9 +5,10 @@ import { islogedIn } from "../js/checkuserlogin.js"
 import { routes, icons, loader } from "./env/env.js"
 import { queryLoadable, cancelListerner } from "../js/operation/download.js"
 import { historyRender, share } from "../js/operation/downloadDis.js"
-import { changePath } from "../js/createPage.js"
+import { changePath, pushUrl } from "../js/createPage.js"
 import { backFunction } from "../js/checkcondition.js"
 import { shouldStar } from "../js/interact/feedRender.js"
+import {footers} from './env/env.js';
 
 let started = false;
 
@@ -268,8 +269,20 @@ async function sideRender() {
 
     if (islogedIn() === false) {
         alert("please login/signup")
-        popUp()
+        settimeout(() => {
+           popUp()
+        }, 2000)
     }
+
+    const atemp = document.createElement("template")
+    atemp.innerHTML = `<span id="atemp" style="color purple; text-decoration: underline; padding-top: 5vh;">more </span>`;
+    side.prepend(atemp.content.firstElementChild);
+
+    document.getElementById("atemp").addEventListener('click', () => {
+                uiLoader(true, false, "please wait..", 1000)
+                pushUrl(feed, footers[0].title)
+                feedPage()
+            })
 }
 
 export { main, allList }
