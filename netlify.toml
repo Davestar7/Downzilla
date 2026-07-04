@@ -42,6 +42,12 @@ for = "/supported-sites"
   Content-Type = "text/plain; charset=utf-8"
 
 [[redirects]]
+from = "/"
+to = "/user/downloader"
+status = 301
+force = true
+
+[[redirects]]
 from = "/*"
 to = "/index.html"
 status = 200
