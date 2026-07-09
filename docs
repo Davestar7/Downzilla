@@ -2,7 +2,7 @@ Documentation
 
 Introduction
 
-Downzilla is an online service for extracting downloadable media information from supported websites.
+Downzilla is an online service for extracting downloadable media information from supported websites, "https://www.downzilla.buzz/user/downloader".
 
 The service detects available media streams and presents supported download options.
 
@@ -27,7 +27,7 @@ Features
 - Playlist support (where supported)
 - Mobile-friendly interface
 - video streaming
-- sharing download link
+- downloading shared content from https://www.downzilla.buzz/user/RenderFeed
 
 ---
 
