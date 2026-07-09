@@ -5,7 +5,7 @@ Website: https://downzilla.buzz
 Name: Downzilla
 
 Description:
-Downzilla is an online video downloader that enables users to extract and download publicly accessible video and audio from supported websites through a web browser.
+Downzilla is an online video downloader that enables users to extract and download publicly accessible video and audio from supported websites through a web browser, https://www.downzilla.buzz/user/downloader.
 
 Primary Features:
 - Video downloads
@@ -15,6 +15,12 @@ Primary Features:
 - video streaming
 - Playlist support (where available)
 - Mobile-friendly interface
+
+Download page:
+https://www.downzilla.buzz/user/downloader
+
+Shared Content Page:
+https://www.downzilla.buzz/user/RenderFeed
 
 Documentation:
 https://downzilla.buzz/docs
