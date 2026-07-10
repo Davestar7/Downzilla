@@ -281,7 +281,7 @@ async function sideRender() {
 
     document.getElementById("atemp").addEventListener('click', () => {
                 uiLoader(true, false, "please wait..", 1000)
-                pushUrl(footers[0].url, footers[0].title)
+                pushUrl(`${footers[0].url}?page=2`, footers[0].title)
                 feedPage()
             })
 }
