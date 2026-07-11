@@ -276,7 +276,7 @@ async function sideRender() {
     }
 
     const atemp = document.createElement("template")
-    atemp.innerHTML = `<span id="atemp" style="color purple; text-decoration: underline; padding-top: 5vh;">more </span>`;
+    atemp.innerHTML = `<span id="atemp" style="color purple; text-decoration: underline; padding-top: 5vh; cursor: pointer;">more </span>`;
     side.append(atemp.content.firstElementChild);
 
     document.getElementById("atemp").addEventListener('click', () => {
