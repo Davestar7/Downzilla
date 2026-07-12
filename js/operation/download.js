@@ -431,7 +431,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         }).then(r => r.json());
 
         if (!response.success || !response.jobId) {
-            alert("download failed, please try again");
+            alert("download failed, 😣 fix in progress");
             resetBtn();
             uiLoader(false, true);
             return;
@@ -533,7 +533,7 @@ async function downloadmp(url, title, from, format_id, ext, format, des, su, hea
                 // Failed - stop polling
                 if (result.status === "failed" || !result.success) {
                     clearInterval(poll);
-                    alert("download failed, please try again");
+                    alert("download failed, 😣 fix in progress");
                     resetBtn();
                     uiLoader(false, true);
                     return;
