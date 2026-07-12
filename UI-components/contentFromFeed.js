@@ -115,7 +115,6 @@ async function handleRender() {
 
         if (stars) {
             stars.addEventListener("click", (e) => {
-                console.log("star button clicted")
                 shouldStar(e)
             })
         }
