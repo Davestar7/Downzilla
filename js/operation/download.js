@@ -315,7 +315,7 @@ async function getPlayList(id) {
         searchbtn.innerHTML = icons.SEARCHICON
         localStorage.removeItem("DZDP")
     } catch (e) {
-        alert("check internet connection", 2000)
+        alert("501 server error apologies 😣 fix in progress", 2000)
         const searchbtn = document.getElementById("searchvid")
         searchbtn.classList.add("searchvid")
         searchbtn.innerHTML = icons.SEARCHICON
@@ -445,7 +445,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         document.addEventListener("visibilitychange", onVisibilityChange);
 
     } catch (e) {
-        alert("error occured: check internet connection", 4000);
+        alert("501 error occured: apologies 😣 fix in progress", 4000);
         resetBtn();
         uiLoader(false, true);
     }
@@ -562,7 +562,7 @@ async function downloadmp(url, title, from, format_id, ext, format, des, su, hea
 
             } catch (e) {
                 clearInterval(poll);
-                alert(`Error: ${e.message}`);
+                alert(`Error: ${e.message} apologies 😣 fix in progress`);
                 resetBtn();
                 uiLoader(false, true);
             }
