@@ -215,7 +215,7 @@ async function getFormat(id, source, url) {
         }
     } catch (e) {
         
-        alert("failed", 8000)
+        alert("501 server error apologies 😣 fix in progress", 8000)
         closeFunction()
     }
 }
@@ -375,7 +375,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
             alert("sponsors about to carry out action");
             setTimeout(() => {
                 window.open(monetag, "_blank");
-            }, 2000);
+            }, 4000);
         }, 4000);
     };
 
