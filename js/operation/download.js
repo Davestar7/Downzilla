@@ -431,6 +431,8 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
         }).then(r => r.json());
 
         if (!response.success || !response.jobId) {
+            console.log(response)
+            console.log(response?.message)
             alert("download failed, 😣 fix in progress");
             resetBtn();
             uiLoader(false, true);
