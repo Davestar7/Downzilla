@@ -394,7 +394,7 @@ async function downloadVideo(outurl, title, start, end, format, from = null, hea
 
                 if (result.status === "failed" || !result.success) {
                     clearInterval(poll);
-                    alert("download failed, please try again");
+                    alert("download failed, 😣 fix in progress");
                     resetBtn();
                     uiLoader(false, true);
                     return;
