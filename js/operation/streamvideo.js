@@ -3,48 +3,70 @@ import { alert } from "../../UI-components/popup.js";
 
 async function streamVideoFunction(formats, url, title, headers, thumbnail, vid = null) {
     let height;
-    // let urls;
     formats?.forEach(f => {
         if (f.height && f.height >= 240 && f.height <= 480 && f.resolution !== "audio only") {
-            // url = f.urls;
             height = f.height
         }
     })
-    
+
     alert("sponsors about to redirect")
     try {
-    const start = await fetch(routes.startStream, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({url: url, title: title,headers: headers, formats: formats, height: height, vid: vid})
-    })
-    const fin = await start.json()
-    if (fin.success != true) {
-        alert("unable to play video: "+fin.message, 10000)
-        return
-    }
-    const id = fin.data
-    
-    const videoCon = `
+        const start = await fetch(routes.startStream, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({url: url, title: title, headers: headers, formats: formats, height: height, vid: vid})
+        })
+
+        // FIX: fetch only rejects on network failure, not on HTTP error status.
+        // A 401/500/etc still resolves here — check status explicitly.
+        if (!start.ok) {
+            let msg = `server responded with ${start.status}`
+            try {
+                const errBody = await start.json()
+                if (errBody?.message) msg = errBody.message
+            } catch (_) { /* body wasn't JSON, keep default msg */ }
+            alert("unable to play video, fix in progress 😓")
+            return
+        }
+
+        const fin = await start.json()
+        if (fin.success != true) {
+            alert("unable to play video: " + fin.message)
+            return
+        }
+        const id = fin.data
+
+        const videoCon = `
                     <video poster="${thumbnail}" id="vimg" alt="${title}" title="downzilla-${title}" controls width="100%">
                         <source src="${routes.Stream}?sid=${id}" type="video/mp4">
                         No Browser support for this Element
                     </video>    
                     `
-    const ele = document?.getElementById("img-vid")
-    const plpop = document?.getElementById("popimg")
+        const ele = document?.getElementById("img-vid")
+        const plpop = document?.getElementById("popimg")
 
-    if (ele) ele.innerHTML = videoCon
-    if (plpop) ele.innerHTML = videoCon
+        if (ele) ele.innerHTML = videoCon
+        if (plpop) plpop.innerHTML = videoCon // FIX: was `ele.innerHTML` — plpop was never actually updated
+
+        // FIX: the <video>/<source> load is a native browser request, not a fetch —
+        // errors there (401/500 from the stream endpoint) never hit this try/catch.
+        // Without this listener, a failed stream fails completely silently.
+        const videoEl = document?.getElementById("vimg")
+        if (videoEl) {
+            videoEl.addEventListener('error', () => {
+                console.log('video element failed to load stream, sid:', id)
+                alert("streaming failed, please try again 😓")
+            })
+        }
+
     } catch (e) {
         console.log(`failed to stream because DEBUG ${e}`)
         alert("mmm, streaming failed, fix in progress 😓")
     }
     setTimeout(() => {
-         window.open("https://omg10.com/4/11056236", "_blank");
+        window.open("https://omg10.com/4/11056236", "_blank");
     }, 10600);
 }
-
 const universalFormat = new Set([144, 240, 360, 480, 720, 1080])
 
 const formatPasser = {
