@@ -17,15 +17,13 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail, vid 
             body: JSON.stringify({url: url, title: title, headers: headers, formats: formats, height: height, vid: vid})
         })
 
-        // FIX: fetch only rejects on network failure, not on HTTP error status.
-        // A 401/500/etc still resolves here — check status explicitly.
         if (!start.ok) {
             let msg = `server responded with ${start.status}`
             try {
                 const errBody = await start.json()
                 if (errBody?.message) msg = errBody.message
-            } catch (_) { /* body wasn't JSON, keep default msg */ }
-            alert("unable to play video, fix in progress 😓")
+            } catch (_) {}
+            alert("unable to play video: " + msg)
             return
         }
 
@@ -36,27 +34,36 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail, vid 
         }
         const id = fin.data
 
-        const videoCon = `
-                    <video poster="${thumbnail}" id="vimg" alt="${title}" title="downzilla-${title}" controls width="100%">
+        // FIX: build the <video> markup per-container with a unique id so two
+        // players in the DOM at once (main + popup) never collide on "vimg"
+        const buildVideoCon = (elId) => `
+                    <video poster="${thumbnail}" id="${elId}" alt="${title}" title="downzilla-${title}" controls width="100%">
                         <source src="${routes.Stream}?sid=${id}" type="video/mp4">
                         No Browser support for this Element
                     </video>    
                     `
+
         const ele = document?.getElementById("img-vid")
         const plpop = document?.getElementById("popimg")
 
-        if (ele) ele.innerHTML = videoCon
-        if (plpop) plpop.innerHTML = videoCon // FIX: was `ele.innerHTML` — plpop was never actually updated
-
-        // FIX: the <video>/<source> load is a native browser request, not a fetch —
-        // errors there (401/500 from the stream endpoint) never hit this try/catch.
-        // Without this listener, a failed stream fails completely silently.
-        const videoEl = document?.getElementById("vimg")
-        if (videoEl) {
+        // FIX: attach the error listener directly to the element we just created,
+        // per container, instead of a single global getElementById("vimg") which
+        // only ever finds the first of two duplicate ids
+        const attachErrorAlert = (videoEl) => {
+            if (!videoEl) return
             videoEl.addEventListener('error', () => {
                 console.log('video element failed to load stream, sid:', id)
                 alert("streaming failed, please try again 😓")
             })
+        }
+
+        if (ele) {
+            ele.innerHTML = buildVideoCon("vimg-main")
+            attachErrorAlert(document.getElementById("vimg-main"))
+        }
+        if (plpop) {
+            plpop.innerHTML = buildVideoCon("vimg-pop")
+            attachErrorAlert(document.getElementById("vimg-pop"))
         }
 
     } catch (e) {
@@ -67,6 +74,7 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail, vid 
         window.open("https://omg10.com/4/11056236", "_blank");
     }, 10600);
 }
+
 const universalFormat = new Set([144, 240, 360, 480, 720, 1080])
 
 const formatPasser = {
