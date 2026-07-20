@@ -11,7 +11,8 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail, vid 
         }
     })
     
-
+    alert("sponsors about to redirect")
+    try {
     const start = await fetch(routes.startStream, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -35,6 +36,10 @@ async function streamVideoFunction(formats, url, title, headers, thumbnail, vid 
 
     if (ele) ele.innerHTML = videoCon
     if (plpop) ele.innerHTML = videoCon
+    } catch (e) {
+        console.log(`failed to stream because DEBUG ${e}`)
+        alert("mmm, streaming failed, fix in progress 😓")
+    }
     setTimeout(() => {
          window.open("https://omg10.com/4/11056236", "_blank");
     }, 10600);
