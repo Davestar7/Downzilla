@@ -10,7 +10,7 @@ function timeformat(sec) {
     const m = Math.floor((sec % 3600) / 60). toString().padStart(2, "0")
     const s = Math.floor(sec % 60).toString().padStart(2, "0")
     const retur =  `${h}:${m}:${s}`
-    if (h === NaN && m === NaN && s === NaN) return "..."
+    if (Number.isNaN(h) && Number.isNaN(m) && Number.isNaN(s)) return "..."
     return retur.toString()
 }
 
