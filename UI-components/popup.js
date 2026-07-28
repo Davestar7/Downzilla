@@ -303,7 +303,7 @@ function tc() {
 function oauthc() {
     return `<iframe
     id="googleAuthFrame"
-    src="../UI-components/env/socialauth.html"
+    src="../env/socialauth.html"
     title="Google Authentication"
     loading="lazy"
     scrolling="no"
