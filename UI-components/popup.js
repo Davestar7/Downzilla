@@ -169,7 +169,7 @@ async function popUp(type, reload = false) {
                 <hr>or<hr>
                 ${oauthc()}
             `
-            document.title = "Downzilla auth"
+            document.title = "Downzilla authentication"
             break;
     }
 
@@ -189,13 +189,7 @@ async function popUp(type, reload = false) {
         `
     popuper.innerHTML = dis;
 
-    google.accounts.id.renderButton(
-      document.querySelector(".g_id_signin"),
-    {
-        theme: "outline",
-        size: "large"
-    }
-);
+    
     closex(reload)
     returnBack()
 
