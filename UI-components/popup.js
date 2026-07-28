@@ -307,35 +307,20 @@ function tc() {
 }
 
 function oauthc() {
-    return `<section>
-    <div id="gbtns">
-        <script src="https://accounts.google.com/gsi/client" async defer></script>
-        <div id="g_id_onload"
-                data-client_id="1024052995708-4th7j14oi5dj9b0g2r18rfb8et0djoji.apps.googleusercontent.com"
-                    data-context="signin"
-                    data-callback="handleCredentialResponse"
-                    data-auto_prompt="false">
-                </div>
-
-                <div class="g_id_signin"
-                    data-type="standard"
-                    data-shape="rectangular"
-                    data-theme="outline"
-                    data-text="signin_with"
-                    data-size="large"
-                    data-logo_alignment="left">
-                </div>
-    </div>
-    <style>
-        body {
-            max-height: 11vh;
-        }
-        #gbtns {
-            width: 100%;
-            height: 10vh;
-        }
-    </style>
-<section>`
+    return `<iframe
+    id="googleAuthFrame"
+    src="./UI-components/env/socialauth.html"
+    title="Google Authentication"
+    loading="lazy"
+    scrolling="no"
+    style="
+        width:100%;
+        height:80px;
+        border:none;
+        overflow:hidden;
+        background:transparent;
+    ">
+</iframe>`
 }
 
 export {popUp, login, signup, alert, uiLoader}
