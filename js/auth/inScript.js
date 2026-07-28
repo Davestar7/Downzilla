@@ -8,7 +8,7 @@ async function handleCredentialResponse(response) {
         const credentials = JSON.parse(response)
 
         try {
-           const googleAuth = await fetch("http://localhost:7000/auth/googleauth/callback", {
+           const googleAuth = await fetch("https://downzilla-backend.onrender.com/auth/googleauth/callback", {
                 method: "POST",
                 headers: {"content-Type": "application/json"},
                 body: JSON.stringify({credential: credentials}),
