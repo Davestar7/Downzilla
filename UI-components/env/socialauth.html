@@ -2,36 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>only auth</title>
-    <script src="../js/auth/inScript.js" defer></script>
-</head>
-<body>
-    <div id="gbtns">
-        <script src="https://accounts.google.com/gsi/client" async defer></script>
-        <div id="g_id_onload"
-                data-client_id="1024052995708-4th7j14oi5dj9b0g2r18rfb8et0djoji.apps.googleusercontent.com"
-                    data-context="signin"
-                    data-callback="handleCredentialResponse"
-                    data-auto_prompt="false">
-                </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Auth</title>
 
-                <div class="g_id_signin"
-                    data-type="standard"
-                    data-shape="rectangular"
-                    data-theme="outline"
-                    data-text="signin_with"
-                    data-size="large"
-                    data-logo_alignment="left">
-                </div>
-    </div>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="../js/auth/inScript.js" defer></script>
+
     <style>
-        body {
-            max-height: 11vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: transparent;
+        }
+
         #gbtns {
             width: 100%;
-            height: 10vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
         }
     </style>
+</head>
+
+<body>
+
+    <div id="gbtns">
+        <div
+            id="g_id_onload"
+            data-client_id="1024052995708-4th7j14oi5dj9b0g2r18rfb8et0djoji.apps.googleusercontent.com"
+            data-context="signin"
+            data-callback="handleCredentialResponse"
+            data-auto_prompt="false">
+        </div>
+
+        <div
+            class="g_id_signin"
+            data-type="standard"
+            data-theme="outline"
+            data-shape="rectangular"
+            data-size="large"
+            data-text="signin_with"
+            data-logo_alignment="left">
+        </div>
+    </div>
+
 </body>
 </html>
