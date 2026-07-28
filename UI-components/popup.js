@@ -188,6 +188,15 @@ async function popUp(type, reload = false) {
             </div>
         `
     popuper.innerHTML = dis;
+    document.getElementById("app").innerHTML = oauthc();
+
+    google.accounts.id.renderButton(
+      document.querySelector(".g_id_signin"),
+    {
+        theme: "outline",
+        size: "large"
+    }
+);
     closex(reload)
     returnBack()
 
