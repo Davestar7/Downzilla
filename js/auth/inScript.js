@@ -3,7 +3,7 @@
 // what do you mean there is bug is working fine trust me;
 
 async function handleCredentialResponse(response) {
-    console.log("google token: ", response.credential);
+    console.log("google token: "+ response.credential);
     try {
         const googleAuth = await fetch("https://downzilla-backend.onrender.com/auth/googleauth/callback", {
             method: "POST",
