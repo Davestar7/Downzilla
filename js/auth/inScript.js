@@ -14,7 +14,7 @@ window.handleCredentialResponse = async function(response) {
         const data = await googleAuth.json();
         if (data.success === true) {
             localStorage.setItem("DZAT", data.accessT);
-            window.location.reload();
+            window.parent.location.reload();
         } else {
             alert("Something went wrong, please try again or try another method");
         }
