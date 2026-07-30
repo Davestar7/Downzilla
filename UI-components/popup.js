@@ -301,20 +301,62 @@ function tc() {
 }
 
 function oauthc() {
-    return `<iframe
-    id="googleAuthFrame"
-    src="https://www.downzilla.buzz/UI-components/env/socialauth.html"
-    title="Google Authentication"
-    loading="lazy"
-    scrolling="no"
-    style="
-        width:100%;
-        height:80px;
-        border:none;
-        overflow:hidden;
-        background:transparent;
-    ">
-</iframe>`
+    return `
+        <button id="googleAuthBtn" type="button">
+            <i class="fa-brands fa-google"></i>
+            <span>Sign in with Google</span>
+        </button>
+
+        <style>
+            #googleAuthBtn{
+                width:100%;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                gap:10px;
+                padding:14px 18px;
+                border:none;
+                border-radius:10px;
+                background:#4285F4;
+                color:#fff;
+                font-size:16px;
+                font-weight:600;
+                cursor:pointer;
+                transition:.25s ease;
+            }
+
+            #googleAuthBtn:hover{
+                background:#3367D6;
+            }
+
+            #googleAuthBtn:disabled{
+                opacity:.8;
+                cursor:not-allowed;
+            }
+
+            #googleAuthBtn i{
+                font-size:20px;
+            }
+        </style>
+
+        <script>
+            setTimeout(() => {
+                const btn = document.getElementById("googleAuthBtn");
+
+                if(!btn) return;
+
+                btn.addEventListener("click", () => {
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Opening Google...';
+
+                    window.open(
+                        "https://www.downzilla.buzz/UI-components/env/socialauth.html",
+                        "_blank"
+                    );
+                });
+            }, 0);
+        </script>
+    `;
 }
 
 export {popUp, login, signup, alert, uiLoader}
