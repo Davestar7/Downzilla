@@ -309,33 +309,43 @@ function oauthc() {
 
         <style>
             #googleAuthBtn{
-                width:100%;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                gap:10px;
-                padding:14px 18px;
-                border:none;
-                border-radius:10px;
-                background:#4285F4;
-                color:#fff;
-                font-size:16px;
-                font-weight:600;
-                cursor:pointer;
-                transition:.25s ease;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                height: 40px;
+                padding: 0 16px;
+                border: 1px solid #dadce0;
+                border-radius: 4px;
+                background: #fff;
+                color: #3c4043;
+                font-size: 14px;
+                font-weight: 500;
+                font-family: Roboto, Arial, sans-serif;
+                cursor: pointer;
+                transition: background .2s, box-shadow .2s;
+                width: fit-content;
+                min-width: 220px;
+                margin: 10px auto;
             }
 
             #googleAuthBtn:hover{
-                background:#3367D6;
+                background: #f8f9fa;
+                box-shadow: 0 1px 2px rgba(60,64,67,.3);
+            }
+
+            #googleAuthBtn:active{
+                background: #f1f3f4;
             }
 
             #googleAuthBtn:disabled{
-                opacity:.8;
-                cursor:not-allowed;
+                opacity: .8;
+                cursor: not-allowed;
             }
 
             #googleAuthBtn i{
-                font-size:20px;
+                color: #4285F4;
+                font-size: 18px;
             }
         </style>
 
@@ -343,11 +353,12 @@ function oauthc() {
             setTimeout(() => {
                 const btn = document.getElementById("googleAuthBtn");
 
-                if(!btn) return;
+                if (!btn) return;
 
                 btn.addEventListener("click", () => {
                     btn.disabled = true;
-                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Opening Google...';
+                    btn.innerHTML =
+                        '<i class="fa-solid fa-spinner fa-spin"></i><span>Signing in...</span>';
 
                     window.open(
                         "https://www.downzilla.buzz/UI-components/env/socialauth.html",
