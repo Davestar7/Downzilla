@@ -10,122 +10,92 @@
 
     <style>
         *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,sans-serif;
+}
 
-        body{
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:linear-gradient(135deg,#2563eb,#1d4ed8);
-        }
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#3B1F52;
+    padding:20px;
+}
 
-        .card{
-            width:90%;
-            max-width:420px;
-            background:#fff;
-            border-radius:20px;
-            padding:40px 30px;
-            text-align:center;
-            box-shadow:0 15px 40px rgba(0,0,0,.2);
-        }
+.auth-card{
+    width:100%;
+    max-width:420px;
+    background:#fff;
+    border-radius:20px;
+    padding:45px 30px;
+    text-align:center;
+    box-shadow:0 20px 45px rgba(0,0,0,.25);
+}
 
-        .logo{
-            width:80px;
-            height:80px;
-            margin:0 auto 20px;
-            border-radius:50%;
-            background:#2563eb;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            color:#fff;
-            font-size:35px;
-            font-weight:bold;
-            box-shadow:0 8px 20px rgba(37,99,235,.35);
-        }
+.top-line{
+    width:70px;
+    height:5px;
+    background:#9D73D7;
+    border-radius:20px;
+    margin:0 auto 28px;
+}
 
-        h1{
-            font-size:28px;
-            color:#1e293b;
-            margin-bottom:10px;
-        }
+.auth-card h1{
+    font-size:28px;
+    color:#2b2b2b;
+    margin-bottom:35px;
+    line-height:1.4;
+    font-weight:700;
+}
 
-        p{
-            color:#64748b;
-            font-size:15px;
-            line-height:1.6;
-            margin-bottom:30px;
-        }
+#gbtns{
+    display:flex;
+    justify-content:center;
+    margin-bottom:28px;
+}
 
-        #gbtns{
-            display:flex;
-            justify-content:center;
-        }
-
-        .footer{
-            margin-top:25px;
-            color:#94a3b8;
-            font-size:13px;
-        }
-
-        @media(max-width:480px){
-            .card{
-                padding:30px 20px;
-            }
-
-            h1{
-                font-size:24px;
-            }
+.footer{
+    color:#777;
+    font-size:14px;
+}
         }
     </style>
 </head>
 
 <body>
+    <div class="auth-container">
+        <div class="auth-card">
 
-<div class="card">
+            <div class="top-line"></div>
 
-    <div class="logo">
-        D
-    </div>
+            <h1>Continue signing in to Downzilla</h1>
 
-    <h1>Welcome to Downzilla</h1>
+            <div id="gbtns">
+                <div id="g_id_onload"
+                    data-client_id="YOUR_CLIENT_ID"
+                    data-context="signin"
+                    data-callback="handleCredentialResponse"
+                    data-auto_prompt="false">
+                </div>
 
-    <p>
-        Continue securely with your Google account to
-        download, stream and share content across 200+ supported websites.
-    </p>
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-theme="outline"
+                    data-size="large"
+                    data-shape="pill"
+                    data-text="continue_with"
+                    data-logo_alignment="left">
+                </div>
+            </div>
 
-    <div
-        id="g_id_onload"
-        data-client_id="1024052995708-4th7j14oi5dj9b0g2r18rfb8et0djoji.apps.googleusercontent.com"
-        data-context="signin"
-        data-callback="handleCredentialResponse"
-        data-auto_prompt="false">
-    </div>
+            <p class="footer">
+                Secure authentication powered by Google
+            </p>
 
-    <div id="gbtns">
-        <div
-            class="g_id_signin"
-            data-type="standard"
-            data-theme="filled_blue"
-            data-shape="pill"
-            data-size="large"
-            data-text="continue_with"
-            data-logo_alignment="left"
-            data-width="320">
         </div>
     </div>
-
-    <div class="footer">
-        By continuing, you agree to Downzilla's Terms of Service and Privacy Policy.
-    </div>
-
-</div>
-
 </body>
 </html>
