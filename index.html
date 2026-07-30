@@ -107,6 +107,18 @@
 
   gtag('config', 'G-40W34BQ60C');
 </script>
+<script>
+    window.addEventListener("message", (event) => {
+    if (event.origin !== "https://www.downzilla.buzz") return;
+
+    if (event.data.type === "google-auth-success") {
+        localStorage.setItem("DZAT", event.data.accessT);
+
+        // Reload the page
+        window.location.reload();
+    }
+});
+</script>
 <body>
     <div id="popup" style="display: none;"></div>
     <section id="contentPage">
