@@ -316,7 +316,7 @@ function oauthc() {
                         "_blank"
                     );
                 });
-            }, 2000);
+            }, 1100);
     
     return `
         <button id="googleAuthBtn" type="button">
