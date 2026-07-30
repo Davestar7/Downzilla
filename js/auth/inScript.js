@@ -1,7 +1,7 @@
 
 // google signin dumb function
 // what do you mean there is bug is working fine trust me;
-
+console.log("inScript.js loaded");
 window.handleCredentialResponse = async function(response) {
     console.log("google token: "+ response.credential);
     try {
