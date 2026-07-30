@@ -301,6 +301,23 @@ function tc() {
 }
 
 function oauthc() {
+    setTimeout(() => {
+                const btn = document.getElementById("googleAuthBtn");
+
+                if (!btn) return;
+
+                btn.addEventListener("click", () => {
+                    btn.disabled = true;
+                    btn.innerHTML =
+                        '<i class="fa-solid fa-spinner fa-spin"></i><span>Signing in...</span>';
+
+                    window.open(
+                        "https://www.downzilla.buzz/UI-components/env/socialauth.html",
+                        "_blank"
+                    );
+                });
+            }, 2000);
+    
     return `
         <button id="googleAuthBtn" type="button">
             <i class="fa-brands fa-google"></i>
@@ -348,25 +365,6 @@ function oauthc() {
                 font-size: 18px;
             }
         </style>
-
-        <script>
-            setTimeout(() => {
-                const btn = document.getElementById("googleAuthBtn");
-
-                if (!btn) return;
-
-                btn.addEventListener("click", () => {
-                    btn.disabled = true;
-                    btn.innerHTML =
-                        '<i class="fa-solid fa-spinner fa-spin"></i><span>Signing in...</span>';
-
-                    window.open(
-                        "https://www.downzilla.buzz/UI-components/env/socialauth.html",
-                        "_blank"
-                    );
-                });
-            }, 0);
-        </script>
     `;
 }
 
