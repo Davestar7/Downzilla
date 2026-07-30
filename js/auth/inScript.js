@@ -37,7 +37,7 @@ window.handleCredentialResponse = async function (response) {
             } else {
                 // If opened directly, just go back to Downzilla
                 window.location.href = "https://www.downzilla.buzz/user/downloader";
-                window.close()
+               // window.close()
             }
         } else {
             alert("Something went wrong, please try again or try another method.");
