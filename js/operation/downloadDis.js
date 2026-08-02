@@ -589,7 +589,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false, vi
                     const uploadm = document?.getElementById("upbtn")
                     uploadm.style.background = "white"
                     uploadm.innerHTML = `<i>uploading...</i>`
-                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm, details?.age_limit)
+                    uploadContent(title, thumbnail, discrip, urls, source, "video", uploadm, details?.age_limit)
                 })
                
                 generateThumbnailContainer("#img-vid", thumbnail)
@@ -761,7 +761,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                     const uploadm = document?.getElementById("upbtn")
                     uploadm.style.background = "white"
                     uploadm.innerHTML = `<i>uploading...</i>`
-                    uploadContent(title, thumbnail, discrip, urls, source, "playlist", uploadm)
+                    uploadContent(title, thumbnail, discrip, urls, source, "video", uploadm)
                 })
                
                    generateThumbnailContainer("#img-vid", thumbnail)
