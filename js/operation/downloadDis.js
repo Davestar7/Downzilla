@@ -174,7 +174,6 @@ function playListdis(jsons = null) {
         datas = playBackup.data;
     }
 
-    console.log(playBackup)
     if (playBackup.success === false) {
         alerts("failed to process playlist")
         display.innerHTML = "failed"
@@ -493,7 +492,7 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false, vi
         return
     }
     let details = DData.data
-    console.log(details)
+    //console.log(details)
 
     const title = details?.title
     const discrip = details?.description || "no discription found in this content"
@@ -607,7 +606,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                 alerts("something seems wong", 3000)
             }
         } else if (type === "playlist") {
-            if (!downloadable?.entries) {
+            if (!details?.entries) {
                historyRender(DData, isPublic, "video", element, isFeed, vid) 
                 return
             }
@@ -786,7 +785,7 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                 // historyRender(DData, isPublic, "playlist", element)
             }
         } else if (type === "playlist") {
-            if (!downloadable?.entries) {
+            if (!details?.entries) {
                historyRender(DData, isPublic, "video", element, isFeed, vid) 
                 return
             }
@@ -873,7 +872,6 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                     uploadp.innerHTML = `<i>uploading...</i>`
                 })
             } catch (e) {
-                console.log(e)
                 alerts("something went wong", 3000)
                 // historyRender(DData, isPublic, "video", element)
             }
