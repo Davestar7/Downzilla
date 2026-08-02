@@ -35,7 +35,7 @@ async function videodis(jsons = null, ismp) {
     }
 
     display.innerHTML = "<em>updating details... <br> if stuck ensure it's not a playlist url</em>"
-    
+
     if (downloadable.success != true) {
         const errordis = "-" + `<span id="reterr">${downloadable.message} </span>` + `<br><em>check internet connection</em><br> <em>comfirm video URL</em><br> <em>then try again</em>`;
         display.innerHTML = errordis
@@ -43,7 +43,7 @@ async function videodis(jsons = null, ismp) {
     }
     const details = downloadable.data
 
-    if (details?.entries !== undefined || details?.entries?.length >= 0) {
+    if (details?.entries || details?.entries?.length > 0) {
         playListdis(jsons)
         return
     }
@@ -188,7 +188,7 @@ function playListdis(jsons = null) {
         return
     }
 
-    if (downloadable?.entries === undefined || downloadable?.entries.length === 0) {
+    if (!downloadable?.entries) {
         videodis(jsons)
         return
     }
@@ -516,6 +516,10 @@ function historyRender(DData, isPublic, type, element = null, isFeed = false, vi
 
     if (isFeed === false) {    
         if (type === "video") {
+            if (details?.entries || details?.entries?.length > 0) {
+               historyRender(DData, isPublic, "playlist", element, isFeed = false, vid) 
+               return
+            }
             try {
                 thumbnail = details?.thumbnail
                 const active = `
@@ -603,6 +607,10 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                 alerts("something seems wong", 3000)
             }
         } else if (type === "playlist") {
+            if (!downloadable?.entries) {
+               historyRender(DData, isPublic, "video", element, isFeed, vid) 
+                return
+            }
             try {
                 thumbnail = details?.thumbnails[details?.thumbnails.length-1]?.url
                 
@@ -693,6 +701,10 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
     } else {
         if (type === "video") {
             try {
+               if (details?.entries || details?.entries?.length > 0) {
+                   historyRender(DData, isPublic, "playlist", element, isFeed = false, vid) 
+                   return
+                }
                 thumbnail = details?.thumbnail
                 const active = `
                             <div id="resultC">
@@ -774,6 +786,10 @@ document.getElementById("gc-watch-btn")?.addEventListener("click", () => {
                 // historyRender(DData, isPublic, "playlist", element)
             }
         } else if (type === "playlist") {
+            if (!downloadable?.entries) {
+               historyRender(DData, isPublic, "video", element, isFeed, vid) 
+                return
+            }
             try {
                 thumbnail = details?.thumbnails[details?.thumbnails.length-1]?.url
                 const playlist_count= details?.playlist_count
