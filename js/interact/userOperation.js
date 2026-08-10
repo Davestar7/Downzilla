@@ -200,6 +200,7 @@ async function staredContentUi() {
     let all = 0
     allStarU = []
 
+    bod.innerHTML = "";
     output.forEach((data) => {
         const title = data.title
         const discrip = data.description || "no discription"
