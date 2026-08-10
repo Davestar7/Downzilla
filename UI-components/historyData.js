@@ -180,7 +180,7 @@ async function historyPageAsideUi(id) {
         const uri = e.url
         const star = e.stars
         let newDiscrp = "";
-        const maxLen = 187
+        const maxLen = 98;
         
         if (discription.length < maxLen) {
             newDiscrp = discription
