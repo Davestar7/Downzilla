@@ -201,7 +201,7 @@ async function sideRender() {
     list.forEach(e => {
         
         const title = e.title;
-        
+        let newTitle = "";
         const discription = e.description || "no discription"
         const type = e.type
         let imgurl = e.cloudinaryurl
@@ -209,12 +209,19 @@ async function sideRender() {
         const uri = e.url
         const star = e.stars.length
         let newDiscrp = "";
-        const maxLen = 187
-
+        const maxLen = 58;
+        const titleLength = 28
+        
         if (discription.length < maxLen) {
             newDiscrp = discription
         } else if (discription.length >= maxLen) {
             newDiscrp = `${discription.slice(0, maxLen)}...`
+        }
+
+        if (title.length <= titleLength) {
+            newTitle = title
+        } else if (title.length > titleLength) {
+            newTitle = `${title.slice(0, titleLength)}...`
         }
 
         if (!imgurl) {
@@ -233,7 +240,7 @@ async function sideRender() {
                             </div>
                             <div id="ds">
                                 <div id="sidem">
-                                    <b>${title}</b>
+                                    <b>${newTitle}</b>
                                     <p>${newDiscrp}</p>
                                 </div>
                                 <div id="sidebtn">
