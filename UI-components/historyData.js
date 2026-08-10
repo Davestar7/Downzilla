@@ -182,7 +182,7 @@ async function historyPageAsideUi(id) {
         let newDiscrp = "";
         let newTitle = "";
         const maxLen = 98;
-        const titleLength = 40
+        const titleLength = 28
         
         if (discription.length < maxLen) {
             newDiscrp = discription
