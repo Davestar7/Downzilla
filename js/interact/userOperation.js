@@ -199,7 +199,6 @@ async function staredContentUi() {
     let pgtitle;
     let all = 0
     allStarU = []
-    let innerPage = ""
 
     output.forEach((data) => {
         const title = data.title
@@ -253,7 +252,8 @@ async function staredContentUi() {
                 "> <span id="numberStar" class="numberStar">${totalStars}</span>${icons.STARED}</button>`
         }
 
-        const st = `<div id="renderContCon">
+        const template = document.createElement("template")
+        template.innerHTML = `<div id="renderContCon">
                         <div id="renderRT">
                             <div id="rimg">
                                 <img src="${image}" title="${title}">
@@ -269,9 +269,8 @@ async function staredContentUi() {
                             <button id="detbtn" class="detailbtn" data-id="${id}">View</button>
                         </div>
                     </div>`
-        innerPage += st
+        bod.prepend(template.content.firstElementChild);
     })
-    bod.innerHTML = innerPage
 
     const detBtn = document.querySelectorAll(".detailbtn")
     detBtn.forEach(e => {
