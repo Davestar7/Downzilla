@@ -181,7 +181,7 @@ async function historyPageAsideUi(id) {
         const star = e.stars
         let newDiscrp = "";
         let newTitle = "";
-        const maxLen = 98;
+        const maxLen = 58;
         const titleLength = 28
         
         if (discription.length < maxLen) {
@@ -190,9 +190,9 @@ async function historyPageAsideUi(id) {
             newDiscrp = `${discription.slice(0, maxLen)}...`
         }
 
-        if (title.length < titleLength) {
+        if (title.length <= titleLength) {
             newTitle = title
-        } else if (title.length >= titleLength) {
+        } else if (title.length > titleLength) {
             newTitle = `${title.slice(0, titleLength)}...`
         }
 
@@ -203,7 +203,7 @@ async function historyPageAsideUi(id) {
         const template = document.createElement("template")
 
         template.innerHTML = `
-                    <div id="sidePan" title="${newTitle}">
+                    <div id="sidePan" title="${title}">
                         <div class="sidelisti" id="${ids}" data-newhistory="${ids}">
                             <div id="mdside">
                                 <div id="sideimg">
@@ -212,7 +212,7 @@ async function historyPageAsideUi(id) {
                             </div>
                             <div id="ds">
                                 <div id="sidem">
-                                    <b>${title}</b>
+                                    <b>${newTitle}</b>
                                     <p>${newDiscrp}</p>
                                 </div>
                                 <div id="sidebtn">
